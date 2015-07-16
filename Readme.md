@@ -11,7 +11,7 @@ implementation that returns x,y coordinates of the most dominate moving
 object in the frame.  Some of this code is base on a YouTube tutorial by
 Kyle Hounslow using C here  https://www.youtube.com/watch?v=X6rPdRZzgjg
 
-Here is a my YouTube video demonstrating the demo python program using a 
+Here is my YouTube video demonstrating this python program using a 
 Raspberry Pi B2.
 
   
