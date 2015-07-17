@@ -15,7 +15,7 @@ object in the frame.  Some of this code is base on a YouTube tutorial by
 Kyle Hounslow using C here https://www.youtube.com/watch?v=X6rPdRZzgjg
 
 Here is a my YouTube video demonstrating this demo program using a 
-Raspberry Pi B2.
+Raspberry Pi B2 http://youtu.be/09JS7twPBsQ
 
 Requires a Raspberry Pi with a RPI camera module installed and configured
 dependencies
