@@ -46,7 +46,8 @@ CAMERA_VFLIP = False
 # Motion Tracking Settings
 THRESHOLD_SENSITIVITY = 25
 BLUR_SIZE = 10
-MIN_AREA = 25    # excludes all contours less than or equal to this Area
+MIN_AREA = 25     # excludes all contours less than or equal to this Area
+CIRCLE_SIZE = 10  # diameter of circle to show motion location in window
 
 def motion_track():
     print("Initializing Camera ...")
@@ -108,15 +109,15 @@ def motion_track():
                             ch = h
                     if motion_found:
                         # Do Something here with motion data
-                        if window_on:                
-                            cv2.circle(image2,(cx,cy),10,(0,255,0),2)
+                        if window_on:
+                            # show small circle at motion location 
+                            cv2.circle(image2,(cx,cy),CIRCLE_SIZE,(0,255,0),2)
                         if debug:
                             print("total_Contours=%2i  Motion at cx=%3i cy=%3i   biggest_area:%3ix%3i=%5i" % (total_contours, cx ,cy, cw, ch, biggest_area))
                     else:
                         if debug:                
                             print("total_contours=%2i  No Motion" % (total_contours))                    
                     if window_on:
-                        # cv2.rectangle(image2, (x, y), (x + w, y + h), (0, 255, 0), 2)
                         # cv2.imshow('Difference Image',differenceimage) 
                         cv2.imshow('Threshold Image', thresholdimage)
                         cv2.imshow('Movement Status', image2)
