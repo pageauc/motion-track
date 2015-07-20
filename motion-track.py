@@ -64,6 +64,7 @@ def motion_track():
         else:
             print("press ctrl-c to quit")        
         while(True):
+            # initialize variables         
             motion_found = False
             biggest_area = MIN_AREA
             cx = 0
@@ -80,7 +81,6 @@ def motion_track():
                     grayimage1 = cv2.cvtColor(image1, cv2.COLOR_BGR2GRAY)
                     first_image = False
                 else:
-                    # initialize variables 
                     # Convert to gray scale, which is easier
                     grayimage2 = cv2.cvtColor(image2, cv2.COLOR_BGR2GRAY)
                     # Get differences between the two greyed, blurred images
