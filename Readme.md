@@ -5,6 +5,9 @@ code available at https://github.com/pageauc/motion-track
 
 Here is my YouTube video showing the demo code running on a Raspberry Pi B2
 http://youtu.be/09JS7twPBsQ
+RPI forum post here 
+https://www.raspberrypi.org/forums/viewtopic.php?p=790082#p790082
+
 #### Note this program is for demonstration purposes only
 
 motion-track.py is a raspberry pi python opencv2 (computer vision) 
@@ -45,6 +48,8 @@ terminal console and run
 I have set debug=True so the opencv status windows will display camera
 motion images and a circle marking x,y coordinates as well as
 the threshold images
+You can set window_on = False if you need to run from SSH session.  If debug
+is True then status information will be displayed without a GUI desktop session.
 
 Good Luck  Claude ...
 
