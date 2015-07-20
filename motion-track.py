@@ -108,8 +108,9 @@ def motion_track():
                             ch = h
                     if motion_found:
                         # Do Something here with motion data
-                        if debug:                
+                        if window_on:                
                             cv2.circle(image2,(cx,cy),10,(0,255,0),2)
+                        if debug:
                             print("total_Contours=%2i  Motion at cx=%3i cy=%3i   biggest_area:%3ix%3i=%5i" % (total_contours, cx ,cy, cw, ch, biggest_area))
                     else:
                         if debug:                
