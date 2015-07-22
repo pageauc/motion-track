@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 """
 motion-track ver 0.6 written by Claude Pageau pageauc@gmail.com
@@ -25,7 +25,7 @@ sudo apt-get upgrade
 sudo apt-get install python-opencv python-picamera
 
 """
-print("motion-track.py using python2 and OpenCV2")
+print("motion3-track.py using python3 and OpenCV3")
 print("Loading Please Wait ....")
 import io
 import time
@@ -36,7 +36,7 @@ import cv2
 import numpy as np
 
 debug = True       # Set to False for no data display
-window_on = False  # Set to True displays opencv windows (GUI desktop reqd)
+window_on = False   # Set to True displays opencv windows (GUI desktop reqd)
 
 # Camera Settings
 CAMERA_WIDTH = 320
@@ -106,7 +106,11 @@ def motion_track():
                     # Get threshold of difference image based on THRESHOLD_SENSITIVITY variable
                     retval, thresholdimage = cv2.threshold(differenceimage,THRESHOLD_SENSITIVITY,255,cv2.THRESH_BINARY)
                     # Get all the contours found in the thresholdimage
-                    contours, hierarchy = cv2.findContours(thresholdimage,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
+                    # syntax for opencv2
+                    #contours,hierarchy = cv2.findContours(thresholdimage,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
+                    # syntax for opencv3
+                    thresholdimage,contours,hierarchy = cv2.findContours(thresholdimage,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
+                    #contours = cv2.findContours(thresholdimage,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
                     total_contours = len(contours)
                     # save grayimage2 to grayimage1 ready for next image2
                     grayimage1 = grayimage2

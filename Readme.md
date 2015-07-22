@@ -45,11 +45,17 @@ terminal console and run
 
     python ./motion-track.py
     
-I have set debug=True so the opencv status windows will display camera
+I have set debug=True so the opencv status windows can display camera
 motion images and a circle marking x,y coordinates as well as
-the threshold images
+the threshold images.  The circle diameter can be change using CIRCLE_SIZE
+variable.  
 You can set window_on = False if you need to run from SSH session.  If debug
 is True then status information will be displayed without a GUI desktop session.
+
+I have added motion3-track.py for use with python3 and OpenCV3 FYI. Only
+the cv2.findContour line needed to be changed due to OpenCV3 syntax difference.
+Steps for installing OpenCV3 can be found here
+https://www.raspberrypi.org/forums/viewtopic.php?p=792568&sid=adf009c84bee379cd08b377168535477#p792568
 
 Good Luck  Claude ...
 
