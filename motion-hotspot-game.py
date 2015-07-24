@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 """
-motion-track ver 0.6 written by Claude Pageau pageauc@gmail.com
+motion-track ver 0.7 written by Claude Pageau pageauc@gmail.com
 Raspberry (Pi) - python opencv2 motion tracking using picamera module
 
 This is a raspberry pi python opencv2 motion tracking demonstration program.
@@ -35,8 +35,8 @@ import picamera.array
 import cv2
 import numpy as np
 
-debug = True       # Set to False for no data display
-window_on = False  # Set to True displays opencv windows (GUI desktop reqd)
+debug = True       # Set False for no terminal data display
+window_on = False  # Set True to display opencv windows (GUI desktop Reqd)
 hotspot_game = True
 hotspot_skill = 40
 
@@ -51,6 +51,11 @@ THRESHOLD_SENSITIVITY = 25
 BLUR_SIZE = 10
 MIN_AREA = 25     # excludes all contours less than or equal to this Area
 CIRCLE_SIZE = 10  # diameter of circle to show motion location in window
+
+# Resize GUI desktop motion window for better viewing. False is default camera image size
+bigwindow_on = True
+big_w = CAMERA_WIDTH * 3      # x2=640 x3=960
+big_h = CAMERA_HEIGHT * 3     # x2=480 x3=720
 
 #-----------------------------------------------------------------------------------------------
 def motion_game(x,y):
@@ -95,6 +100,7 @@ def motion_track():
         if window_on:
             print("press q to quit opencv display")
         else:
+            print("set variable window_on=True for GUI window on desktop")
             print("press ctrl-c to quit")        
         print("Start Motion Tracking ....")
         if hotspot_game:
@@ -186,18 +192,25 @@ def motion_track():
                                 game_count = 0           
                         if window_on:
                             # show small circle at motion location
+                            cv2.circle(image2,(cx,cy),CIRCLE_SIZE,(0,255,0),2)
+                            # display a target square for hotspot game if selected                            
                             if hotspot_game:
                                 hsx = (CAMERA_WIDTH / 2) - (hotspot_level / 2)
                                 hsy = (CAMERA_HEIGHT / 2) - (hotspot_level / 2)                                
                                 cv2.rectangle(image2,(hsx, hsy), (hsx + hotspot_level, hsy + hotspot_level), (0,255,0),2)                            
-                            cv2.circle(image2,(cx,cy),CIRCLE_SIZE,(0,255,0),2)
                         if debug and not hotspot_game:
                             print("total_Contours=%2i  Motion at cx=%3i cy=%3i  Area:%3ix%3i=%5i" % (total_contours, cx ,cy, cw, ch, biggest_area))
                     
                     if window_on:
-                        # cv2.imshow('Difference Image',differenceimage) 
-                        cv2.imshow('Threshold Image', thresholdimage)
-                        cv2.imshow('Movement Status', image2)
+                        if bigwindow_on:
+                            # resize motion window to desired size
+                            image3 = cv2.resize(image2,(big_w, big_h))
+                            cv2.imshow('Movement Status', image3)                          
+                        else:
+                            # display original image size motion window 
+                            cv2.imshow('Movement Status', image2)
+                            cv2.imshow('Threshold Image', thresholdimage)
+                            # cv2.imshow('Difference Image',differenceimage)
                         # Close Window if q pressed
                         if cv2.waitKey(1) & 0xFF == ord('q'):
                             cv2.destroyAllWindows()
