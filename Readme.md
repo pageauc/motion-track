@@ -8,6 +8,12 @@ http://youtu.be/09JS7twPBsQ
 RPI forum post here 
 https://www.raspberrypi.org/forums/viewtopic.php?p=790082#p790082
 
+#### Speed Track - Vehicle speed camera
+See https://github.com/pageauc/motion-track/blob/master/speed-track/speed_track.md
+for my new speed track - a vehicle speed tracking program demo using similar
+opencv code as motion-track.py
+speed track YouTube here  https://youtu.be/eRi50BbJUro
+
 #### Note this program is for demonstration purposes only
 
 motion-track.py is a raspberry pi python opencv2 (computer vision) 
