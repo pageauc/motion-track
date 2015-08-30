@@ -1,30 +1,6 @@
 #                          speed_track.py
 
 ###               A Raspberry Pi vehicle speed camera
-#### using a Raspberry Pi computer, python, openCV and picamera module
-####          written by Claude Pageau pageauc@gmail.com
-
-### Program Description
-This is a raspberry pi computer openCV vehicle speed camera demo program.
-It is written in python and uses openCV2 to detect and track object motion.
-The results are recorded on speed photos and in a CSV log file that can be
-imported to another program for additiona processing.  
-The program will detect motion in the field of view and use opencv to calculate
-the largest contour and return its x,y coordinate. Motion detection is
-restricted between y_upper and y_lower variables (road area).  If a track
-is longer than track_len_trig variable then average speed will be 
-calculated (based on IMAGE_VIEW_FT variable) and a speed photo will be
-taken and saved in an images folder. If log_data_to_file=True then a
-speed_track.log file will be created/updated with event data stored in
-CSV (Comma Separated Values) format.
-  
-Some of this code is based on a YouTube tutorial by
-Kyle Hounslow using C here https://www.youtube.com/watch?v=X6rPdRZzgjg
-
-Here is a previous YouTube video demonstrating a motion tracking test program
-#                          speed_track.py
-
-###               A Raspberry Pi vehicle speed camera
 ##### using a Raspberry Pi computer, python, openCV and picamera module
 #####          written by Claude Pageau pageauc@gmail.com
 
@@ -128,7 +104,7 @@ eg (320 * 18) / 80 = 72
 ###Settings
 
 Variable values are stored in the speed_settings.py file and are imported
-when speed_track.py is run.  Use the nano editor to modify these dsettings
+when speed_track.py is run.  Use the nano editor to modify these settings
 per the comments.  Most settings should be OK and need not need to be
 changed other will may need to be fine tuned.  The openCV settings most
 likely won't need to be changed unless you are familiar with them.
@@ -136,4 +112,5 @@ likely won't need to be changed unless you are familiar with them.
 Have Fun
 Claude Pageau
 YouTube Channel https://www.youtube.com/user/pageaucp
+
 GitHub https://github.com/pageauc
