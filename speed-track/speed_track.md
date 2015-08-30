@@ -67,12 +67,17 @@ login via SSH or use a desktop terminal session and perform the following
     cd speed-track
     wget https://raw.github.com/pageauc/motion-track/master/speed-track/speed_track.py
     wget https://raw.github.com/pageauc/motion-track/master/speed-track/speed_settings.py
-    wget https://raw.github.com/pageauc/motion-track/master/speed-track/speed_track.md
+    wget https://raw.github.com/pageauc/motion-track/master/speed-track/speed_settings.py
     chmod +x speed_track.py
     python ./speed_track.py
 
 You can also use git clone to copy the files to your RPI.
-    
+
+    git clone https://github.com/pageauc/motion-track.git
+ 
+The speed-track files will be in the motion-track/speed-track subfolder. You can
+then move them to another location if you wish.
+ 
 Note an images folder will be created to store jpg speed photos. There is an
 image_path variable in the speed-settings.py file.  Use nano editor to
 change variables in this file as desired.
