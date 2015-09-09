@@ -4,6 +4,18 @@
 ##### using a Raspberry Pi computer, python, openCV and picamera module
 #####          written by Claude Pageau pageauc@gmail.com
 
+###Version .97 Release 9-Sep-2015
+* Changed Calibration to detect motion and take photo automatically
+  They are now saved in images folder with prefix calib-
+* Changed speed photo to use resized existing motion image instead of 
+  a New large image
+* Added speed to speed photo filename to allow sorting by speed.
+* Final image is from previous event rather than current event to
+  have motion more in view.
+* Improved verbose logging
+* Improved CSV log to put hour and minutes in separate columns.
+  This allows for using as pivot table in spreatsheet 
+
 ### Program Description
 This is a raspberry pi computer openCV vehicle speed camera demo program.
 It is written in python and uses openCV2 to detect and track object motion.
@@ -71,14 +83,13 @@ speed_track.py needs to be calibrated in order to display a correct speed.
 * Login to RPI using SSH or desktop terminal session and cd to speed-track folder
 * Use nano to edit speed_settings.py. Edit variable configure=True  ctl-x y to save
 * Start speed_track.py eg python ./speed_track.py
-* You will be prompted to press Enter when ready to take a photo
-* Wait for a vehicle of known length to come into view and press Enter key.
-  Note this might take a bit of trial and error.
+* Motion will automatically be detected and calibration images will be
+  in images folder with prefix calib-
+* Monitor progress and calibration images. Press ctrl-c to Quit when done. 
 * Adjust the y_upper and y_lower variables to cover the road area.  Note
   image 0,0 is the top left hand corner and values are in pixels.  Do not
-  exceed the CAMERA_HEIGHT default 240 value
-* A message will be displayed with the location of the speed_calibrate.jpg  
-* Open speed_calibrate.jpg with an image viewer program and use hash mark to record pixels for vehicle length
+  exceed the CAMERA_HEIGHT default 240 value  
+* Open calibration images with an image viewer program and use hash marks to record pixels for vehicle length
   Note each division is 10 pixels.  I use filezilla to transfer files to/from
   my PC and the RPI using sftp protocol and the RPI IP address.
 * Use formula below to calculate a value for IMG_VIEW_FT variable   
@@ -110,7 +121,8 @@ changed other will may need to be fine tuned.  The openCV settings most
 likely won't need to be changed unless you are familiar with them.
 
 Have Fun
-Claude Pageau
-YouTube Channel https://www.youtube.com/user/pageaucp
 
+Claude Pageau
+
+YouTube Channel https://www.youtube.com/user/pageaucp
 GitHub https://github.com/pageauc
