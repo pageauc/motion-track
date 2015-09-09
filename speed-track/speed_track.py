@@ -331,7 +331,7 @@ def speed_camera():
                                             show_message("speed_camera", msgStr)
                                         prev_image = image2
                                     else:
-                                        msgStr = " Out Range   - Error  at cx=%3i cy=%3i Dist=%3i px is <%i or >%i px  Area=%i sq-px" % ( cx, cy, abs( cx - end_pos_x ), x_diff_min, x_diff_max, biggest_area )                                    
+                                        msgStr = " Out Range   - ByPass at cx=%3i cy=%3i Dist=%3i px is <%i or >%i px  Area=%i sq-px" % ( cx, cy, abs( cx - end_pos_x ), x_diff_min, x_diff_max, biggest_area )                                    
                                         show_message("speed_camera", msgStr)
                                 if gui_window_on:
                                     # show small circle at motion location 
