@@ -162,8 +162,12 @@ def log_to_file(data_to_append):
         log_file_path = baseDir + baseFileName + ".log"
         if not os.path.exists(log_file_path):
             open( log_file_path, 'w' ).close()
+            header_text = '"YYYYMMDD","HH","MM","Speed","Unit","    Speed Photo Path            ","W","H","Area"' + "\n"
+            f = open( log_file_path, 'ab' )
+            f.write( header_text )
+            f.close()
             msgStr = "Create New Data Log File %s" % log_file_path
-            show_message("log_to_file", msgStr)
+            show_message("log_to_file ", msgStr)
         filecontents = data_to_append + "\n"
         f = open( log_file_path, 'ab' )
         f.write( filecontents )
