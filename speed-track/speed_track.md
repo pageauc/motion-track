@@ -61,6 +61,7 @@ login via SSH or use a desktop terminal session and perform the following
 
 You can also use git clone to copy the files to your RPI.
 
+    cd ~
     git clone https://github.com/pageauc/motion-track.git
  
 The speed-track files will be in the motion-track/speed-track subfolder. You can
@@ -81,19 +82,20 @@ speed_track.py needs to be calibrated in order to display a correct speed.
 
 * Setup the RPI camera to point to the view to be monitored.
 * Login to RPI using SSH or desktop terminal session and cd to speed-track folder
-* Use nano to edit speed_settings.py. Edit variable configure=True  ctl-x y to save
+* Use nano to edit speed_settings.py. Edit variable calibrate=True  ctl-x y to save
 * Start speed_track.py eg python ./speed_track.py
 * Motion will automatically be detected and calibration images will be
-  in images folder with prefix calib-
+  put in images folder with prefix calib-
 * Monitor progress and calibration images. Press ctrl-c to Quit when done. 
 * Adjust the y_upper and y_lower variables to cover the road area.  Note
   image 0,0 is the top left hand corner and values are in pixels.  Do not
   exceed the CAMERA_HEIGHT default 240 value  
-* Open calibration images with an image viewer program and use hash marks to record pixels for vehicle length
+* Open calibration images with an image viewer program and use hash marks to
+  record pixels for vehicle length
   Note each division is 10 pixels.  I use filezilla to transfer files to/from
   my PC and the RPI using sftp protocol and the RPI IP address.
 * Use formula below to calculate a value for IMG_VIEW_FT variable   
-  You should take several photos to confirm and average results.
+  You should use several photos to confirm and average results.
 * Use nano to edit the speed_settings.py and change IMG_VIEW_FT variable value
   to new calculated value.  Also change variable calibrate = False
 * Restart speed_track.py and monitor console messages.
@@ -125,4 +127,6 @@ Have Fun
 Claude Pageau
 
 YouTube Channel https://www.youtube.com/user/pageaucp
+
+
 GitHub https://github.com/pageauc
