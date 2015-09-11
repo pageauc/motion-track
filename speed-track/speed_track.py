@@ -341,8 +341,8 @@ def speed_camera():
                                     # show small circle at motion location 
                                     cv2.circle( image2,( cx,cy ),CIRCLE_SIZE,( 0,255,0 ), 2 )
                                     if ave_speed > 0:
-                                        speed_text = str( ave_speed ) 
-                                        cv2.putText( image2, speed_text, (cx, cy), cv2.FONT_HERSHEY_SIMPLEX, .5, (255,255,255), 1) 
+                                        speed_text = str('%5.1f'  % ave_speed ) 
+                                        cv2.putText( image2, speed_text, (cx, cy), cv2.FONT_HERSHEY_SIMPLEX, .5, (255,255,255), 1)
                             event_timer = time.time()                                 
                    
                         if gui_window_on:
