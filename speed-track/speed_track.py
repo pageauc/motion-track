@@ -323,7 +323,7 @@ def speed_camera():
                                                 filename = get_image_name( image_path, speed_prefix)
                                             big_image = cv2.resize(prev_image,(image_width, image_height))                                            
                                             cv2.imwrite(filename, big_image)
-                                            msgStr = " Event Add   - Motion at cx=%3i cy=%3i SPEED %.1f %s track_len=%3i of %i px  Area=%i sq-px" % ( cx, cy, ave_speed, speed_units, abs( start_pos_x - end_pos_x), track_len_trig, biggest_area )
+                                            msgStr = " Event Add   - Motion at cx=%3i cy=%3i SPEED %.1f %s track_len=%3i of %i px  Area=%i sq-px of %i contours" % ( cx, cy, ave_speed, speed_units, abs( start_pos_x - end_pos_x), track_len_trig, biggest_area, total_contours )
                                             show_message("speed_camera", msgStr)                  
                                             # Format and Save Data to CSV Log File
                                             log_time = datetime.datetime.now()                                               
