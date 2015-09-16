@@ -10,7 +10,7 @@ max_speed_over = 0          # 0=All or speed=Record incident only if greater tha
 
 # Motion Event Settings
 # ---------------------
-track_len_trig  = 160  # Length of track to trigger speed photo
+track_len_trig  = 150  # Length of track to trigger speed photo
 event_timeout = 2      # Number of seconds to wait between motion events before starting new track
 IMAGE_VIEW_FT = 72     # Set the width in feet for the road width that the camera width sees
 SPEED_MPH = True       # Set the speed conversion  kph = False  mph=True
