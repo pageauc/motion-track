@@ -4,6 +4,10 @@
 ##### using a Raspberry Pi computer, python, openCV and picamera module
 #####          written by Claude Pageau pageauc@gmail.com
 
+###Version .98 Release 16-Sep-2015
+* Changed Main while Loop Logic to simplify structure
+* Changed Settings Menu items order to be more logical 
+
 ###Version .97 Release 9-Sep-2015
 * Changed Calibration to detect motion and take photo automatically
   They are now saved in images folder with prefix calib-
