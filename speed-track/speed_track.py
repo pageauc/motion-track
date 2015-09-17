@@ -344,11 +344,11 @@ def speed_camera():
                                         first_event = True                         
                                     else:
                                         end_pos_x = cx
-                                        msgStr = " Event Add   - Motion at cx=%3i cy=%3i SPEED %.1f %s track_len=%3i of %i px  Area=%i sq-px of %i contours" % ( cx, cy, ave_speed, speed_units, abs( start_pos_x - end_pos_x), track_len_trig, biggest_area, total_contours )
+                                        msgStr = " Event Add   - Motion at cx=%3i cy=%3i SPEED %.1f %s track_len=%3i of %i px  Area=%i sq-px  %i contours" % ( cx, cy, ave_speed, speed_units, abs( start_pos_x - end_pos_x), track_len_trig, biggest_area, total_contours )
                                         show_message("speed_camera", msgStr)
                                     prev_image = image2
                                 else:
-                                    msgStr = " Out Range   - ByPass at cx=%3i cy=%3i Dist=%3i px is <%i or >%i px  Area=%i sq-px of %i contours" % ( cx, cy, abs( cx - end_pos_x ), x_diff_min, x_diff_max, biggest_area, total_contours  )                                    
+                                    msgStr = " Out Range   - ByPass at cx=%3i cy=%3i Dist=%i is <%i or >%i px  Area=%i sq-px  %i contours" % ( cx, cy, abs( cx - end_pos_x ), x_diff_min, x_diff_max, biggest_area, total_contours  )                                    
                                     show_message("speed_camera", msgStr)                             
                                 
                             if gui_window_on:
