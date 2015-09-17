@@ -302,7 +302,7 @@ def speed_camera():
                                 start_pos_x = cx
                                 end_pos_x = cx
                                 track_start_time = time.time()                                   
-                                msgStr = "New Track    - Motion at cx=%3i cy=%3i Area=%i" % ( cx, cy, biggest_area )
+                                msgStr = "New Track    - Motion at cx=%3i cy=%3i Area=%i  %i contours" % ( cx, cy, biggest_area, total_contours )
                                 show_message("speed_camera", msgStr)           
                             else:
                                 if ( abs( cx - end_pos_x ) > x_diff_min and abs( cx - end_pos_x ) < x_diff_max ):
@@ -323,7 +323,7 @@ def speed_camera():
                                                 filename = get_image_name( image_path, speed_prefix)
                                             big_image = cv2.resize(prev_image,(image_width, image_height))                                            
                                             cv2.imwrite(filename, big_image)
-                                            msgStr = " Event Add   - Motion at cx=%3i cy=%3i SPEED %.1f %s track_len=%3i of %i px  Area=%i sq-px of %i contours" % ( cx, cy, ave_speed, speed_units, abs( start_pos_x - end_pos_x), track_len_trig, biggest_area, total_contours )
+                                            msgStr = " Event Add   - Motion at cx=%3i cy=%3i SPEED %.1f %s track_len=%3i of %i px  Area=%i sq-px  %i contours" % ( cx, cy, ave_speed, speed_units, abs( start_pos_x - end_pos_x), track_len_trig, biggest_area, total_contours )
                                             show_message("speed_camera", msgStr)                  
                                             # Format and Save Data to CSV Log File
                                             log_time = datetime.datetime.now()                                               
@@ -333,10 +333,10 @@ def speed_camera():
                                             image_write( filename, image_text )
                                             log_text = "%s,%.2f,%s%s%s,%s%s%s,%i,%i,%i" % ( log_csv_time, ave_speed, quote, speed_units, quote, quote, filename, quote, cw, ch, cw * ch )
                                             log_to_file( log_text )
-                                            msgStr = "End Track    - Tracked %i px in %.1f sec  Area=%i sq-px" % ( tot_track_dist, tot_track_time, biggest_area )
+                                            msgStr = "End Track    - Tracked %i px in %.1f sec  Area=%i sq-px %i contours" % ( tot_track_dist, tot_track_time, biggest_area, total_contours )
                                             show_message("speed_camera", msgStr)                                                  
                                         else:
-                                            msgStr = "End Track    - Skip Photo SPEED %.1f %s max_speed_over=%i  %i px in %.1f sec  Area=%i sq-px" % ( ave_speed, speed_units, max_speed_over, tot_track_dist, tot_track_time, biggest_area )
+                                            msgStr = "End Track    - Skip Photo SPEED %.1f %s max_speed_over=%i  %i px in %.1f sec  Area=%i sq-px  $i contours" % ( ave_speed, speed_units, max_speed_over, tot_track_dist, tot_track_time, biggest_area, total_contours )
                                             show_message("speed_camera", msgStr)
                                         # Reset Variables for next cycle through loop
                                         start_pos_x = 0
