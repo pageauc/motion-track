@@ -58,7 +58,7 @@ login via SSH or use a desktop terminal session and perform the following
 
     sudo apt-get update
     sudo apt-get upgrade
-    sudo apt-get install -y python-opencv python-picamera python-image python-pyexiv2
+    sudo apt-get install -y python-opencv python-picamera python-imaging python-pyexiv2
     cd ~
     mkdir speed-track
     cd speed-track
