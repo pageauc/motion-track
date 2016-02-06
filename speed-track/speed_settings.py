@@ -3,7 +3,7 @@
 # Display and Log settings
 verbose = True              # display basic status information on console
 calibrate = False           # Create a speed_calibrate.jpg file with markers to calculate a px to FT conversion
-display_fps = False         # show average frame count every 100 loops
+display_fps = True         # show average frame count every 100 loops
 gui_window_on = False       # Display desktop GUI openCV threshold window. Set to False if running from ssh console only.
 log_data_to_file = True     # save log data as CSV comma separated values
 max_speed_over = 0          # 0=All or speed=Record incident only if greater than specified speed  
@@ -22,8 +22,9 @@ y_lower = 200          # Exclude motion events below this point to bottom of ima
 # Motion Camera Settings
 CAMERA_HFLIP = False   # Flip the camera image horizontally if required
 CAMERA_VFLIP = False   # Flip the camera image vertically if required
-CAMERA_WIDTH = 320     # Set the image stream width for opencv motion scanning
-CAMERA_HEIGHT = 240    # Set the image stream height for opencv motion scanning
+CAMERA_WIDTH = 320     # Set the image stream width for opencv motion scanning default is 320
+CAMERA_HEIGHT = 240    # Set the image stream height for opencv motion scanning  default is 240
+CAMERA_FRAMERATE = 15  # Framerate of camera video frame capture default is 15
 WINDOW_BIGGER = 3      # resize multiplier for speed photo image and if gui_window_on=True then makes opencv window bigger 
 
 # Speed Photo Camera Image Settings

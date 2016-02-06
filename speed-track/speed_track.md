@@ -4,6 +4,11 @@
 ##### using a Raspberry Pi computer, python, openCV and picamera module
 #####          written by Claude Pageau pageauc@gmail.com
 
+###Version .99 Release 5-Feb-2016
+* Changed camera stream to use video mode per suggestion by Luc Bastiaens
+  This increases FPS substantially.
+* Changed speed_settings.py to add FRAMERATE variable for video port capture
+
 ###Version .98 Release 16-Sep-2015
 * Changed Main while Loop Logic to simplify structure
 * Changed Settings Menu items order to be more logical 
