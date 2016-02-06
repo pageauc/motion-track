@@ -209,7 +209,6 @@ def image_write(image_filename, text_to_print):
 #----------------------------------------------------------------------------------------------    
 def speed_camera():
     show_settings()
-    prev_image = True    # Save the previous motion image
     ave_speed = 0.0
     if verbose:
         if calibrate:
