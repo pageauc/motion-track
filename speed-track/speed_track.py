@@ -222,8 +222,6 @@ def speed_camera():
         print("")         
     msg_str = "Initializing Pi Camera ...."
     show_message("speed_camera", msg_str)
-    # Setup camera settings for stream capture
-    stream = io.BytesIO()    # Save images to an in-program stream
     camera = PiCamera()
     camera.hflip = CAMERA_HFLIP
     camera.vflip = CAMERA_VFLIP          
