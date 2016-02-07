@@ -8,7 +8,7 @@ http://youtu.be/09JS7twPBsQ
 RPI forum post here 
 https://www.raspberrypi.org/forums/viewtopic.php?p=790082#p790082
 
-#### Speed Track - Vehicle speed camera
+#### Speed Track - Vehicle speed camera based on motion tracking
 See https://github.com/pageauc/motion-track/blob/master/speed-track/speed_track.md
 for my new speed track - a vehicle speed tracking program demo using similar
 opencv code as motion-track.py
@@ -50,6 +50,11 @@ start up a desktop GUI session and run the code from IDLE or open a
 terminal console and run 
 
     python ./motion-track.py
+    
+if you get opengl error then install support library per following command
+the reboot.
+
+    sudo apt-get install libgl1-mesa-dri
     
 I have set debug=True so the opencv status windows can display camera
 motion images and a circle marking x,y coordinates as well as
