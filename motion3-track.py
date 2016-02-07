@@ -123,8 +123,8 @@ def motion_track():
                             motion_found = True
                             biggest_area = found_area
                             (x, y, w, h) = cv2.boundingRect(c)
-                            cx = x + w/2   # put circle in middle of width
-                            cy = y + h/6   # put circle closer to top
+                            cx = int(x + w/2)   # put circle in middle of width
+                            cy = int(y + h/6)   # put circle closer to top
                             cw = w
                             ch = h
                     if motion_found:
