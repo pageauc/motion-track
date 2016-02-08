@@ -52,11 +52,11 @@ terminal console and run
     python ./motion-track.py
     
 if you get opengl error then install support library per following command
-the reboot.
+then reboot.
 
     sudo apt-get install libgl1-mesa-dri
     
-I have set debug=True so the opencv status windows can display camera
+I have set window_on = True so the opencv status windows can display camera
 motion images and a circle marking x,y coordinates as well as
 the threshold images.  The circle diameter can be change using CIRCLE_SIZE
 variable.  
