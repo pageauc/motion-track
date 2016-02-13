@@ -8,11 +8,11 @@ http://youtu.be/09JS7twPBsQ
 RPI forum post here 
 https://www.raspberrypi.org/forums/viewtopic.php?p=790082#p790082
 
-#### Speed Track - Vehicle speed camera based on motion tracking
+#### Speed Track - Object speed camera based on motion tracking
 See https://github.com/pageauc/motion-track/blob/master/speed-track/speed_track.md
-for my new speed track - a vehicle speed tracking program demo using similar
+for my new speed track - an object speed tracking program demo using similar
 opencv code as motion-track.py
-speed track YouTube here  https://youtu.be/eRi50BbJUro
+Speed track YouTube video here  https://youtu.be/eRi50BbJUro
 
 #### Note this program is for demonstration purposes only
 
@@ -51,10 +51,10 @@ terminal console and run
 
     python ./motion-track.py
     
-if you get opengl error then see this article about installing opengl on 
+if you get an opengl error then see this article about installing opengl on 
 a RPI P2  https://www.raspberrypi.org/blog/another-new-raspbian-release/
 
-otherwise install opengl support library per following command then reboot.
+Otherwise install opengl support library per following command then reboot.
 
     sudo apt-get install libgl1-mesa-dri
     
@@ -63,7 +63,7 @@ motion images and a circle marking x,y coordinates as well as
 the threshold images.  The circle diameter can be change using CIRCLE_SIZE
 variable.  
 You can set window_on = False if you need to run from SSH session.  If debug
-is True then status information will be displayed without a GUI desktop session.
+= True then status information will be displayed without a GUI desktop session.
 
 I have added motion3-track.py for use with python3 and OpenCV3 FYI. Only
 the cv2.findContour line needed to be changed due to OpenCV3 syntax difference.
