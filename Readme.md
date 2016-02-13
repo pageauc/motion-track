@@ -51,8 +51,10 @@ terminal console and run
 
     python ./motion-track.py
     
-if you get opengl error then install support library per following command
-then reboot.
+if you get opengl error then see this article about installing opengl on 
+a RPI P2  https://www.raspberrypi.org/blog/another-new-raspbian-release/
+
+otherwise install opengl support library per following command then reboot.
 
     sudo apt-get install libgl1-mesa-dri
     
