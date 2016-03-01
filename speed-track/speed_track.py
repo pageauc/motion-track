@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-version = "version 0.99"
+version = "version 1.00"
 
 """
 speed-track written by Claude Pageau pageauc@gmail.com
@@ -343,7 +343,7 @@ def speed_camera():
                                     msgStr = "End Track    - Tracked %i px in %.1f sec  Area=%i sq-px %i contours" % ( tot_track_dist, tot_track_time, biggest_area, total_contours )
                                     show_message("speed_camera", msgStr)                                                  
                                 else:
-                                    msgStr = "End Track    - Skip Photo SPEED %.1f %s max_speed_over=%i  %i px in %.1f sec  Area=%i sq-px  $i contours" % ( ave_speed, speed_units, max_speed_over, tot_track_dist, tot_track_time, biggest_area, total_contours )
+                                    msgStr = "End Track    - Skip Photo SPEED %.1f %s max_speed_over=%i  %i px in %.1f sec  Area=%i sq-px  %i contours" % ( ave_speed, speed_units, max_speed_over, tot_track_dist, tot_track_time, biggest_area, total_contours )
                                     show_message("speed_camera", msgStr)
                                 # Reset Variables for next cycle through loop
                                 start_pos_x = 0
