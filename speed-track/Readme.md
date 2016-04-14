@@ -59,15 +59,18 @@ login via SSH or use a desktop terminal session and perform the following
     sudo apt-get update
     sudo apt-get upgrade
     sudo apt-get install -y python-opencv python-picamera python-imaging python-pyexiv2 libgl1-mesa-dri
+    # install fonts if you are using Raspbian Jessie Lite distro
+    sudo apt-get install fonts-freefont-ttf 
     cd ~
     mkdir speed-track
     cd speed-track
+    mkdir images
     wget https://raw.github.com/pageauc/motion-track/master/speed-track/speed_track.py
     wget https://raw.github.com/pageauc/motion-track/master/speed-track/speed_settings.py
     wget https://raw.github.com/pageauc/motion-track/master/speed-track/speed_track.md
     chmod +x speed_track.py
     python ./speed_track.py
-    
+
 if you get opengl error then install support library per following command the reboot.
 
     sudo apt-get install libgl1-mesa-dri   
