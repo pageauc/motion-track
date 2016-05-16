@@ -95,7 +95,8 @@ import sys
 import io
 import time
 import datetime
-import pyexiv2
+if not (sys.version_info > (3, 0)):
+    import pyexiv2
 from PIL import Image
 from PIL import ImageFont
 from PIL import ImageDraw
@@ -262,15 +263,16 @@ def image_write(image_filename, text_to_print):
     text = TEXT.decode( 'utf-8' )
 
     # Read exif data since ImageDraw does not save this metadata
-    metadata = pyexiv2.ImageMetadata(image_filename) 
-    metadata.read()
-    
+    if not (sys.version_info > (3, 0)):
+        metadata = pyexiv2.ImageMetadata(image_filename) 
+        metadata.read()  
     img = Image.open( image_filename )
     draw = ImageDraw.Draw( img )
     # draw.text((x, y),"Sample Text",(r,g,b))
     draw.text( ( x, y ), text, FOREGROUND, font=font )
     img.save( image_filename )
-    metadata.write()    # Write previously saved exif data to image file       
+    if not (sys.version_info > (3, 0)):
+        metadata.write()    # Write previously saved exif data to image file       
     msgStr = " Image Saved - " + text_to_print
     show_message("image_write ", msgStr)
     return
@@ -355,7 +357,7 @@ def speed_camera():
             # Get threshold of blurred difference image based on THRESHOLD_SENSITIVITY variable
             # Check if python 3 or 2 is running and proces opencv accordingly.
             if (sys.version_info > (3, 0)):
-                thresholdimage,contours,hierarchy = cv2.findContours(thresholdimage,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
+                thresholdimage,contours,hierarchy = cv2.findContours(differenceimage,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
             else:
                 retval, thresholdimage = cv2.threshold( differenceimage,THRESHOLD_SENSITIVITY,255,cv2.THRESH_BINARY )
                 # Get all the contours found in the threshold image
@@ -433,12 +435,16 @@ def speed_camera():
                             if show_out_range:
                                 msgStr = " Out Range   - cx=%3i cy=%3i Dist=%3i is <%i or >%i px  Contours=%2i Area=%i" % ( cx, cy, abs( cx - end_pos_x ), x_diff_min, x_diff_max, total_contours, biggest_area  )                                    
                                 show_message("speed_camera", msgStr)                             
-                        
+
+                    cx = int(cx)
+                    cy = int(cy)                        
                     if gui_window_on:
-                        # show small circle at motion location 
+                        # show small circle at motion location
+                        
                         cv2.circle( image2,( cx,cy ),CIRCLE_SIZE,( 0,255,0 ), 2 )
+#                        cv2.circle( image2,( cx,cy ),CIRCLE_SIZE,( 0,255,0 ), 2 )
                         if ave_speed > 0:
-                            speed_text = str('%5.1f'  % ave_speed ) 
+                            speed_text = str('%3.1f %s'  % ( ave_speed, speed_units )) 
                             cv2.putText( image2, speed_text, (cx, cy), cv2.FONT_HERSHEY_SIMPLEX, .5, (255,255,255), 1)                           
                     event_timer = time.time()  # Reset event_timer since valid motion was found
                 

@@ -55,6 +55,13 @@ login via SSH or use a desktop terminal session and perform the following
     chmod +x speed2.py
     python ./speed2.py
 
+To Run using python3 perform the following (Note you must have opencv for python3 already installed)
+NOTE: operation under python3 is not very good compared to python2 IMO. I recommend you run under python2
+
+    sudo apt-get install python3-pip  
+    sudo pip-3.2 install Pillow
+    python3 ./speed2.py
+    
 if you get opengl error then install support library per following command the reboot.
 
     sudo apt-get install libgl1-mesa-dri  
