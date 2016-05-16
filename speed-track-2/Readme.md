@@ -45,11 +45,7 @@ login via SSH or use a desktop terminal session and perform the following
     sudo apt-get update
     sudo apt-get upgrade
     sudo apt-get install -y python-opencv python-picamera python-imaging python-pyexiv2 libgl1-mesa-dri
-    
-Install fonts if you are using Raspbian Jessie Lite distro
-
-    sudo apt-get install fonts-freefont-ttf 
-    
+    sudo apt-get install fonts-freefont-ttf # Required for Jessie Lite Only
     cd ~
     mkdir speed2
     cd speed2
