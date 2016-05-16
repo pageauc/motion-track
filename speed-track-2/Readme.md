@@ -54,7 +54,7 @@ login via SSH or use a desktop terminal session and perform the following
     cd speed2
     wget https://raw.github.com/pageauc/motion-track/master/speed-track-2/speed2.py
     wget https://raw.github.com/pageauc/motion-track/master/speed-track-2/config.py
-    wget https://raw.github.com/pageauc/motion-track/master/speed-track-2/speed-track-2.md
+    wget https://raw.github.com/pageauc/motion-track/master/speed-track-2/Readme.md
     chmod +x speed2.py
     python ./speed2.py
 
