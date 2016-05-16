@@ -83,7 +83,7 @@ value for IMAGE_VIEW_FT variable in the speed_settings.py
     
 ### Calibrate IMG_VIEW_FT variable
   
-speed_track.py needs to be calibrated in order to display a correct speed.
+speed2.py needs to be calibrated in order to display a correct speed.
 
 #### Calibration Procedure
 
