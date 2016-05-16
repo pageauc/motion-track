@@ -171,6 +171,7 @@ def show_settings():
         print("-------------------------------------- Settings -------------------------------------------------")
         print("")
         print("Message Display . verbose=%s  display_fps=%s calibrate=%s" % ( verbose, display_fps, calibrate ))
+        print("                  show_out_range=%s" % ( show_out_range ))
         print("Logging ......... Log_data_to_file=%s  log_filename=%s.log (CSV format)"  % ( log_data_to_file, baseFileName ))
         print("                  Log if max_speed_over > %i %s" % ( max_speed_over, speed_units))        
         print("Speed Trigger ... If  track_len_trig > %i px" % ( track_len_trig ))                      
@@ -424,8 +425,9 @@ def speed_camera():
                                 show_message("speed_camera", msgStr)
                             prev_image = image2
                         else:
-                            msgStr = " Out Range   - cx=%3i cy=%3i Dist=%3i is <%i or >%i px  Contours=%2i Area=%i" % ( cx, cy, abs( cx - end_pos_x ), x_diff_min, x_diff_max, total_contours, biggest_area  )                                    
-                            show_message("speed_camera", msgStr)                             
+                            if show_out_range:
+                                msgStr = " Out Range   - cx=%3i cy=%3i Dist=%3i is <%i or >%i px  Contours=%2i Area=%i" % ( cx, cy, abs( cx - end_pos_x ), x_diff_min, x_diff_max, total_contours, biggest_area  )                                    
+                                show_message("speed_camera", msgStr)                             
                         
                     if gui_window_on:
                         # show small circle at motion location 

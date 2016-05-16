@@ -3,9 +3,10 @@
 # Display and Log settings
 verbose = True              # display basic status information on console
 calibrate = False           # Create a speed_calibrate.jpg file with markers to calculate a px to FT conversion
-display_fps = True         # show average frame count every 100 loops
+display_fps = True          # show average frame count every 100 loops
 gui_window_on = False       # Display desktop GUI openCV threshold window. Set to False if running from ssh console only.
 log_data_to_file = True     # save log data as CSV comma separated values
+show_out_range = True       # Display Out of Range messages (Hide=False)
 
 # Motion Event Settings
 # ---------------------
