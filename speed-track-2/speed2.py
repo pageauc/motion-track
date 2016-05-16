@@ -90,7 +90,8 @@ class PiVideoStream:
         # indicate that the thread should be stopped
         self.stopped = True
 
-import os   
+import os
+import sys  
 import io
 import time
 import datetime
@@ -352,9 +353,13 @@ def speed_camera():
             # Blur difference image to enhance motion vectors
             differenceimage = cv2.blur( differenceimage,(BLUR_SIZE,BLUR_SIZE ))
             # Get threshold of blurred difference image based on THRESHOLD_SENSITIVITY variable
-            retval, thresholdimage = cv2.threshold( differenceimage,THRESHOLD_SENSITIVITY,255,cv2.THRESH_BINARY )
-            # Get all the contours found in the threshold image
-            contours, hierarchy = cv2.findContours( thresholdimage,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE )
+            # Check if python 3 or 2 is running and proces opencv accordingly.
+            if (sys.version_info > (3, 0)):
+                thresholdimage,contours,hierarchy = cv2.findContours(thresholdimage,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
+            else:
+                retval, thresholdimage = cv2.threshold( differenceimage,THRESHOLD_SENSITIVITY,255,cv2.THRESH_BINARY )
+                # Get all the contours found in the threshold image
+                contours, hierarchy = cv2.findContours( thresholdimage,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE )
             total_contours = len( contours )
             # Update grayimage1 to grayimage2 ready for next image2
             grayimage1 = grayimage2
