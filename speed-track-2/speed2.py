@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-version = "version 2.00"
+version = "version 2.03"
 
 """
 speed2 written by Claude Pageau pageauc@gmail.com
@@ -374,8 +374,8 @@ def speed_camera():
                     motion_found = True
                     biggest_area = found_area
                     ( x, y, w, h ) = cv2.boundingRect(c)
-                    cx = x + w/2   # put circle in middle of width
-                    cy = y + h/2   # put circle in middle of height
+                    cx = int(x + w/2)   # put circle in middle of width
+                    cy = int(y + h/2)   # put circle in middle of height
                     cw = w
                     ch = h
                     
@@ -435,14 +435,12 @@ def speed_camera():
                             if show_out_range:
                                 msgStr = " Out Range   - cx=%3i cy=%3i Dist=%3i is <%i or >%i px  Contours=%2i Area=%i" % ( cx, cy, abs( cx - end_pos_x ), x_diff_min, x_diff_max, total_contours, biggest_area  )                                    
                                 show_message("speed_camera", msgStr)                             
-
-                    cx = int(cx)
-                    cy = int(cy)                        
+                     
                     if gui_window_on:
                         # show small circle at motion location
                         
                         cv2.circle( image2,( cx,cy ),CIRCLE_SIZE,( 0,255,0 ), 2 )
-#                        cv2.circle( image2,( cx,cy ),CIRCLE_SIZE,( 0,255,0 ), 2 )
+
                         if ave_speed > 0:
                             speed_text = str('%3.1f %s'  % ( ave_speed, speed_units )) 
                             cv2.putText( image2, speed_text, (cx, cy), cv2.FONT_HERSHEY_SIMPLEX, .5, (255,255,255), 1)                           
