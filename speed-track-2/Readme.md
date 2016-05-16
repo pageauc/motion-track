@@ -5,7 +5,7 @@
 #####          written by Claude Pageau pageauc@gmail.com
 
 ###New Release 16-May-2016
-* Enhanced streaming speed by using treading class
+* Enhanced streaming speed by using threading
 
 ### Program Description
 This is a raspberry pi computer openCV object speed camera demo program.
@@ -46,7 +46,7 @@ login via SSH or use a desktop terminal session and perform the following
     sudo apt-get upgrade
     sudo apt-get install -y python-opencv python-picamera python-imaging python-pyexiv2 libgl1-mesa-dri
     
-    # install fonts if you are using Raspbian Jessie Lite distro
+Install fonts if you are using Raspbian Jessie Lite distro
     sudo apt-get install fonts-freefont-ttf 
     
     cd ~
