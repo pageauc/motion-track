@@ -74,9 +74,9 @@ You can also use git clone to copy the files to your RPI.
 The speed-track-2 files will be in the motion-track/speed-track-2 subfolder. You can
 then move them to another location if you wish.
  
-Note an images folder will be created to store jpg speed photos. There is an
-image_path variable in the speed-settings.py file.  Use nano editor to
-change variables in this file as desired.
+Note A default images folder will be created to store jpg speed photos. There is an
+image_path variable in the config.py file.  Use nano editor to change path and/or
+other variables as desired.
 
 Use the calibrate option and follow instructions below to calculate an accurate
 value for IMAGE_VIEW_FT variable in the speed_settings.py
