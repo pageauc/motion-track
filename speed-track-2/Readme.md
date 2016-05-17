@@ -70,7 +70,7 @@ also on raspberry pi 3's activate opengl support using
  
     sudo raspi-config,
 
-From 9 Advanced Options select AA GL Driver then enable then driver and reboot 
+From 9 Advanced Options select AA GL Driver then enable driver and reboot 
  
     
 You can also use git clone to copy the files to your RPI.

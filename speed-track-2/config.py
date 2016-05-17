@@ -12,8 +12,8 @@ show_out_range = True       # Display Out of Range messages (Hide=False)
 # ---------------------
 IMAGE_VIEW_FT = 72     # Set the width in feet for the road width that the camera width sees
 SPEED_MPH = True       # Set the speed conversion  kph = False  mph=True
-MIN_AREA = 500         # Exclude all contours less than or equal to this sq-px Area
-y_upper = 120          # Exclude motion above this point to top of image.
+MIN_AREA = 100         # Exclude all contours less than or equal to this sq-px Area
+y_upper = 90           # Exclude motion above this point to top of image.
 y_lower = 200          # Exclude motion below this point to bottom of image.
 max_speed_over = 0     # Exclude Speed less than or equal to value specified 0=All 
 track_len_trig  = 100  # Length of track to trigger speed photo
@@ -30,7 +30,7 @@ CAMERA_HFLIP = False   # Flip the camera image horizontally if required
 image_path = "images"     # folder name to store images 
 image_prefix = "cam1-"    # image name prefix
 image_text_bottom = True  # True = Show image text at bottom otherwise at top
-image_font_size = 20      # px height of font on images default = 20
+image_font_size = 18      # px height of font on images default = 20
 image_bigger = 3          # multiply value to resize the default image size 320x240
  
 # OpenCV Motion Tracking Settings
