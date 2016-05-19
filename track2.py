@@ -138,7 +138,7 @@ class PiVideoTrack:
                 self.grayimage1 = cv2.cvtColor(self.image, cv2.COLOR_BGR2GRAY)
                 self.first_image = False 
             else:
-                cv2.imwrite("second.jpg",self.image) 
+                # cv2.imwrite("second.jpg",self.image) 
                 # Convert to gray scale, which is easier
                 self.grayimage2 = cv2.cvtColor( self.image, cv2.COLOR_BGR2GRAY )
                 # Get differences between the two greyed images
