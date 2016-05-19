@@ -23,6 +23,11 @@ the third for program logic.  In this case just a simple display of output.
 This code can be used as a starting point for a motion tracking project
 See code comments for details and installation requirements
 
+    wget https://raw.github.com/pageauc/motion-track/master/track2.py
+    sudo apt-get update
+    sudo apt-get upgrade
+    sudo apt-get install -y python-opencv python-picamera treading   
+
 #### Motion Tracking Demo (single processor version)
 
 motion-track.py is a raspberry pi python opencv2 (computer vision) 
