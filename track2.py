@@ -28,7 +28,7 @@ Install Dependencies from a logged in SSH session per commands below
 
 sudo apt-get update
 sudo apt-get upgrade
-sudo apt-get install -y python-opencv python-picamera treading
+sudo apt-get install -y python-opencv python-picamera
 
 to monitor detailed RPI cpu and memory usage install htop per
 
