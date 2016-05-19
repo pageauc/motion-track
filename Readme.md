@@ -26,7 +26,7 @@ See code comments for details and installation requirements
     wget https://raw.github.com/pageauc/motion-track/master/track2.py
     sudo apt-get update
     sudo apt-get upgrade
-    sudo apt-get install -y python-opencv python-picamera treading   
+    sudo apt-get install -y python-opencv python-picamera   
 
 #### Motion Tracking Demo (single processor version)
 
