@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-progName = "track2.py version 1.0"
+progName = "track2.py version 1.5"
 
 """
 track2 written by Claude Pageau pageauc@gmail.com
@@ -180,7 +180,7 @@ class PiVideoTrack:
         
     def getimage(self):    
         # return current motion image
-        return self.cur_image
+        return self.image
 
     def stop(self):
         # indicate that the thread should be stopped
@@ -191,24 +191,56 @@ if __name__ == '__main__':
     try:
         # Note - This script will track position of the largest moving object in the frame
         # and return the x, y, h, w data that can be used as input for further logic
+
+        window_on = True     # display opencv window on local GUI desktop
+        size_circle = 8
+        size_line = 2       
+        
+        # setup fps speed variables
+        fps_counter = 0
+        fps_start = time.time()
+        fps = 0   
         
         print ("\033c")    # Clear Screen
         print("\033[4;1H%s - written by Claude Pageau ..." % progName)
-        tc = PiVideoTrack().start()     # initialize instance of motion tracking
-        tc.vs.camera.hflip = True       # Flip camera image horizontally if required
-        # tc.vs.camera.vflip = True
-        tc.min_area = 100               # Set minimum area sq-px of object to be tracked
+        mt = PiVideoTrack().start()     # initialize instance of motion tracking
+        mt.vs.camera.hflip = True       # Flip camera image horizontally if required
+        # mt.vs.camera.vflip = True
+        mt.min_area = 100               # Set minimum area sq-px of object to be tracked
         print("\033[5;1HStart Scanning for Motion ...")
         print("\033[6;1H         [ x, y, h, w ]")
         while True:
-            mo_xy = tc.read()   # This data can be used for further processing logic
+            # Calculate fps
+            if fps_counter > 100:
+                 fps = int( fps_counter / (( time.time() - fps_start)))
+                 fps_start = time.time()
+                 fps_counter = 0
+            else:
+                fps_counter +=1
+                
+            mo_xy = mt.read()   # This data can be used for further processing logic
+            mo_image = mt.getimage()  # Get frame from motion track thread
             print("\033[7;1HMotion @ "+ str(mo_xy)+ "                   ")
             if len(mo_xy)>0:
-                print("\033[8;1HCenter @ ["+ str( int( mo_xy[0] + mo_xy[2]/2 ))+", "+ str( int( mo_xy[1] + mo_xy[3]/2 )) + "]                   ")    
+                cx = int( mo_xy[0] + mo_xy[2] / 2 )
+                cy = int( mo_xy[1] + mo_xy[3] / 2 )
+                print("\033[8;1HCenter @ "+ str( cx )+", "+ str( cy ) + "                   ") 
+                if window_on:
+                    # Put circle at center of biggest contour
+                    cv2.circle(mo_image,( cx, cy ),size_circle,(0,255,0), size_line)        
             else:
-                print("\33[8;1HCenter @                                                  ") 
+                print("\33[8;1HCenter @                           ") 
+                print("\33[9;1HSpeed  @ %i fps                 " % ( fps ))
+            
+            if window_on:                
+                cv2.imshow('Press q in window to Quit', mo_image)    
+                # Close Window if q pressed
+                if cv2.waitKey(1) & 0xFF == ord('q'):
+                    cv2.destroyAllWindows()
+                    break
+
     finally: 
-        tc.stop()
+        mt.stop()
         print("")
         print("+++++++++++++++++++++++++++++++++++")
         print("%s - Exiting Program" % progName)

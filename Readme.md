@@ -19,14 +19,22 @@ Speed track YouTube video here  https://youtu.be/eRi50BbJUro
 #### NEW 18-May-2016 - track2.py (multi processor motion tracking demo)
 Added track2.py Demo of multi processor motion tracking.
 This uses one processor for camera stream, second for opencv motion tracking and
-the third for program logic.  In this case just a simple display of output.
+the third for program logic.  Run track2.py in a local RPI GUI terminal window
+to display the opencv image window showing motion tracking stream.  The 
+motion track data will be display in terminal window. I used an object on a
+string to test tracking.  This is amazingly fast.
+Note this needs to be run on a quad core RPI for max speed. Use htop to
+monitor cpu usage. Change window_on variable to run in a console/ssh session
 This code can be used as a starting point for a motion tracking project
 See code comments for details and installation requirements
 
+    # Basic installation instructions
     wget https://raw.github.com/pageauc/motion-track/master/track2.py
     sudo apt-get update
     sudo apt-get upgrade
-    sudo apt-get install -y python-opencv python-picamera   
+    sudo apt-get install -y python-opencv python-picamera
+    chmod +x track2.py
+    ./track2.py    
 
 #### Motion Tracking Demo (single processor version)
 
