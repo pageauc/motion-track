@@ -16,11 +16,14 @@ Speed track YouTube video here  https://youtu.be/eRi50BbJUro
 
 #### Note this program is for demonstration purposes only
 
-#### NEW 18-May-2016 - 
+#### NEW 18-May-2016 - track2.py 
 Added track2.py Demo of multi processor motion tracking.
 This uses one processor for camera stream, second for opencv motion tracking and
 the third for program logic.  In this case just a simple display of output.
 This code can be used as a starting point for a motion tracking project
+See code comments for details and installation requirements
+
+#### Motion Tracking Demo (single processor version)
 
 motion-track.py is a raspberry pi python opencv2 (computer vision) 
 motion tracking demonstration program.
