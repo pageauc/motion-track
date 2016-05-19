@@ -202,8 +202,11 @@ if __name__ == '__main__':
         print("\033[6;1H         [ x, y, h, w ]")
         while True:
             mo_xy = tc.read()   # This data can be used for further processing logic
-            print("\033[7;1HMotion @ "+ str(mo_xy)+ "                 ")
-    
+            print("\033[7;1HMotion @ "+ str(mo_xy)+ "                   ")
+            if len(mo_xy)>0:
+                print("\033[8;1HCenter @ ["+ str( int( mo_xy[0] + mo_xy[2]/2 ))+", "+ str( int( mo_xy[1] + mo_xy[3]/2 )) + "]                   ")    
+            else:
+                print("\33[8;1HCenter @                                                  ") 
     finally: 
         tc.stop()
         print("")
