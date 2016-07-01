@@ -4,9 +4,9 @@
 ##### using a Raspberry Pi computer, python, openCV and picamera module
 #####          written by Claude Pageau pageauc@gmail.com
 
-###New Release 16-May-2016
-* Enhanced streaming speed by using threading
-* ver 2.04 added speed2.sh background launch script and minor updates
+###Release History
+* ver 2.03 16-May-2016 - Enhanced streaming speed by using threading
+* ver 2.04 01-Jul-2017 - Added speed2.sh background launch script and minor updates
 
 ### Program Description
 This is a raspberry pi computer openCV object speed camera demo program.
@@ -19,8 +19,8 @@ restricted between y_upper and y_lower variables (road area).  If a track
 is longer than track_len_trig variable then average speed will be 
 calculated (based on IMAGE_VIEW_FT variable) and a speed photo will be
 taken and saved in an images folder. If log_data_to_file=True then a
-speed_track.log file will be created/updated with event data stored in
-CSV (Comma Separated Values) format.
+speed2.csv file will be created/updated with event data stored in
+CSV (Comma Separated Values) format. This can be imported into a spreadsheet.
  
 Here is a YouTube demo and code walkthrough of this program https://youtu.be/eRi50BbJUro
  
@@ -62,7 +62,7 @@ if wish to run speed2.py in background or on boot from /etc/rc.local then
 
     ./speed2.sh
     
-or insert line into /etc/rc.local
+or insert line into /etc/rc.local using nano editor
 
     sudo nano /etc/rc.local
 
