@@ -70,9 +70,9 @@ then add the following before the exit line then ctrl-x y to save and reboot to 
 
     /home/pi/speed2/speed2.sh  
     
-Edit the speed2.sh script to suit your needs.  Note you may need to change the sleep delay time
-if rc.local does not run script successfully at boot, since services may need
-more time to start  
+Edit the speed2.sh script to suit your needs per comments.  
+Note you may need to change the sleep delay time if rc.local does not run script
+successfully at boot, since services may need more time to start.  
         
 To Run using python3 perform the following (Note you must have opencv for python3 already installed)
 NOTE: operation under python3 is not very good compared to python2 IMO. I recommend you run under python2
