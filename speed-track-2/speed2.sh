@@ -12,7 +12,7 @@
 #        the parameters below
 progpath=/home/pi/speed2
 progname=speed2.py
-proglog=speed2.log
+proglog=console.log
 
 if [ -z "$(ps -ef | grep $progname | grep -v grep)" ]
 then

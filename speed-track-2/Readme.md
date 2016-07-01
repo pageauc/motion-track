@@ -6,6 +6,7 @@
 
 ###New Release 16-May-2016
 * Enhanced streaming speed by using threading
+* ver 2.04 added speed2.sh background launch script and minor updates
 
 ### Program Description
 This is a raspberry pi computer openCV object speed camera demo program.
@@ -153,6 +154,9 @@ when speed2.py is run.  Use the nano editor to modify these settings
 per the comments.  Most settings should be OK and should not need to be
 changed. Others may need to be fine tuned.  The openCV settings most
 likely won't need to be changed unless you are familiar with them.
+
+Note if log_data_to_file is set it will save a data to a .csv file
+in the same folder as speed2.py  eg speed2.csv 
 
 Have Fun
 

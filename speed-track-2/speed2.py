@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-version = "version 2.03"
+version = "version 2.04"
 
 """
 speed2 written by Claude Pageau pageauc@gmail.com
@@ -175,7 +175,7 @@ def show_settings():
         print("")
         print("Message Display . verbose=%s  display_fps=%s calibrate=%s" % ( verbose, display_fps, calibrate ))
         print("                  show_out_range=%s" % ( show_out_range ))
-        print("Logging ......... Log_data_to_file=%s  log_filename=%s.log (CSV format)"  % ( log_data_to_file, baseFileName ))
+        print("Logging ......... Log_data_to_file=%s  log_filename=%s.csv (CSV format)"  % ( log_data_to_file, baseFileName ))
         print("                  Log if max_speed_over > %i %s" % ( max_speed_over, speed_units))        
         print("Speed Trigger ... If  track_len_trig > %i px" % ( track_len_trig ))                      
         print("Exclude Events .. If  x_diff_min < %i or x_diff_max > %i px" % ( x_diff_min, x_diff_max ))
@@ -230,7 +230,7 @@ def get_image_name(path, prefix):
 #-----------------------------------------------------------------------------------------------    
 def log_to_file(data_to_append):
     if log_data_to_file:
-        log_file_path = baseDir + baseFileName + ".log"
+        log_file_path = baseDir + baseFileName + ".csv"
         if not os.path.exists(log_file_path):
             open( log_file_path, 'w' ).close()
             header_text = '"YYYYMMDD","HH","MM","Speed","Unit","    Speed Photo Path            ","W","H","Area"' + "\n"
