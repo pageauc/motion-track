@@ -50,11 +50,29 @@ login via SSH or use a desktop terminal session and perform the following
     mkdir speed2
     cd speed2
     wget https://raw.github.com/pageauc/motion-track/master/speed-track-2/speed2.py
+    wget https://raw.github.com/pageauc/motion-track/master/speed-track-2/speed2.sh
     wget https://raw.github.com/pageauc/motion-track/master/speed-track-2/config.py
     wget https://raw.github.com/pageauc/motion-track/master/speed-track-2/Readme.md
     chmod +x speed2.py
+    chmod +x speed2.sh
     python ./speed2.py
+    
+if wish to run speed2.py in background or on boot from /etc/rc.local then
 
+    ./speed2.sh
+    
+or insert line into /etc/rc.local
+
+    sudo nano /etc/rc.local
+
+then add the following before the exit line the ctrl-x y to save and reboot to test
+
+    /home/pi/speed2/speed2.sh  
+    
+edit the speed2.sh script to suit.  Note you may need to change the sleep delay time
+if rc.local does not run script successfully at boot since services may need
+more time to start  
+        
 To Run using python3 perform the following (Note you must have opencv for python3 already installed)
 NOTE: operation under python3 is not very good compared to python2 IMO. I recommend you run under python2
 
