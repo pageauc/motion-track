@@ -45,7 +45,7 @@ login via SSH or use a desktop terminal session and perform the following
     sudo apt-get update
     sudo apt-get upgrade
     sudo apt-get install -y python-opencv python-picamera python-imaging python-pyexiv2 libgl1-mesa-dri
-    sudo apt-get install fonts-freefont-ttf # Required for Jessie Lite Only
+    sudo apt-get install -y fonts-freefont-ttf # Required for Jessie Lite Only
     cd ~
     mkdir speed2
     cd speed2
@@ -76,11 +76,11 @@ more time to start
 To Run using python3 perform the following (Note you must have opencv for python3 already installed)
 NOTE: operation under python3 is not very good compared to python2 IMO. I recommend you run under python2
 
-    sudo apt-get install python3-pip  
-    sudo pip-3.2 install Pillow
+    sudo apt-get install -y python3-pip  
+    sudo pip-3.2 install -y Pillow
     python3 ./speed2.py
     
-if you get opengl error then install support library per following command the reboot.
+if you get opengl error then install support library per following command then reboot.
 
     sudo apt-get install libgl1-mesa-dri  
     

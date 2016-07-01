@@ -16,17 +16,20 @@ proglog=speed2.log
 
 if [ -z "$(ps -ef | grep $progname | grep -v grep)" ]
 then
-   echo "Start $progname   Waiting 10 seconds"
+   echo "Start $progpath/$progname   Waiting 10 seconds"
    # delay for boot to complete if running from /etc/rc.local
    sleep 10
-   echo "Startin speed2.py in background"
-   #/home/pi/speed2/speed2.py &
+   echo "Starting $progpath/$progname in background"
+   # uncommand command below for no redirection of output
+   # $progpath/$progname &
    # If you want to redirect output then comment out above and uncomment below
    python -u $progpath/$progname  > $progpath/$proglog &
-   echo "speed2.py started per process PID below"
+   echo "$progpath/$progname started per process PID below"
    ps -ef | grep $progname | grep -v grep
+   echo
+   echo "If not running then Check setup and permissions"
 else
-  echo "speed2.py Already Running"
+  echo "$progpath/$progname Already Running"
   ps -ef | grep $progname | grep -v grep
   echo
   echo "To end task kill PID above eg sudo kill 1234"
