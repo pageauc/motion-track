@@ -1,10 +1,15 @@
 #!/bin/sh
 # writtem by Claude Pageau 
-# Script to run speed2.py in background
+# Script to run speed2.py in background available here
+# wget https://raw.github.com/pageauc/motion-track/master/speed-track-2/speed2.sh
 # launch from command line or via entry in /etc/rc.local file
-# You may have to change sleep delay if it does not run in rc.local
+# You may have to change sleep delay if it does not run properly in rc.local
 # make sure to make this script executable
 # chmod +x speed2.sh
+# and also
+# chmod +x speed2.py
+# NOTE : This script can be used as a generic launcher by changing
+#        the parameters below
 progpath=/home/pi/speed2
 progname=speed2.py
 proglog=speed2.log
