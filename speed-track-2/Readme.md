@@ -65,12 +65,12 @@ or insert line into /etc/rc.local
 
     sudo nano /etc/rc.local
 
-then add the following before the exit line the ctrl-x y to save and reboot to test
+then add the following before the exit line then ctrl-x y to save and reboot to test
 
     /home/pi/speed2/speed2.sh  
     
-edit the speed2.sh script to suit.  Note you may need to change the sleep delay time
-if rc.local does not run script successfully at boot since services may need
+Edit the speed2.sh script to suit your needs.  Note you may need to change the sleep delay time
+if rc.local does not run script successfully at boot, since services may need
 more time to start  
         
 To Run using python3 perform the following (Note you must have opencv for python3 already installed)
