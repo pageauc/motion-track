@@ -1,8 +1,7 @@
 #                          speed2.py
 
-###           A Raspberry Pi object speed camera
-###          using video streaming and threading
-##### on a Raspberry Pi computer, python, openCV and picamera module
+###  A Raspberry Pi Object Speed camera using Video Streaming and Threading
+##### on a Raspberry Pi computer, python, openCV2 and picamera module
 #####       written by Claude Pageau pageauc@gmail.com
 
 ###Release History
@@ -10,7 +9,7 @@
 * ver 2.04 01-Jul-2017 - Added speed2.sh background launch script and minor updates
 
 ### Program Description
-This is a raspberry pi computer openCV object speed camera demo program.
+This is a raspberry pi computer openCV2 object speed camera demo program.
 It is written in python and uses openCV2 to detect and track object motion.
 The results are recorded on speed photos and data in a CSV file that can be
 imported to a spreadsheet or other program for additiona processing.  
