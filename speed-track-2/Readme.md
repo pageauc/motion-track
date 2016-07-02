@@ -35,11 +35,17 @@ Here is a previous YouTube video demonstrating a motion tracking test program
 using a Raspberry Pi B2 https://youtu.be/09JS7twPBsQ
 
 ### Quick Setup
+From ssh session or console terminal perform the following.
+
+    wget https://raw.github.com/pageauc/motion-track/master/speed-track-2/install.sh
+    chmod +x install.sh
+    ./install.sh
 
 Requires a Raspberry Pi computer with a RPI camera module installed, configured
 and tested to verify it is working. I used a RPI model B2 but a B+ or 
 earlier should work OK.
 
+### Detailed Setup
 Install dependencies and program per the following
 login via SSH or use a desktop terminal session and perform the following
 
