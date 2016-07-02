@@ -1,8 +1,9 @@
 #                          speed2.py
 
-###               A Raspberry Pi object speed camera
-##### using a Raspberry Pi computer, python, openCV and picamera module
-#####          written by Claude Pageau pageauc@gmail.com
+###           A Raspberry Pi object speed camera
+###          using video streaming and threading
+##### on a Raspberry Pi computer, python, openCV and picamera module
+#####       written by Claude Pageau pageauc@gmail.com
 
 ###Release History
 * ver 2.03 16-May-2016 - Enhanced streaming speed by using threading
@@ -11,8 +12,8 @@
 ### Program Description
 This is a raspberry pi computer openCV object speed camera demo program.
 It is written in python and uses openCV2 to detect and track object motion.
-The results are recorded on speed photos and in a CSV log file that can be
-imported to another program for additiona processing.  
+The results are recorded on speed photos and data in a CSV file that can be
+imported to a spreadsheet or other program for additiona processing.  
 The program will detect motion in the field of view and use opencv to calculate
 the largest contour and return its x,y coordinate. Motion detection is
 restricted between y_upper and y_lower variables (road area).  If a track
@@ -35,15 +36,23 @@ Here is a previous YouTube video demonstrating a motion tracking test program
 using a Raspberry Pi B2 https://youtu.be/09JS7twPBsQ
 
 ### Quick Setup
-From ssh session or console terminal perform the following.
+Requires a Raspberry Pi computer with a RPI camera module installed, configured
+and tested to verify it is working. I used a RPI model B2 but a B+ , 3 or 
+earlier will work OK. A quad core processor will greatly improve performance
+due to threading
+
+From logged in RPI SSH session or console terminal perform the following.
 
     wget https://raw.github.com/pageauc/motion-track/master/speed-track-2/install.sh
     chmod +x install.sh
     ./install.sh
+    ./speed2.py
 
-Requires a Raspberry Pi computer with a RPI camera module installed, configured
-and tested to verify it is working. I used a RPI model B2 but a B+ or 
-earlier should work OK.
+NOTE - Review settings in config.py file and edit with nano as required.
+       You will need to perform a calibration to set the correct
+       value for IMG_VIEW_FT variable based on the distance from camera to
+       objects being measured for speed.  See video and Readme.md for more
+       details.
 
 ### Detailed Setup
 Install dependencies and program per the following
