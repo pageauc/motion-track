@@ -1,7 +1,7 @@
 #                          speed2.py
 
-###  A Raspberry Pi Object Speed camera using Video Streaming and Threading
-##### on a Raspberry Pi computer, python, openCV2 and picamera module
+###  A Raspberry Pi Object Speed Camera using Video Streaming and Threading
+##### on a Raspberry Pi Computer, Python, OpenCV2 and Picamera Module
 #####       written by Claude Pageau pageauc@gmail.com
 
 ###Release History
