@@ -1,7 +1,7 @@
 #                          speed2.py
 
 ###  A Raspberry Pi Object Speed Camera using Video Streaming and Threading
-##### on a Raspberry Pi Computer, Python, OpenCV2 and Picamera Module
+##### on a Raspberry Pi Computer, Python2, OpenCV2 and Picamera Module
 #####       written by Claude Pageau pageauc@gmail.com
 
 ###Release History
@@ -64,12 +64,14 @@ login via SSH or use a desktop terminal session and perform the following
     cd ~
     mkdir speed2
     cd speed2
+        wget https://raw.github.com/pageauc/motion-track/master/speed-track-2/install.sh
     wget https://raw.github.com/pageauc/motion-track/master/speed-track-2/speed2.py
     wget https://raw.github.com/pageauc/motion-track/master/speed-track-2/speed2.sh
     wget https://raw.github.com/pageauc/motion-track/master/speed-track-2/config.py
     wget https://raw.github.com/pageauc/motion-track/master/speed-track-2/Readme.md
     chmod +x speed2.py
     chmod +x speed2.sh
+    chmod +x install.sh
     python ./speed2.py
     
 if wish to run speed2.py in background or on boot from /etc/rc.local then
