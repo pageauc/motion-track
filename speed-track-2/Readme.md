@@ -6,7 +6,8 @@
 
 ###Release History
 * ver 2.03 16-May-2016 - Enhanced streaming speed by using threading
-* ver 2.04 01-Jul-2017 - Added speed2.sh background launch script and minor updates
+* ver 2.04 01-Jul-2016 - Added speed2.sh background launch script and minor updates
+* ver 2.05 04-Jul-2016 - Added code to trap python3 cv2 import error 
 
 ### Program Description
 This is a raspberry pi computer openCV2 object speed camera demo program.

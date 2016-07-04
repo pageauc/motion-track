@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-version = "version 2.04"
+version = "version 2.05"
 
 """
 speed2 written by Claude Pageau pageauc@gmail.com
@@ -40,7 +40,24 @@ print("speed2.py %s using python2 and OpenCV2    written by Claude Pageau" % ( v
 from picamera.array import PiRGBArray
 from picamera import PiCamera
 from threading import Thread
-import cv2
+import sys  
+try:
+    import cv2
+except:
+    print("------------------------------------")
+    print("Error - Could not import cv2 library")
+    print("")
+    if (sys.version_info > (3, 0)):
+        print("python3 failed to import cv2")
+        print("Try installing opencv for python3")
+        print("google for details regarding installing opencv for python3")
+    else:
+        print("python2 failed to import cv2")
+        print("Try reinstalling per command")
+        print("sudo apt-get install python-opencv")
+    print("")
+    print("Exiting speed2.py Due to Error")
+    quit()
 
 class PiVideoStream:
     def __init__(self, resolution=(320, 240), framerate=32, rotation=0, hflip=False, vflip=False):
@@ -92,7 +109,6 @@ class PiVideoStream:
         self.stopped = True
 
 import os
-import sys  
 import io
 import time
 import datetime
@@ -151,7 +167,7 @@ def show_message(function_name, message_str):
 #----------------------------------------------------------------------------------------------
 def get_fps( start_time, frame_count ):
     # Calculate and display frames per second processing
-    if frame_count >= 100:
+    if frame_count >= 1000:
         duration = float( time.time() - start_time )
         FPS = float( frame_count / duration )
         print("%s get_fps - %.2f fps Last %i Frames" %( show_time(), FPS, frame_count ))
