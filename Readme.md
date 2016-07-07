@@ -28,16 +28,14 @@ This code can be used as a starting point for a motion tracking project
 See code comments for details and installation requirements
 
     # Basic installation instructions (default is GUI desktop mode)
-    wget https://raw.github.com/pageauc/motion-track/master/motion_track.py
     wget https://raw.github.com/pageauc/motion-track/master/track2.py
     sudo apt-get update
     sudo apt-get upgrade
     sudo apt-get install -y python-opencv python-picamera
-    chmod +x motion_track.py
     chmod +x track2.py
-    ./track2.py    
+    ./track2.py
 
-#### Motion Tracking Demo (single processor version)
+#### Motion Tracking Demo (Now uses Threading for speed increase)
 
 motion-track.py is a raspberry pi python opencv2 (computer vision) 
 motion tracking demonstration program.
@@ -65,11 +63,14 @@ required depending on your previous installs.
     sudo apt-get update
     sudo apt-get upgrade
     sudo apt-get install python-opencv python-picamera
-    mkdir motion-track
+    mkdir -p motion-track
     cd motion-track    
     wget https://raw.github.com/pageauc/motion-track/master/motion-track.py
-    
-start up a desktop GUI session and run the code from IDLE or open a 
+    chmod +x motion-track.py
+    ./motion_track.py
+
+From GUI desktop Terminal session Use nano to edit motion_track.py and change variable window_on=True ctrl-x y to save.
+Start up a desktop GUI session and run the code from IDLE or open a 
 terminal console and run 
 
     python ./motion-track.py

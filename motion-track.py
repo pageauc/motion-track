@@ -41,7 +41,7 @@ from picamera import PiCamera
 from threading import Thread
 
 debug = True        # Set to False for no data display
-window_on = True    # Set to True displays opencv windows (GUI desktop reqd)
+window_on = False   # Set to True displays opencv windows (GUI desktop reqd)
 SHOW_CIRCLE = True  # show a circle otherwise show bounding rectancle on window
 CIRCLE_SIZE = 8     # diameter of circle to show motion location in window
 LINE_THICKNESS = 1  # thickness of bounding line in pixels
