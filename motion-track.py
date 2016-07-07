@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 progname = "motion_track.py"
-ver = "version 0.7"
+ver = "version 0.9"
 
 """
 motion-track ver 0.7 written by Claude Pageau pageauc@gmail.com
@@ -31,18 +31,20 @@ sudo apt-get install libgl1-mesa-dri
 """
 print("%s %s using python2 and OpenCV2" % (progname, ver))
 print("Loading Please Wait ....")
+# import the necessary packages
 import io
 import time
+import cv2
+
 from picamera.array import PiRGBArray
 from picamera import PiCamera
-import cv2
-import numpy as np
+from threading import Thread
 
 debug = True        # Set to False for no data display
-window_on = False   # Set to True displays opencv windows (GUI desktop reqd)
+window_on = True    # Set to True displays opencv windows (GUI desktop reqd)
 SHOW_CIRCLE = True  # show a circle otherwise show bounding rectancle on window
-CIRCLE_SIZE = 10    # diameter of circle to show motion location in window
-LINE_THICKNESS = 1  # thicknes of bounding line in pixels
+CIRCLE_SIZE = 8     # diameter of circle to show motion location in window
+LINE_THICKNESS = 1  # thickness of bounding line in pixels
 WINDOW_BIGGER = 1   # resize multiplier for speed photo image and if gui_window_on=True then makes opencv window bigger
                     # Note if the window is larger than 1 then a reduced frame rate will occur
 
@@ -51,16 +53,69 @@ CAMERA_WIDTH = 320
 CAMERA_HEIGHT = 240
 CAMERA_HFLIP = False
 CAMERA_VFLIP = True
-CAMERA_FRAMERATE = 15
+CAMERA_ROTATION=0
+CAMERA_FRAMERATE = 100
+FRAME_COUNTER = 1000
 
 # Motion Tracking Settings
 THRESHOLD_SENSITIVITY = 25
 BLUR_SIZE = 10
 MIN_AREA = 25       # excludes all contours less than or equal to this Area
 
+#-----------------------------------------------------------------------------------------------  
+class PiVideoStream:
+    def __init__(self, resolution=(CAMERA_WIDTH, CAMERA_HEIGHT), framerate=CAMERA_FRAMERATE, rotation=0, hflip=False, vflip=False):
+        # initialize the camera and stream
+        self.camera = PiCamera()
+        self.camera.resolution = resolution
+        self.camera.rotation = rotation
+        self.camera.framerate = framerate
+        self.camera.hflip = hflip
+        self.camera.vflip = vflip
+        self.rawCapture = PiRGBArray(self.camera, size=resolution)
+        self.stream = self.camera.capture_continuous(self.rawCapture,
+            format="bgr", use_video_port=True)
+
+        # initialize the frame and the variable used to indicate
+        # if the thread should be stopped
+        self.frame = None
+        self.stopped = False
+
+    def start(self):
+        # start the thread to read frames from the video stream
+        t = Thread(target=self.update, args=())
+        t.daemon = True
+        t.start()
+        return self
+
+    def update(self):
+        # keep looping infinitely until the thread is stopped
+        for f in self.stream:
+            # grab the frame from the stream and clear the stream in
+            # preparation for the next frame
+            self.frame = f.array
+            self.rawCapture.truncate(0)
+
+            # if the thread indicator variable is set, stop the thread
+            # and resource camera resources
+            if self.stopped:
+                self.stream.close()
+                self.rawCapture.close()
+                self.camera.close()
+                return
+
+    def read(self):
+        # return the frame most recently read
+        return self.frame
+
+    def stop(self):
+        # indicate that the thread should be stopped
+        self.stopped = True
+
+#-----------------------------------------------------------------------------------------------  
 def show_FPS(start_time,frame_count):
     if debug:
-        if frame_count >= 10:
+        if frame_count >= FRAME_COUNTER:
             duration = float(time.time() - start_time)
             FPS = float(frame_count / duration)
             print("Processing at %.2f fps last %i frames" %( FPS, frame_count))
@@ -70,16 +125,18 @@ def show_FPS(start_time,frame_count):
             frame_count += 1
     return start_time, frame_count
 
+#-----------------------------------------------------------------------------------------------  
 def motion_track():
     print("Initializing Camera ....")
     # Save images to an in-program stream
-    camera = PiCamera()
-    camera.hflip = CAMERA_HFLIP
-    camera.vflip = CAMERA_VFLIP          
-    camera.resolution = (CAMERA_WIDTH, CAMERA_HEIGHT)
-    camera.framerate = CAMERA_FRAMERATE
-    rawCapture = PiRGBArray(camera, size=(CAMERA_WIDTH, CAMERA_HEIGHT))
-    time.sleep(1)
+    
+    # Setup video stream on a processor Thread for faster speed
+    vs = PiVideoStream().start()
+    vs.camera.rotation = CAMERA_ROTATION
+    vs.camera.hflip = CAMERA_HFLIP
+    vs.camera.vflip = CAMERA_VFLIP
+    time.sleep(2.0)    
+    
     first_image = True
     if window_on:
         print("press q to quit opencv display")
@@ -88,8 +145,10 @@ def motion_track():
     print("Start Motion Tracking ....")
     frame_count = 0
     start_time = time.time()
-    for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
-        image2 = frame.array        
+    still_scanning = True
+    
+    while still_scanning:
+        image2 = vs.read()        
         start_time, frame_count = show_FPS(start_time, frame_count)
         # initialize variables         
         motion_found = False
@@ -153,7 +212,7 @@ def motion_track():
                     cv2.destroyAllWindows()
                     print("End Motion Tracking")
                     break
-        rawCapture.truncate(0)
+
 #-----------------------------------------------------------------------------------------------    
 if __name__ == '__main__':
     try:
