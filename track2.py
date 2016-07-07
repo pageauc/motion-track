@@ -42,6 +42,11 @@ Regards Claude ..
 
 """
 
+CAMERA_VFLIP=True
+CAMERA_HFLIP=False
+
+gui_window_on=True
+
 # import required packages
 from picamera.array import PiRGBArray
 from picamera import PiCamera
@@ -51,7 +56,7 @@ import time
 
 #----------------------------------------------------------------------------------------------------------------
 class PiVideoStream:
-    def __init__(self, resolution=(320, 240), framerate=32, rotation=0, hflip=False, vflip=False):
+    def __init__(self, resolution=(320, 240), framerate=100, rotation=0, hflip=False, vflip=False):
         # initialize the camera and stream
         self.camera = PiCamera()
         self.camera.resolution = resolution
@@ -113,7 +118,7 @@ class PiVideoTrack:
         
         self.mt_xy = []
         self.vs = PiVideoStream().start()
- #      self.vs.camera.framerate = framerate  Notte this does not work since video already running
+ #      self.vs.camera.framerate = framerate  Note this does not work since video already running
         self.vs.camera.rotation = rotation
         self.vs.camera.hflip = hflip
         self.vs.camera.vflip = vflip       
@@ -192,9 +197,9 @@ if __name__ == '__main__':
         # Note - This script will track position of the largest moving object in the frame
         # and return the x, y, h, w data that can be used as input for further logic
 
-        window_on = True     # display opencv window on local GUI desktop
+        window_on = gui_window_on     # display opencv window on local GUI desktop
         size_circle = 8
-        size_line = 2       
+        size_line = 1       
         
         # setup fps speed variables
         fps_counter = 0
@@ -204,8 +209,8 @@ if __name__ == '__main__':
         print ("\033c")    # Clear Screen
         print("\033[4;1H%s - written by Claude Pageau ..." % progName)
         mt = PiVideoTrack().start()     # initialize instance of motion tracking
-        mt.vs.camera.hflip = True       # Flip camera image horizontally if required
-        # mt.vs.camera.vflip = True
+        mt.vs.camera.hflip = CAMERA_HFLIP       # Flip camera image horizontally if required
+        mt.vs.camera.vflip = CAMERA_VFLIP       # Flip camera image vertically if required
         mt.min_area = 100               # Set minimum area sq-px of object to be tracked
         print("\033[5;1HStart Scanning for Motion ...")
         print("\033[6;1H         [ x, y, h, w ]")
