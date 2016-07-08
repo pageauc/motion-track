@@ -1,8 +1,5 @@
-#                          speed2.py
-
-###  A Raspberry Pi Object Speed Camera using Video Streaming and Threading
-##### on a Raspberry Pi Computer, Python2, OpenCV2 and Picamera Module
-#####       written by Claude Pageau pageauc@gmail.com
+# speed2.py
+####  A Raspberry Pi Object (Vehicle) Speed Camera using Video Streaming and Threading
 
 ###Release History
 * ver 2.03 16-May-2016 - Enhanced streaming speed by using threading
@@ -23,17 +20,17 @@ taken and saved in an images folder. If log_data_to_file=True then a
 speed2.csv file will be created/updated with event data stored in
 CSV (Comma Separated Values) format. This can be imported into a spreadsheet.
  
-Here is a YouTube demo and code walkthrough of this program https://youtu.be/eRi50BbJUro
- 
+* speed-track YouTube video here https://youtu.be/eRi50BbJUro
+* speed2 RPI forum post here https://www.raspberrypi.org/forums/viewtopic.php?p=1004150#p1004150
+* motion-track YouTube video here using RPI B2 https://youtu.be/09JS7twPBsQ
+
+#### Credits
 Some of this code is based on a YouTube tutorial by
 Kyle Hounslow using C here https://www.youtube.com/watch?v=X6rPdRZzgjg
 
 Thanks to Adrian Rosebrock jrosebr1 at http://www.pyimagesearch.com 
 for the PiVideoStream Class code available on github at
 https://github.com/jrosebr1/imutils/blob/master/imutils/video/pivideostream.py
-
-Here is a previous YouTube video demonstrating a motion tracking test program
-using a Raspberry Pi B2 https://youtu.be/09JS7twPBsQ
 
 ### Quick Setup
 Requires a Raspberry Pi computer with a RPI camera module installed, configured
@@ -48,11 +45,12 @@ From logged in RPI SSH session or console terminal perform the following.
     ./install.sh
     ./speed2.py
 
-NOTE - Review settings in config.py file and edit with nano as required.
-       You will need to perform a calibration to set the correct
-       value for IMG_VIEW_FT variable based on the distance from camera to
-       objects being measured for speed.  See video and Readme.md for more
-       details.
+Run install.sh again to upgrade to latest version of speed2 code.
+    
+IMPORTANT - Review settings in config.py file and edit with nano as required.
+You will need to perform a calibration to set the correct value for IMG_VIEW_FT 
+variable based on the distance from camera to objects being measured for speed.  
+See video and this Readme.md below for more details.
 
 ### Detailed Setup
 Install dependencies and program per the following
