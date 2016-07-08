@@ -8,38 +8,15 @@ http://youtu.be/09JS7twPBsQ
 RPI forum post here 
 https://www.raspberrypi.org/forums/viewtopic.php?p=790082#p790082
 
-#### Speed Track - Object speed camera based on motion tracking
-See https://github.com/pageauc/motion-track/blob/master/speed-track/speed_track.md
+#### NEW Speed2 - Object (vehicle) speed camera based on motion tracking
+See https://github.com/pageauc/motion-track/blob/master/speed-track2/Readme.md
 for my new speed track - an object speed tracking program demo using similar
 opencv code as motion-track.py
-Speed track YouTube video here  https://youtu.be/eRi50BbJUro
-
-#### ver 0.9 6-Jul-2016 Updated motion_track.py to threading for speed increase.
-#### 18-May-2016 - track2.py (multi processor motion tracking demo)
-Added track2.py Demo of multi processor motion tracking.
-This uses one processor for camera stream, second for opencv motion tracking and
-the third for program logic.  Run track2.py in a local RPI GUI terminal window
-to display the opencv image window showing motion tracking stream.  The 
-motion track data will be displayed in the terminal window. I used an object
-on a string to test tracking.  This is amazingly fast.
-Note this needs to be run on a quad core RPI for max speed. Use htop to
-monitor cpu usage. Change window_on variable to run in a console/ssh session
-This code can be used as a starting point for a motion tracking project
-See code comments for details and installation requirements
-
-    # Basic installation instructions (default is GUI desktop mode)
-    wget https://raw.github.com/pageauc/motion-track/master/track2.py
-    sudo apt-get update
-    sudo apt-get upgrade
-    sudo apt-get install -y python-opencv python-picamera
-    chmod +x track2.py
-    ./track2.py
+See Speed track YouTube video here  https://youtu.be/eRi50BbJUro
 
 #### Motion Tracking Demo (Now uses Threading for speed increase)
-
 motion-track.py is a raspberry pi python opencv2 (computer vision) 
 motion tracking demonstration program.
-
 It will detect motion in the field of view and use opencv2 to compare
 images and calculate a threshold image and related contours. It will
 determine the largest contour and return it's x,y coordinates.
@@ -93,6 +70,27 @@ I have added motion3-track.py for use with python3 and OpenCV3 FYI. Only
 the cv2.findContour line needed to be changed due to OpenCV3 syntax difference.
 Steps for installing OpenCV3 can be found here
 https://www.raspberrypi.org/forums/viewtopic.php?p=792568&sid=adf009c84bee379cd08b377168535477#p792568
+
+#### New track2.py 
+## 18-May-2016 - track2.py (multi processor motion tracking demo)
+
+Added track2.py Demo of multi processor motion tracking.
+This uses one processor thread for camera stream, second for opencv motion tracking and
+the third for program logic.  Run track2.py in a local RPI GUI terminal window
+to display the opencv image window showing motion tracking stream.  The 
+motion track data will be displayed in the terminal window. I used an object
+on a string to test tracking.  This is amazingly fast.
+Note This will run fast on a single core RPI but best speed run on a quad core with no gui. Use htop to monitor cpu usage. Change window_on variable to run in a console/ssh session
+This code can be used as a starting point for a motion tracking project
+See code comments for details and installation requirements
+
+    # Basic installation instructions (default is GUI desktop mode)
+    wget https://raw.github.com/pageauc/motion-track/master/track2.py
+    sudo apt-get update
+    sudo apt-get upgrade
+    sudo apt-get install -y python-opencv python-picamera
+    chmod +x track2.py
+    ./track2.py
 
 Good Luck  Claude ...
 
