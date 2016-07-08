@@ -9,7 +9,7 @@ RPI forum post here
 https://www.raspberrypi.org/forums/viewtopic.php?p=790082#p790082
 
 #### NEW Speed2 - Object (vehicle) speed camera based on motion tracking
-See https://github.com/pageauc/motion-track/blob/master/speed-track2/Readme.md
+See https://github.com/pageauc/motion-track/blob/master/speed-track-2/Readme.md
 for my new speed track - an object speed tracking program demo using similar
 opencv code as motion-track.py
 See Speed track YouTube video here  https://youtu.be/eRi50BbJUro
