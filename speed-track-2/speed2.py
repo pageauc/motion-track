@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-version = "version 2.05"
+version = "version 2.06"
 
 """
 speed2 written by Claude Pageau pageauc@gmail.com
@@ -36,10 +36,27 @@ print("Loading Please Wait ....")
 print("-------------------------------------------------------------------------------------------------")
 print("speed2.py %s using python2 and OpenCV2    written by Claude Pageau" % ( version ))
 
+# Setup program folder path requirements
+import os
+mypath=os.path.abspath(__file__)       # Find the full path of this python script
+baseDir=mypath[0:mypath.rfind("/")+1]  # get the path location only (excluding script name)
+baseFileName=mypath[mypath.rfind("/")+1:mypath.rfind(".")]
+progName = os.path.basename(__file__)
+
+# Check for variable config.py file to import and quit if Not Found.
+configFilePath = baseDir + "config.py"
+if not os.path.exists(configFilePath):
+    print("ERROR - Missing config.py file - Could not import Configuration file %s" % (configFilePath))
+    quit()
+else:
+    # File exists so read Configuration variables from config.py file
+    from config import *
+
 # import the necessary packages
 from picamera.array import PiRGBArray
 from picamera import PiCamera
 from threading import Thread
+
 import sys  
 try:
     import cv2
@@ -60,7 +77,7 @@ except:
     quit()
 
 class PiVideoStream:
-    def __init__(self, resolution=(320, 240), framerate=32, rotation=0, hflip=False, vflip=False):
+    def __init__(self, resolution=(CAMERA_WIDTH, CAMERA_HEIGHT), framerate=CAMERA_FRAMERATE, rotation=0, hflip=False, vflip=False):
         # initialize the camera and stream
         self.camera = PiCamera()
         self.camera.resolution = resolution
@@ -108,7 +125,6 @@ class PiVideoStream:
         # indicate that the thread should be stopped
         self.stopped = True
 
-import os
 import io
 import time
 import datetime
@@ -118,24 +134,7 @@ from PIL import Image
 from PIL import ImageFont
 from PIL import ImageDraw
 
-# Setup program folder path requirements
-mypath=os.path.abspath(__file__)       # Find the full path of this python script
-baseDir=mypath[0:mypath.rfind("/")+1]  # get the path location only (excluding script name)
-baseFileName=mypath[mypath.rfind("/")+1:mypath.rfind(".")]
-progName = os.path.basename(__file__)
-
-# Check for variable config file to import and error out if not found.
-configFilePath = baseDir + "config.py"
-if not os.path.exists(configFilePath):
-    print("ERROR - Missing config.py file - Could not import Configuration file %s" % (configFilePath))
-    quit()
-else:
-    # Read Configuration variables from config.py file
-    from config import *
-
 # System Settings    
-CAMERA_WIDTH = 320     # Image stream width for opencv motion scanning default = 320
-CAMERA_HEIGHT = 240    # Image stream height for opencv motion scanning  default = 240
 image_width  = CAMERA_WIDTH * WINDOW_BIGGER        # Set width of trigger point image to save 
 image_height = CAMERA_HEIGHT * WINDOW_BIGGER       # Set height of trigger point image to save    
     
@@ -194,10 +193,11 @@ def show_settings():
         print("Logging ......... Log_data_to_file=%s  log_filename=%s.csv (CSV format)"  % ( log_data_to_file, baseFileName ))
         print("                  Log if max_speed_over > %i %s" % ( max_speed_over, speed_units))        
         print("Speed Trigger ... If  track_len_trig > %i px" % ( track_len_trig ))                      
-        print("Exclude Events .. If  x_diff_min < %i or x_diff_max > %i px" % ( x_diff_min, x_diff_max ))
-        print("                  If  y_upper < %i or y_lower > %i px" % ( y_upper, y_lower ))
-        print("                  If  event_timeout > %i seconds Start New Track" % ( event_timeout )) 
-        print("                  If  max_speed_over < %i %s" % ( max_speed_over, speed_units ))        
+        print("Exclude Events .. If  x_diff_min < %i or x_diff_max > %i px" % ( x_diff_min, x_diff_max )) 
+        print("                  If  y_upper < %i or y_lower > %i px" % ( y_upper, y_lower ))        
+        print("                  If  max_speed_over < %i %s" % ( max_speed_over, speed_units ))         
+        print("                  If  event_timeout > %i seconds Start New Track" % ( event_timeout ))         
+        print("                  track_timeout=%i sec wait after Track Ends (avoid retrack of same object)" % ( track_timeout ))      
         print("Speed Photo ..... Size=%ix%i px  WINDOW_BIGGER=%i  rotation=%i  VFlip=%s  HFlip=%s " % ( image_width, image_height, WINDOW_BIGGER, CAMERA_ROTATION, CAMERA_VFLIP, CAMERA_HFLIP ))
         print("                  image_path=%s  image_Prefix=%s" % ( image_path, image_prefix ))
         print("                  image_font_size=%i px high  image_text_bottom=%s" % ( image_font_size, image_text_bottom ))
@@ -315,8 +315,8 @@ def speed_camera():
     vs.camera.rotation = CAMERA_ROTATION
     vs.camera.hflip = CAMERA_HFLIP
     vs.camera.vflip = CAMERA_VFLIP
-    time.sleep(2.0)
      
+    # initialize variables
     frame_count = 0
     fps_time = time.time()
     first_image = True   # Start a fresh image
@@ -326,18 +326,13 @@ def speed_camera():
     end_pos_x = 0
     msgStr = "Start Speed Motion Tracking"
     show_message("speed_camera", msgStr)                     
-
-    # allow the camera to warmup
-    time.sleep(1)
-    still_scanning = True
     
-    # capture frames from the camera
-    while still_scanning:
-        # grab the raw NumPy array representing the image, then initialize the timestamp
-        # and occupied/unoccupied text
-        image2 = vs.read()
+    time.sleep(2) # allow the camera to warmup
+    still_scanning = True
+    while still_scanning:    # process camera thread images and calculate speed
+        image2 = vs.read()    # Get image from PiVideoSteam thread instance
         
-        if time.time() - event_timer > event_timeout:   # Check if event timed out
+        if time.time() - event_timer > event_timeout:  # Check if event timed out
             # event_timer exceeded so reset for new track             
             event_timer = time.time()
             first_event = True
@@ -355,8 +350,7 @@ def speed_camera():
         cw = 0
         ch = 0
 
-        # At this point the image is available as stream.array
-        if first_image:
+        if first_image:  # Initialize first image for openCV
             # This is the first time through the loop so initialize grayimage1
             # Only needs to be done once                    
             grayimage1 = cv2.cvtColor(image2, cv2.COLOR_BGR2GRAY)
@@ -397,7 +391,8 @@ def speed_camera():
                     ch = h
                     
             if motion_found:
-                if cy > y_upper and cy < y_lower:      # movement is within valid y range
+                if cy > y_upper and cy < y_lower and cx > x_left and cx < x_right :  
+                # Check if movement is within valid x and y range
                     if first_event:   # This is a first valide motion event
                         first_event = False
                         start_pos_x = cx
@@ -407,7 +402,7 @@ def speed_camera():
                         show_message("speed_camera", msgStr)           
                     else:
                         if ( abs( cx - end_pos_x ) > x_diff_min and abs( cx - end_pos_x ) < x_diff_max ):
-                            # movement is within acceptable distance range of last event
+                        # movement is within acceptable distance range of last event
                             end_pos_x = cx
                             tot_track_dist = abs( end_pos_x - start_pos_x )
                             tot_track_time = abs( time.time() - track_start_time )
@@ -439,15 +434,16 @@ def speed_camera():
                                 else:
                                     msgStr = "End Track    - Skip Photo SPEED %.1f %s max_speed_over=%i  %i px in %.1f sec  Contours=%2i Area=%i sq-px " % ( ave_speed, speed_units, max_speed_over, tot_track_dist, tot_track_time, total_contours, biggest_area )
                                     show_message("speed_camera", msgStr)
-                                # Reset Variables for next cycle through loop
+                                # Track Ended so Reset Variables for next cycle through loop
                                 start_pos_x = 0
                                 end_pos_x = 0
                                 first_event = True                         
+                                time.sleep( track_timeout )  # Pause so object is not immediately tracked again 
                             else:
                                 msgStr = " Event Add   - cx=%3i cy=%3i %3.1f %s Len=%3i of %i px Contours=%2i Area=%i" % ( cx, cy, ave_speed, speed_units, abs( start_pos_x - end_pos_x), track_len_trig, total_contours, biggest_area )
                                 end_pos_x = cx
                                 show_message("speed_camera", msgStr)
-                            prev_image = image2
+                            prev_image = image2  # keep a colour copy for saving to disk at end of Track
                         else:
                             if show_out_range:
                                 msgStr = " Out Range   - cx=%3i cy=%3i Dist=%3i is <%i or >%i px  Contours=%2i Area=%i" % ( cx, cy, abs( cx - end_pos_x ), x_diff_min, x_diff_max, total_contours, biggest_area  )                                    
@@ -455,7 +451,6 @@ def speed_camera():
                      
                     if gui_window_on:
                         # show small circle at motion location
-                        
                         cv2.circle( image2,( cx,cy ),CIRCLE_SIZE,( 0,255,0 ), 2 )
 
                         if ave_speed > 0:
@@ -464,12 +459,12 @@ def speed_camera():
                     event_timer = time.time()  # Reset event_timer since valid motion was found
                 
             if gui_window_on:
-                # cv2.imshow('Difference Image',difference image)                        
-                cv2.line( image2,( 0, y_upper ),( CAMERA_WIDTH, y_upper ),(255,0,0),1 )
-                cv2.line( image2,( 0, y_lower ),( CAMERA_WIDTH, y_lower ),(255,0,0),1 )
-                big_w = CAMERA_WIDTH * WINDOW_BIGGER
-                big_h = CAMERA_HEIGHT * WINDOW_BIGGER
-                image2 = cv2.resize( image2,( big_w, big_h ))                         
+                # cv2.imshow('Difference Image',difference image) 
+                cv2.line( image2,( x_left, y_upper ),( x_right, y_upper ),(255,0,0),1 )
+                cv2.line( image2,( x_left, y_lower ),( x_right, y_lower ),(255,0,0),1 )                              
+                cv2.line( image2,( x_left, y_upper ),( x_left , y_lower ),(255,0,0),1 )
+                cv2.line( image2,( x_right, y_upper ),( x_right, y_lower ),(255,0,0),1 )
+                image2 = cv2.resize( image2,( image_width, image_height ))                         
                 #cv2.imshow('Threshold Image', thresholdimage)
                 cv2.imshow('Movement Status', image2)
                 # Close Window if q pressed
