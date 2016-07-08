@@ -1,18 +1,15 @@
 # motion-track Demo
 ##### Raspberry Pi - python opencv2 motion tracking using picamera module
 ##### written by Claude Pageau
-code available at https://github.com/pageauc/motion-track
+motion track code available at https://github.com/pageauc/motion-track
 
-Here is my YouTube video showing the demo code running on a Raspberry Pi B2
-http://youtu.be/09JS7twPBsQ
-RPI forum post here 
-https://www.raspberrypi.org/forums/viewtopic.php?p=790082#p790082
+See Motion Track YouTube video using RPI B2 here http://youtu.be/09JS7twPBsQ
+RPI forum post here https://www.raspberrypi.org/forums/viewtopic.php?p=790082#p790082
 
 #### NEW Speed2 - Object (vehicle) speed camera based on motion tracking
 See https://github.com/pageauc/motion-track/blob/master/speed-track-2/Readme.md
-for my new speed track - an object speed tracking program demo using similar
-opencv code as motion-track.py
-See Speed track YouTube video here  https://youtu.be/eRi50BbJUro
+for my new object speed tracking program demo using similar opencv code as motion-track.py
+See Object Speed track YouTube video here  https://youtu.be/eRi50BbJUro
 
 #### Motion Tracking Demo (Now uses Threading for speed increase)
 motion-track.py is a raspberry pi python opencv2 (computer vision) 
