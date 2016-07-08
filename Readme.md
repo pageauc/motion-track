@@ -67,8 +67,8 @@ the cv2.findContour line needed to be changed due to OpenCV3 syntax difference.
 Steps for installing OpenCV3 can be found here
 https://www.raspberrypi.org/forums/viewtopic.php?p=792568&sid=adf009c84bee379cd08b377168535477#p792568
 
-#### New track2.py 
-## 18-May-2016 - track2.py (multi processor motion tracking demo)
+## New track2.py 
+#### 18-May-2016 - track2.py (multi processor motion tracking demo)
 
 Added track2.py Demo of multi processor motion tracking.
 This uses one processor thread for camera stream, second for opencv motion tracking and
@@ -88,7 +88,8 @@ See code comments for details and installation requirements
     chmod +x track2.py
     ./track2.py
     
-    Note currently this will fail in gui mode due to a I believe a library memory issue 
+Note currently this code will fail after a while when in gui mode due to I believe is a Raspbian library memory issue 
+terminal only mode should be OK.
 
 Good Luck  Claude ...
 
