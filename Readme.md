@@ -4,32 +4,32 @@
 motion track code available at https://github.com/pageauc/motion-track
 
 See Motion Track YouTube video using RPI B2 here http://youtu.be/09JS7twPBsQ
+
 RPI forum post here https://www.raspberrypi.org/forums/viewtopic.php?p=790082#p790082
 
-#### NEW Speed2 - Object (vehicle) speed camera based on motion tracking
-See https://github.com/pageauc/motion-track/blob/master/speed-track-2/Readme.md
-for my new object speed tracking program demo using similar opencv code as motion-track.py
-See Object Speed track YouTube video here  https://youtu.be/eRi50BbJUro
+#### NEW Speed2.py - Object (vehicle) speed camera based on motion tracking
+1. See details here https://github.com/pageauc/motion-track/blob/master/speed-track-2/Readme.md 
+2. YouTube video here https://youtu.be/eRi50BbJUro 
+3. RPI forum post here https://www.raspberrypi.org/forums/viewtopic.php?p=1004150#p1004150
 
 #### Motion Tracking Demo (Now uses Threading for speed increase)
-motion-track.py is a raspberry pi python opencv2 (computer vision) 
-motion tracking demonstration program.
+motion-track.py is a raspberry pi python opencv2 (computer vision) demo.
 It will detect motion in the field of view and use opencv2 to compare
 images and calculate a threshold image and related contours. It will
 determine the largest contour and return it's x,y coordinates.
 I will implement similar code in a RPI robotics project, but thought the code
 would be useful for other users as a starting point or as part of an 
-existing project.
+existing project see New speed2 for object (vehicle) speed camera app.
 
 I did quite a bit of searching on the internet, github, etc, but could not
-find a similar python picamera implementation that returns x,y coordinates of
+a the time find a similar python picamera implementation that returns x,y coordinates of
 the most dominate moving object in the frame although some came close.  
 
 Some of this code is based on a YouTube tutorial by
 Kyle Hounslow using C here - https://www.youtube.com/watch?v=X6rPdRZzgjg
 
 ####Prerequisites
-Requires a Raspberry Pi computer running an up-to-date raspbian distro and a
+Requires a Raspberry Pi computer running with an up-to-date raspbian distro and a
 RPI camera module installed and configured. The dependencies below may be 
 required depending on your previous installs.
 
@@ -44,8 +44,7 @@ required depending on your previous installs.
     ./motion_track.py
 
 From GUI desktop Terminal session Use nano to edit motion_track.py and change variable window_on=True ctrl-x y to save.
-Start up a desktop GUI session and run the code from IDLE or open a 
-terminal console and run 
+Start up a desktop GUI session and run the code from IDLE or open a terminal console and run 
 
     python ./motion-track.py
     
@@ -88,6 +87,8 @@ See code comments for details and installation requirements
     sudo apt-get install -y python-opencv python-picamera
     chmod +x track2.py
     ./track2.py
+    
+    Note currently this will fail in gui mode due to a I believe a library memory issue 
 
 Good Luck  Claude ...
 
