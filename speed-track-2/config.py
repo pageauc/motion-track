@@ -15,7 +15,7 @@ show_out_range = False      # Show Out of Range Events Default=False)
 IMAGE_VIEW_FT = 72     # Set the width in feet for the road width that the camera width sees
 SPEED_MPH = True       # Set the speed conversion  kph=False  mph=True
 track_len_trig = 100   # Length of track to trigger speed photo Default=125
-track_timeout = 1      # Number of seconds to wait after track End (prevents dual tracking)
+track_timeout = 2      # Number of seconds to wait after track End (prevents dual tracking)
 event_timeout = 2      # Number of seconds to wait for next motion event before starting new track
 
 # Camera Settings
