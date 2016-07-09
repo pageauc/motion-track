@@ -7,6 +7,7 @@
 * ver 2.05 04-Jul-2016 - Added code to trap python3 cv2 import error
 * ver 2.06 07-Jul-2016 - New config.py Added x_left x_right plus track_timeout
 * ver 2.07 07-Jul-2016 - Updated variable display and slowed CAMERA_FRAMERATE=35 for slower RPI's 
+* ver 2.08 09-Jul-2016 - Crop image2 to motion area greyscale for faster processing
 
 ### Program Description
 This is a raspberry pi computer openCV2 object speed camera demo program.

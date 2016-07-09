@@ -1,5 +1,5 @@
 # ---------------- User Configuration Settings for speed2.py ---------------------------------
-#               Ver 2.07  speed2.py Variable Configuration Settings
+#               Ver 2.08  speed2.py Variable Configuration Settings
 
 # Display and Log settings
 #-------------------------
@@ -32,7 +32,7 @@ CAMERA_HFLIP = False   # Flip the camera image horizontally if required
 image_path = "images"     # folder name to store images 
 image_prefix = "cam1-"    # image name prefix
 image_text_bottom = True  # True = Show image text at bottom otherwise at top
-image_font_size = 18      # px height of font on images default=18 
+image_font_size = 18      # font text height in px for text on images default=18 
 image_bigger = 3          # multiply value to resize the default image size 320x240
  
 # Motion Event Exclusion Settings
@@ -42,8 +42,8 @@ y_upper = 100          # Exclude event if y less that this value default=100
 y_lower = 200          # Exclude event if y greater than this value default=200
 x_left  = 25           # Exclude event if x less than this px position Default=25
 x_right = 295          # Exclude event if x greater than this px position Default=295
-x_diff_min = 3         # Exclude if min px away exceeds last event x pos
-x_diff_max = 100       # Exclude if max px away for last motion event x pos
+x_diff_min = 1         # Exclude if min px away exceeds last event x pos
+x_diff_max = 50        # Exclude if max px away for last motion event x pos
 max_speed_over = 0     # Exclude track if Speed less than or equal to value specified 0=All 
 
 # OpenCV Motion Tracking Settings
@@ -52,5 +52,6 @@ WINDOW_BIGGER = 2  # resize multiplier for opencv window if gui_window_on=True d
 CIRCLE_SIZE = 1    # diameter of circle to show motion location in window
 BLUR_SIZE = 10     # OpenCV setting for Gaussian difference image blur 
 THRESHOLD_SENSITIVITY = 25  # OpenCV setting for difference image threshold
+FONT_SCALE = .5    # OpenCV window text font size scaling factor default=.5 (lower is smaller)
 
 #--------------------------- End of User Settings -------------------------------------------------
