@@ -1,5 +1,5 @@
 # ---------------- User Configuration Settings for speed2.py ---------------------------------
-#                    Ver 2.06  speed2.py Variable Configuration Settings
+#               Ver 2.07  speed2.py Variable Configuration Settings
 
 # Display and Log settings
 #-------------------------
@@ -22,7 +22,7 @@ event_timeout = 2      # Number of seconds to wait for next motion event before 
 #----------------
 CAMERA_WIDTH = 320     # Image stream width for opencv motion scanning default=320
 CAMERA_HEIGHT = 240    # Image stream height for opencv motion scanning  default=240
-CAMERA_FRAMERATE = 90  # framerate for video stream default=35 90 max for V1 cam. V2 can be higher
+CAMERA_FRAMERATE = 35  # framerate for video stream default=35 90 max for V1 cam. V2 can be higher
 CAMERA_ROTATION = 0    # Rotate camera image valid values are 0, 90, 180, 270
 CAMERA_VFLIP = True    # Flip the camera image vertically if required
 CAMERA_HFLIP = False   # Flip the camera image horizontally if required
@@ -32,7 +32,7 @@ CAMERA_HFLIP = False   # Flip the camera image horizontally if required
 image_path = "images"     # folder name to store images 
 image_prefix = "cam1-"    # image name prefix
 image_text_bottom = True  # True = Show image text at bottom otherwise at top
-image_font_size = 20      # px height of font on images default = 20
+image_font_size = 18      # px height of font on images default=18 
 image_bigger = 3          # multiply value to resize the default image size 320x240
  
 # Motion Event Exclusion Settings

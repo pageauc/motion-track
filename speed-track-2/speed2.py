@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-version = "version 2.06"
+version = "version 2.07"
 
 """
 speed2 written by Claude Pageau pageauc@gmail.com
@@ -205,6 +205,7 @@ def show_settings():
         print("Motion Settings . Size=%ix%i px  IMAGE_VIEW_FT=%i  speed_units=%s" % ( CAMERA_WIDTH, CAMERA_HEIGHT, IMAGE_VIEW_FT, speed_units ))
         print("OpenCV Settings . MIN_AREA=%i sq-px  BLUR_SIZE=%i  THRESHOLD_SENSITIVITY=%i  CIRCLE_SIZE=%i px" % ( MIN_AREA, BLUR_SIZE, THRESHOLD_SENSITIVITY, CIRCLE_SIZE ))
         print("                  gui_window_on=%s (Display OpenCV Status Windows on GUI Desktop)" % ( gui_window_on ))
+        print("                  CAMERA_FRAMERATE=%i fps video stream speed" % ( CAMERA_FRAMERATE ))
         print("")
         print("-------------------------------------------------------------------------------------------------")
     return
