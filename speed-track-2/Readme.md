@@ -1,4 +1,4 @@
-# speed2.py RPI OpenCV2 Object Speed Tracker
+# speed2.py - RPI OpenCV2 Object Speed Tracker
 ####  A Raspberry Pi Object (Vehicle) Speed Camera using Video Streaming and Threading
 
 ### Release History

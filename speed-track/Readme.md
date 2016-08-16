@@ -1,4 +1,4 @@
-# speed_track.py Original RPI openCV Object Speed Camera
+# speed_track.py - Original RPI openCV Object Speed Camera
 
 ###               A Raspberry Pi Object (vehicle) speed camera
 ##### using a Raspberry Pi computer, python, openCV and picamera module
