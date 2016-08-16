@@ -4,9 +4,10 @@
 ##### using a Raspberry Pi computer, python, openCV and picamera module
 #####          written by Claude Pageau pageauc@gmail.com
 
-#### Note - This is the original speed camera program used in the YouTube video per
-link below.  A much faster version of speed camera using video streaming, 
-threading and cropping is available  
+## Note
+This is the original speed camera program used in the YouTube 
+video https://youtu.be/09JS7twPBsQ  A much faster version of speed camera
+using video streaming, threading and cropping is available    
 here https://github.com/pageauc/motion-track/tree/master/speed-track-2
 
 ### Release History
