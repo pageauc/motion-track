@@ -1,9 +1,15 @@
-#                          speed_track.py
+# speed_track.py Original RPI openCV Object Speed Camera
 
-###               A Raspberry Pi vehicle speed camera
+###               A Raspberry Pi Object (vehicle) speed camera
 ##### using a Raspberry Pi computer, python, openCV and picamera module
 #####          written by Claude Pageau pageauc@gmail.com
 
+#### Note - This is the original speed camera program used in the YouTube video per
+link below.  A much faster version of speed camera using video streaming, 
+threading and cropping is available  
+here https://github.com/pageauc/motion-track/tree/master/speed-track-2
+
+### Release History
 ###Version .99 Release 5-Feb-2016
 * Changed camera stream to use video mode per suggestion by Luc Bastiaens
   This increases FPS substantially.
@@ -44,8 +50,9 @@ Here is a YouTube demo and code walkthrough of this program https://youtu.be/eRi
 Some of this code is based on a YouTube tutorial by
 Kyle Hounslow using C here https://www.youtube.com/watch?v=X6rPdRZzgjg
 
-Here is a previous YouTube video demonstrating a motion tracking test program
-using a Raspberry Pi B2 https://youtu.be/09JS7twPBsQ
+Here is a previous YouTube video demonstrating a motion tracking demo program
+using a Raspberry Pi B2 https://youtu.be/09JS7twPBsQ  
+code here https://github.com/pageauc/motion-track/blob/master/motion-track.py
 
 ### Quick Setup
 
