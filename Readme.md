@@ -11,6 +11,12 @@ RPI forum post here https://www.raspberrypi.org/forums/viewtopic.php?p=790082#p7
 * YouTube video here https://youtu.be/eRi50BbJUro 
 * RPI forum post here https://www.raspberrypi.org/forums/viewtopic.php?p=1004150#p1004150
 
+## NEW cam-track.py - Camera Motion Tracking Demo
+Uses a clipped search image rectangle to search subsequent video stream images and returns
+the location.  Can be used for tracking camera x y movements for stabilization,
+robotics, Etc.  
+code here - https://github.com/pageauc/motion-track/tree/master/cam-track
+
 #### Motion Tracking Demo (Now uses Threading for speed increase)
 motion-track.py is a raspberry pi python opencv2 (computer vision) demo.
 It will detect motion in the field of view and use opencv2 to compare
