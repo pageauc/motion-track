@@ -57,15 +57,24 @@ tracking values may get out of sync.
 
 The two main variables are
 
-sw_maxLoc  -  default is .95 This sets the value for the highest accuracy for
-the search rectangle found in the stream images.
+#### MAX_SEARCH_THRESHOLD  default is .95
+This variable sets the value for the highest accuracy for maintaining a 
+lock on the search rectangle found in the stream images.  Otherwise another similar block will be returned.  
+Setting this higher will force a closer match to the original search rectangle. 
+If you have a unique background features then set this higher eg .98 
+or for a background with fewer unique features set it lower since the match criteria
+will not be able to be met.  Review debug data for your environment.
 
-sw_minVal  -  default is .45  This sets the
-Have Fun
+#### MIN_SEARCH_THRESHOLD default is .45
+This variable sets the threshold value for the lowest accuracy search result found.
+If the value falls below this setting then it will force a reset to get a new
+search rectangle.  This can happen if the original search rectangle is not visible 
+due to lighting or being obscured by something in frame.  Review debug data
+for your environment.
 
 See program variables for other settings
 
-Claude Pageau
+Have Fun Claude Pageau
 
 YouTube Channel https://www.youtube.com/user/pageaucp
 
