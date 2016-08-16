@@ -55,14 +55,18 @@ import numpy as np
 
 #-----------------------------------------------------------------------------------------------  
 # Global Variable Settings
+debug = True          # Set to False for no data display
+window_on = True      # Set to True displays opencv windows (GUI desktop reqd)
+fps_on = False        # Display fps (not implemented)
 
-debug = True      # Set to False for no data display
-window_on = True   # Set to True displays opencv windows (GUI desktop reqd)
+# OpenCV Settings
+WINDOW_BIGGER = 2     # increase the display window size
+MAX_SEARCH_THRESHOLD = .93  # default=.93 Accuracy for best search result of search_rect in stream images
+MIN_SEARCH_THRESHOLD = .45  # default=.45 Accuracy for worst search result of search rect in stream images
+LINE_THICKNESS = 1    # thickness of bounding line in pixels
+CV_FONT_SIZE = .25    # size of font on opencv window default .5
 # SHOW_CIRCLE = True  # show a circle otherwise show bounding rectancle on window
 # CIRCLE_SIZE = 8     # diameter of circle to show motion location in window
-LINE_THICKNESS = 1  # thickness of bounding line in pixels
-CV_FONT_SIZE = .25  # size of font on opencv window default .5
-WINDOW_BIGGER = 2  # increase the display window size
 
 # Camera Settings
 CAMERA_WIDTH = 320
@@ -70,8 +74,8 @@ CAMERA_HEIGHT = 240
 CAMERA_HFLIP = False
 CAMERA_VFLIP = True
 CAMERA_ROTATION=0
-CAMERA_FRAMERATE = 35
-FRAME_COUNTER = 1000
+CAMERA_FRAMERATE = 35  # framerate of video stream.  Can be 100+ with new R2 RPI camera module
+FRAME_COUNTER = 1000   # used by fps
 
 #-----------------------------------------------------------------------------------------------  
 # Create a Video Stream Tread
@@ -166,8 +170,8 @@ def cam_shift():
     sw_cy = int(CAMERA_HEIGHT/2)  # y center of image   
     sw_x = (sw_cx - sw_w/2)       # top x corner of search rect
     sw_y = (sw_cy - sw_h/2)       # top y corner of search rect
-    sw_maxLoc = .94               # Threshold Accuracy of search in image
-    sw_minVal = .45               # Threshold of worst search result in image
+    sw_maxVal = MAX_SEARCH_THRESHOLD  # Threshold Accuracy of search in image
+    sw_minVal = MIN_SEARCH_THRESHOLD  # Threshold of worst search result in image
     
     # Grab a Video Steam image and initialize search rectangle
     cam_cx1 = sw_cx
@@ -192,7 +196,7 @@ def cam_shift():
         # Check if search rect is near edges and meets search accuracy threshold
         if not ( maxLoc[0] > sw_buf_x and maxLoc[0] + sw_x + sw_buf_x < CAMERA_WIDTH and
                  maxLoc[1] > sw_buf_y and maxLoc[1] + sw_y + sw_buf_y < CAMERA_HEIGHT
-                 and maxVal > sw_maxLoc):
+                 and maxVal > sw_maxVal):
             # check value of lowest matching result and reset search rectangle
             if minVal < sw_minVal:             
                 if debug:
@@ -211,8 +215,9 @@ def cam_shift():
         cam_cur_cy = cam_cy2 
         
         if debug: 
-            print("  Track - cam_track_cx=%i cam_track_cy=%i" % ( cam_track_cx, cam_track_cy, ))
-            print maxLoc, minLoc, maxVal, minVal
+            print(" Cam at (%i,%i) cam_track_cx, cam_track_cy" % ( cam_track_cx, cam_track_cy, ))
+            print(" maxLoc   maxVal   minLoc   minVal")
+            print maxLoc, "{0:0.4f}".format(maxVal) ,  minLoc ,"{0:0.4f}".format(minVal) 
         image2 = image1
            
         if window_on:
