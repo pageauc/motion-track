@@ -1,4 +1,4 @@
-# cam-track.py  Camera Movement Tracker
+# cam-track.py  - Camera Movement Tracker Demo
 #### A Raspberry Pi openCV2 Camera Movement Tracker using a Video Stream Thread
 
 ###Release History
