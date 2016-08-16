@@ -18,11 +18,14 @@ a suitable image search match cannot be found, then another search rectangle
 is selected. This data is processed to track a cumulative pixel location based on
 an initial camera image center value of 0,0.    
 This code could be used for a simple robotics application, movement stabilization, 
+searching for an object image in the video stream rather than taking a search
+rectangle from the stream itself.  Eg look for a dog.
 where the camera is mounted on a moving platform or object, Etc.  
 
-Note: This application is a demo and is currently still in development but I 
+Note: This application is a demo and is currently still in development, but I 
 thought it could still be useful, since I was not able to find a similar
-RPI application that does this.
+RPI application that does this.  Will try to implement an object searcher based
+on this demo.
 
 Thanks to Adrian Rosebrock jrosebr1 at http://www.pyimagesearch.com 
 for the PiVideoStream Class code available on github at
@@ -47,7 +50,7 @@ From logged in RPI SSH session or console terminal perform the following.
     ./cam-track.py       # defaults to run from RPI desktop terminal session
                          # Set window_on=False if running in SSH session
                          
-#### Tuning
+### Tuning
 You may have to experiment with some settings to optimize performance.
 If there are plain backgrounds or random motions in camera view then the
 tracking values may get out of sync.
