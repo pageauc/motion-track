@@ -1,7 +1,7 @@
-# speed2.py
+# speed2.py RPI OpenCV2 Object Speed Tracker
 ####  A Raspberry Pi Object (Vehicle) Speed Camera using Video Streaming and Threading
 
-###Release History
+### Release History
 * ver 2.03 16-May-2016 - Enhanced streaming speed by using threading
 * ver 2.04 01-Jul-2016 - Added speed2.sh background launch script and minor updates
 * ver 2.05 04-Jul-2016 - Added code to trap python3 cv2 import error
@@ -165,7 +165,7 @@ IMG_VIEW_FT = (CAMERA_WIDTH * Ref_Obj_ft) / num_px_for_Ref_Object
 
 eg (320 * 18) / 80 = 72
   
-###Settings
+### Settings
 
 Variable values are stored in the config.py file and are imported
 when speed2.py is run.  Use the nano editor to modify these settings
