@@ -5,17 +5,17 @@
 * ver 0.6 15-Aug-2016 - Initial Release
 
 ### Program Description
-This is a raspberry pi computer openCV2 camera pan/tilt) movements. It requires
-a RPI camera module installed and working. The program is 
+This is a raspberry pi computer openCV2 progrm that tracks camera (pan/tilt)
+ movements. It requires a RPI camera module installed and working. The program is 
 written in python2 and uses openCV2.  It capture a search rectangle
-from the center of the video stream. It then locates the rectangle in the
-subsequent images based on a score value and returns the x y location on
+from the center of the threaded video stream. It then locates the rectangle in 
+subsequent images based on a score value and returns the x y location in
 the image.  If movement gets too close to the sides of the image or
 a suitable image search match cannot be found, then another search rectangle
-is selected. This is processed to track a cumulative pixel location base on
-center of the camera image with an initial location of 0,0.    
-This could be used for a simple robotics application or where the camera is 
-mounted on a moving platform.  
+is selected. This data is processed to track a cumulative pixel location base on
+an initial camera image center value of 0,0.    
+This code could be used for a simple robotics application or where the camera is 
+mounted on a moving platform or object.  
 
 This application is a demo and is currently still in development but I 
 thought it could still be useful since I was not able to find a similar
