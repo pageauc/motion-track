@@ -4,17 +4,18 @@
 ### Program Description
 This is a raspberry pi computer openCV2 motion tracking game.
 It is written in python and uses openCV2 to detect and track motion.
-The game is written in python and uses a Raspberry Pi camera in video
-streaming mode.  Motion is tracked and activates menu's and game play.
-Can be played by one or two players and high score is saved.  
+The game is written in python and uses a Raspberry Pi camera module running in video
+streaming mode (threaded). Motion is tracked and activates menu's and game play
+using body motion. Can be played by one or two players and high score is saved.  
 
 The game play involves using body motion to get as many hits as possible
-inside shrinking boxes that randomly move around the screen.  Pretty simple
-but I think kids would have fun with it and just might take a look at the 
+inside shrinking boxes that randomly move around the screen. Pretty simple
+but I think kids would have fun with it and they just might take a look at the 
 code to see how it works, change variables or game logic.
 
-You will need the raspberry pi computer connected to a monitor or HD Television
-via HDMI cable. The program is run from the RPI GUI desktop in an opencv window.
+You will need the raspberry pi (RPI) computer with a pi camera module connected and working.
+A computer monitor or HD Television needs to be connected via an HDMI cable (composite
+video not tested) or a VGA adapter. The program is run from the RPI GUI desktop in an opencv window.
 The default 640x480 window can be resized using the WINDOW_BIGGER resize multiplier variable.
 Use nano to edit if desired.
  
@@ -44,7 +45,6 @@ login via SSH or use a desktop terminal session and perform the following
     wget https://raw.github.com/pageauc/motion-track/master/hotspot-game/hotspot-game.py
     chmod +x hotspot-game.py
     python ./hotspot-game.py
-
     
 ### Settings
 
