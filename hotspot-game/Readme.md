@@ -3,7 +3,7 @@
 
 ### Program Description
 This is a raspberry pi computer openCV2 motion tracking game.
-It is written in python and uses openCV2 and a Raspbery Pi camera module running
+It is written in python2 and uses openCV2 and a Raspbery Pi camera module running
 in a threaded video stream to detect and track motion. Motion is tracked and
 activates menu's and game play using body motion. Can be played by one or two
 players and high score is saved. 
@@ -33,8 +33,7 @@ for the PiVideoStream Class code available on github at
 https://github.com/jrosebr1/imutils/blob/master/imutils/video/pivideostream.py
 
 ### Quick Setup
-Install dependencies and program per the following
-login via SSH or use a desktop terminal session and perform the following
+Login to RPI via SSH or desktop terminal session and perform the following
 
     sudo apt-get update
     sudo apt-get upgrade
@@ -45,6 +44,12 @@ login via SSH or use a desktop terminal session and perform the following
     cd ~/hotspot-game
     wget https://raw.github.com/pageauc/motion-track/master/hotspot-game/hotspot-game.py
     chmod +x hotspot-game.py
+    
+To launch program make sure camera and video display are connected. You must
+be in a RPI desktop GUI session.  Open a desktop terminal session, File Manger.
+or Menu Programming, Python2 (IDLE). Navigate to the hotspot-game folder and
+execute ./hotspot-game.py or
+    
     python ./hotspot-game.py
     
 ### Settings
