@@ -15,7 +15,7 @@ code to see how it works, change variables or game logic.
 
 You will need the raspberry pi computer connected to a monitor or HD Television
 via HDMI cable. The program is run from the RPI GUI desktop in an opencv window.
-The window can be resize using the WINDOW_BIGGER resize multiplier variable.
+The default 640x480 window can be resized using the WINDOW_BIGGER resize multiplier variable.
 Use nano to edit if desired.
  
 * hotspot-game YouTube video here https://youtu.be/xFl3lmbEO9Y
