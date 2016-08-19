@@ -1,6 +1,5 @@
 # hotspot-game.py - HOTSPOT MOTION TRACKING GAME
-#### A Raspberry Pi Camera Motion Tracking Game
-#### using a Threaded Video Stream, OpenCV2 and Python2
+#### A Raspberry Pi Camera Motion Tracking Game using Threaded Video Stream, OpenCV2 and Python2
 
 ### Program Description
 This is a raspberry pi computer openCV2 motion tracking game.
@@ -14,7 +13,8 @@ inside shrinking boxes that randomly move around the screen.  Pretty simple
 but I think kids would have fun with it and just might take a look at the 
 code to see how it works, change variables or game logic.
  
-* hotspot-game YouTube video here
+* hotspot-game YouTube video here https://youtu.be/xFl3lmbEO9Y
+* github repo here https://github.com/pageauc/motion-track/tree/master/hotspot-game
 * motion-track YouTube video here using RPI B2 https://youtu.be/09JS7twPBsQ
 
 #### Credits
