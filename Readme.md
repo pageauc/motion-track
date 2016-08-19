@@ -6,7 +6,7 @@ motion track code available here https://github.com/pageauc/motion-track
 See Motion Track YouTube video using RPI B2 here http://youtu.be/09JS7twPBsQ  
 RPI forum post here https://www.raspberrypi.org/forums/viewtopic.php?p=790082#p790082
 
-## NEW Speed2.py - Object (vehicle) speed camera based on motion tracking
+## NEW speed2.py - Object (vehicle) speed camera based on motion tracking
 * See details here https://github.com/pageauc/motion-track/blob/master/speed-track-2/Readme.md 
 * YouTube video here https://youtu.be/eRi50BbJUro 
 * RPI forum post here https://www.raspberrypi.org/forums/viewtopic.php?p=1004150#p1004150
