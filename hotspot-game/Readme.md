@@ -12,6 +12,11 @@ The game play involves using body motion to get as many hits as possible
 inside shrinking boxes that randomly move around the screen.  Pretty simple
 but I think kids would have fun with it and just might take a look at the 
 code to see how it works, change variables or game logic.
+
+You will need the raspberry pi computer connected to a monitor or HD Television
+via HDMI cable. The program is run from the RPI GUI desktop in an opencv window.
+The window can be resize using the WINDOW_BIGGER resize multiplier variable.
+Use nano to edit if desired.
  
 * hotspot-game YouTube video here https://youtu.be/xFl3lmbEO9Y
 * github repo here https://github.com/pageauc/motion-track/tree/master/hotspot-game
