@@ -3,13 +3,14 @@
 
 ### Program Description
 This is a raspberry pi computer openCV2 motion tracking game.
-It is written in python and uses openCV2 to detect and track motion.
-The game is written in python and uses a Raspberry Pi camera module running in video
-streaming mode (threaded). Motion is tracked and activates menu's and game play
-using body motion. Can be played by one or two players and high score is saved.  
+It is written in python and uses openCV2 and a Raspbery Pi camera module running
+in a threaded video stream to detect and track motion. Motion is tracked and
+activates menu's and game play using body motion. Can be played by one or two
+players and high score is saved. 
 
 The game play involves using body motion to get as many hits as possible
-inside shrinking boxes that randomly move around the screen. Pretty simple
+inside shrinking boxes that randomly move around the screen. Position the camera
+so you can see body motions either close or standing. Pretty simple
 but I think kids would have fun with it and they just might take a look at the 
 code to see how it works, change variables or game logic.
 
