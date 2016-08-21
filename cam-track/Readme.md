@@ -1,9 +1,9 @@
 # cam-track.py  - Camera Movement Tracker Demo
-#### A Raspberry Pi openCV2 Camera Movement Tracker using a Video Stream Thread
+#### A Raspberry Pi Camera Pan-Tilt Tracker using openCV2 & Video Stream Thread
 
 ###Release History
 * ver 0.6 15-Aug-2016 - Initial Release
-* ver 0.7 16-Aut-2016 - Added extra comments and move np import
+* ver 0.7 16-Aug-2016 - Added extra comments and move np import
 
 ### Program Description
 This is a raspberry pi computer openCV2 program that tracks camera (pan/tilt)
@@ -57,11 +57,11 @@ tracking values may get out of sync.
 
 The two main variables are
 
-#### MAX_SEARCH_THRESHOLD  default is .95
+#### MAX_SEARCH_THRESHOLD  default is .97
 This variable sets the value for the highest accuracy for maintaining a 
 lock on the search rectangle found in the stream images.  Otherwise another similar block will be returned.  
 Setting this higher will force a closer match to the original search rectangle. 
-If you have a unique background features then set this higher eg .98 
+If you have a unique background features then set this higher eg .98, .99 
 or for a background with fewer unique features set it lower since the match criteria
 will not be able to be met.  Review debug data for your environment.
 
@@ -72,7 +72,12 @@ search rectangle.  This can happen if the original search rectangle is not visib
 due to lighting or being obscured by something in frame.  Review debug data
 for your environment.
 
-See program variables for other settings
+Use a text editor to review code for other variable settings.  Eg. 
+
+    nano cam-track.py
+    
+nano editor is just a suggestion.  You can use whatever editor you are
+comforable with
 
 Have Fun Claude Pageau
 
