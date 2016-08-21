@@ -60,8 +60,8 @@ window_on = True      # Set to True displays opencv windows (GUI desktop reqd)
 fps_on = False        # Display fps (not implemented)
 
 # OpenCV Settings
-WINDOW_BIGGER = 2     # increase the display window size
-MAX_SEARCH_THRESHOLD = .93  # default=.93 Accuracy for best search result of search_rect in stream images
+WINDOW_BIGGER = 2.0   # increase the display window size
+MAX_SEARCH_THRESHOLD = .97  # default=.97 Accuracy for best search result of search_rect in stream images
 MIN_SEARCH_THRESHOLD = .45  # default=.45 Accuracy for worst search result of search rect in stream images
 LINE_THICKNESS = 1    # thickness of bounding line in pixels
 CV_FONT_SIZE = .25    # size of font on opencv window default .5
@@ -161,7 +161,10 @@ def cam_shift():
     vs.camera.vflip = CAMERA_VFLIP
     time.sleep(2.0)    
       
-    # initialize the search window (rect) variables  
+    # initialize the search window (rect) variables 
+    if WINDOW_BIGGER > 1:  # Note setting a bigger window will slow the FPS
+        big_w = int(CAMERA_WIDTH * WINDOW_BIGGER)
+        big_h = int(CAMERA_HEIGHT * WINDOW_BIGGER) 
     sw_w = int(CAMERA_WIDTH/4)    # search window width
     sw_h = int(CAMERA_HEIGHT/4)   # search window height
     sw_buf_x = int(sw_w/4)        # buffer to left/right of image
@@ -229,10 +232,9 @@ def cam_shift():
             # cv2.rectangle(image2,( cam_cx1 - sw_w/2, cam_cy2 - sw_h/2 ),(cam_cx1+sw_w/2, cam_cy2+sw_h/2),(0,0,255), LINE_THICKNESS) # show current rect
             m_text = ("CAM POS ( %i %i )   " % (cam_track_cx, cam_track_cy))
             cv2.putText(image2, m_text, (int(CAMERA_WIDTH/2) - len(m_text) * 3, CAMERA_HEIGHT - 30 ), cv2.FONT_HERSHEY_SIMPLEX, CV_FONT_SIZE, (255,255,255), 1)
-            if WINDOW_BIGGER > 1:  # Note setting a bigger window will slow the FPS
-                big_w = CAMERA_WIDTH * WINDOW_BIGGER
-                big_h = CAMERA_HEIGHT * WINDOW_BIGGER
-                image2 = cv2.resize( image2,( big_w, big_h ))
+            if WINDOW_BIGGER > 1:
+                image2 = cv2.resize( image2,( big_w, big_h ))             
+
             cv2.imshow('Cam-Track  (q in window to quit)',image2)     
 
             if cv2.waitKey(1) & 0xFF == ord('q'):
