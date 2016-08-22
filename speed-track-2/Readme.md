@@ -1,10 +1,12 @@
 # speed2.py - RPI OpenCV2 Object Speed Tracker
-####  A Raspberry Pi Object (Vehicle) Speed Camera using Video Streaming and Threading
+####  A Raspberry Pi Speed Camera using python, Video Stream Thread, pi-camera
 
 ### Links
 * speed-track YouTube video here https://youtu.be/eRi50BbJUro
 * speed2 RPI forum post here https://www.raspberrypi.org/forums/viewtopic.php?p=1004150#p1004150
 * motion-track YouTube video here using RPI B2 https://youtu.be/09JS7twPBsQ
+* YouTube Channel https://www.youtube.com/user/pageaucp   
+* GitHub Repo https://github.com/pageauc
 
 ### Release History
 * ver 2.03 16-May-2016 - Enhanced streaming speed by using threading
@@ -177,10 +179,8 @@ likely won't need to be changed unless you are familiar with them.
 Note if log_data_to_file is set it will save a data to a .csv file
 in the same folder as speed2.py  eg speed2.csv 
 
-Have Fun
-
+Have Fun   
 Claude Pageau
 
-YouTube Channel https://www.youtube.com/user/pageaucp
-
-GitHub https://github.com/pageauc
+YouTube Channel https://www.youtube.com/user/pageaucp   
+GitHub Repo https://github.com/pageauc
