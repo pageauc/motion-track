@@ -1,6 +1,10 @@
 # cam-track.py  - Camera Movement Tracker Demo
 #### A Raspberry Pi Camera Pan-Tilt Tracker using openCV2 & Video Stream Thread
 
+YouTube Video Demo https://youtu.be/yjA3UtwbD80
+YouTube Video Code Walkthrough https://youtu.be/lkh3YbbNdYg
+Github Repo https://github.com/pageauc/motion-track/tree/master/cam-track
+
 ###Release History
 * ver 0.6 15-Aug-2016 - Initial Release
 * ver 0.7 16-Aug-2016 - Added extra comments and move np import
@@ -42,7 +46,6 @@ From logged in RPI SSH session or console terminal perform the following.
     sudo apt-get update
     sudo apt-get upgrade
     sudo apt-get install -y python-opencv python-picamera
-    sudo apt-get install -y fonts-freefont-ttf # Required for Jessie Lite Only
     mkdir ~/cam-track
     cd ~/cam-track
     wget https://raw.github.com/pageauc/motion-track/master/cam-track/cam-track.py

@@ -1,11 +1,11 @@
 # ---------------- User Configuration Settings for speed2.py ---------------------------------
-#               Ver 2.08  speed2.py Variable Configuration Settings
+#               Ver 2.09  speed2.py Variable Configuration Settings
 
 # Display and Log settings
 #-------------------------
 verbose = True              # display basic status information on console
 calibrate = False           # Create a speed_calibrate.jpg file with markers to calculate a px to FT conversion
-display_fps = True          # show average frame count every 1000 loops
+display_fps = False         # show average frame count every 1000 loops
 gui_window_on = False       # Display desktop GUI openCV windows. Set to False if running from ssh console only.
 log_data_to_file = True     # save log data as CSV comma separated values
 show_out_range = False      # Show Out of Range Events Default=False)

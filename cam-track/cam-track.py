@@ -28,7 +28,6 @@ installation
 sudo apt-get update
 sudo apt-get upgrade
 sudo apt-get install -y python-opencv python-picamera
-sudo apt-get install -y fonts-freefont-ttf # Required for Jessie Lite Only
 mkdir ~/cam-track
 cd ~/cam-track
 wget https://raw.github.com/pageauc/motion-track/master/cam-track/cam-track.py
