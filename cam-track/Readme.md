@@ -1,9 +1,9 @@
 # cam-track.py  - Camera Movement Tracker Demo
 #### A Raspberry Pi Camera Pan-Tilt Tracker using openCV2 & Video Stream Thread
 
-YouTube Video Demo https://youtu.be/yjA3UtwbD80
-YouTube Video Code Walkthrough https://youtu.be/lkh3YbbNdYg
-Github Repo https://github.com/pageauc/motion-track/tree/master/cam-track
+YouTube Video Demo https://youtu.be/yjA3UtwbD80   
+YouTube Video Code Walkthrough https://youtu.be/lkh3YbbNdYg   
+Github Repo https://github.com/pageauc/motion-track/tree/master/cam-track   
 
 ###Release History
 * ver 0.6 15-Aug-2016 - Initial Release
