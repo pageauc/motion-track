@@ -4,6 +4,7 @@ version = "version 2.09"
 """
 speed2 written by Claude Pageau pageauc@gmail.com
 Raspberry (Pi) - python opencv2 Speed tracking using picamera module
+GitHub Repo here https://github.com/pageauc/motion-track/tree/master/speed-track-2
 
 This is a raspberry pi python opencv2 speed tracking demonstration program.
 It will detect speed in the field of view and use opencv to calculate the
@@ -18,18 +19,17 @@ Thanks to Adrian Rosebrock jrosebr1 at http://www.pyimagesearch.com
 for the PiVideoStream Class code available on github at
 https://github.com/jrosebr1/imutils/blob/master/imutils/video/pivideostream.py
 
-Here is a my YouTube video demonstrating a previous speed tracking demo
+Here is my YouTube video demonstrating a previous speed tracking demo
 program using a Raspberry Pi B2 https://youtu.be/09JS7twPBsQ
 
-Requires a Raspberry Pi with a RPI camera module installed and configured
+Installation
+Requires a Raspberry Pi with a RPI camera module installed and working
+Install from a logged in SSH session per commands below
 
-Install Dependencies from a logged in SSH session per commands below
-
-sudo apt-get update
-sudo apt-get upgrade
-sudo apt-get install -y python-opencv python-picamera python-image python-pyexiv2
-sudo apt-get install fonts-freefont-ttf
-
+wget https://raw.github.com/pageauc/motion-track/master/speed-track-2/install.sh
+chmod +x install.sh
+./install.sh
+./speed2.py
 
 """
 print("Loading Please Wait ....")
@@ -136,8 +136,8 @@ from PIL import ImageFont
 from PIL import ImageDraw
 
 # System Settings    
-image_width  = CAMERA_WIDTH * WINDOW_BIGGER        # Set width of trigger point image to save 
-image_height = CAMERA_HEIGHT * WINDOW_BIGGER       # Set height of trigger point image to save    
+image_width  = int(CAMERA_WIDTH * WINDOW_BIGGER)        # Set width of trigger point image to save 
+image_height = int(CAMERA_HEIGHT * WINDOW_BIGGER)       # Set height of trigger point image to save    
     
 # Calculate conversion from camera pixel width to actual speed.
 px_to_mph = float(( CAMERA_WIDTH / IMAGE_VIEW_FT ) * 5280 / 3600)
