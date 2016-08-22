@@ -3,6 +3,7 @@
 
 YouTube Video Demo https://youtu.be/yjA3UtwbD80   
 YouTube Video Code Walkthrough https://youtu.be/lkh3YbbNdYg   
+RPI Forum Post https://www.raspberrypi.org/forums/viewtopic.php?p=1027463#p1027463  
 Github Repo https://github.com/pageauc/motion-track/tree/master/cam-track   
 
 ###Release History
