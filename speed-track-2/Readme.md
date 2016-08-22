@@ -1,6 +1,11 @@
 # speed2.py - RPI OpenCV2 Object Speed Tracker
 ####  A Raspberry Pi Object (Vehicle) Speed Camera using Video Streaming and Threading
 
+### Links
+* speed-track YouTube video here https://youtu.be/eRi50BbJUro
+* speed2 RPI forum post here https://www.raspberrypi.org/forums/viewtopic.php?p=1004150#p1004150
+* motion-track YouTube video here using RPI B2 https://youtu.be/09JS7twPBsQ
+
 ### Release History
 * ver 2.03 16-May-2016 - Enhanced streaming speed by using threading
 * ver 2.04 01-Jul-2016 - Added speed2.sh background launch script and minor updates
@@ -8,6 +13,7 @@
 * ver 2.06 07-Jul-2016 - New config.py Added x_left x_right plus track_timeout
 * ver 2.07 07-Jul-2016 - Updated variable display and slowed CAMERA_FRAMERATE=35 for slower RPI's 
 * ver 2.08 09-Jul-2016 - Crop image2 to motion area greyscale for faster processing
+* ver 2.09 21-Aug-2016 - Simplified first image logic by moving before main while loop
 
 ### Program Description
 This is a raspberry pi computer openCV2 object speed camera demo program.
@@ -22,10 +28,6 @@ calculated (based on IMAGE_VIEW_FT variable) and a speed photo will be
 taken and saved in an images folder. If log_data_to_file=True then a
 speed2.csv file will be created/updated with event data stored in
 CSV (Comma Separated Values) format. This can be imported into a spreadsheet.
- 
-* speed-track YouTube video here https://youtu.be/eRi50BbJUro
-* speed2 RPI forum post here https://www.raspberrypi.org/forums/viewtopic.php?p=1004150#p1004150
-* motion-track YouTube video here using RPI B2 https://youtu.be/09JS7twPBsQ
 
 #### Credits
 Some of this code is based on a YouTube tutorial by
@@ -63,10 +65,9 @@ login via SSH or use a desktop terminal session and perform the following
     sudo apt-get upgrade
     sudo apt-get install -y python-opencv python-picamera python-imaging python-pyexiv2 libgl1-mesa-dri
     sudo apt-get install -y fonts-freefont-ttf # Required for Jessie Lite Only
-    cd ~
-    mkdir speed2
-    cd speed2
-        wget https://raw.github.com/pageauc/motion-track/master/speed-track-2/install.sh
+    mkdir ~/speed2
+    cd ~/speed2
+    wget https://raw.github.com/pageauc/motion-track/master/speed-track-2/install.sh
     wget https://raw.github.com/pageauc/motion-track/master/speed-track-2/speed2.py
     wget https://raw.github.com/pageauc/motion-track/master/speed-track-2/speed2.sh
     wget https://raw.github.com/pageauc/motion-track/master/speed-track-2/config.py
