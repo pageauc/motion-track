@@ -38,7 +38,7 @@ https://github.com/jrosebr1/imutils/blob/master/imutils/video/pivideostream.py
 
 ### Setup
 Requires a Raspberry Pi computer with a RPI camera module installed, configured
-and tested to verify it is working. I used a RPI model B2 but a B+ , 3 or 
+and tested to verify it is working. I used a RPI model B3 but a 2, B+ or 
 earlier will work OK. A quad core processor will greatly improve performance
 due to threading
 
