@@ -5,24 +5,25 @@
 This Demo program detects motion in the field of view and use opencv to calculate the 
 largest contour above a minimum size and return its x,y coordinate. 
 * Motion Track Demo YouTube Video here http://youtu.be/09JS7twPBsQ  
-* GitHub motion track code here https://github.com/pageauc/motion-track
-* RPI forum post here https://www.raspberrypi.org/forums/viewtopic.php?p=790082#p790082  
+* GitHub Repo https://github.com/pageauc/motion-track
+* RPI forum post https://www.raspberrypi.org/forums/viewtopic.php?p=790082#p790082  
  
 ### NEW speed2.py - Object (vehicle) speed camera based on motion tracking
 Track vehicle speeds or other moving objects in real time and take image and log data.
 Now has improved performance using threading for video stream and clipping of 
 area of interest for greater performance  
-* See details here https://github.com/pageauc/motion-track/blob/master/speed-track-2/Readme.md 
-* YouTube video here https://youtu.be/eRi50BbJUro 
-* RPI forum post here https://www.raspberrypi.org/forums/viewtopic.php?p=1004150#p1004150  
+* Speed Camera YouTube Video https://youtu.be/eRi50BbJUro  
+* GitHub Repo https://github.com/pageauc/motion-track/blob/master/speed-track-2
+* RPI forum post https://www.raspberrypi.org/forums/viewtopic.php?p=1004150#p1004150  
 
 ### NEW cam-track.py - Tracks camera x y movements
 Uses a clipped search image rectangle to search subsequent video stream images and returns
 the location.  Can be used for tracking camera x y movements for stabilization,
 robotics, Etc.   
-* cam-track demo YouTube Video https://www.youtube.com/edit?video_id=yjA3UtwbD80   
+* cam-track YouTube Video https://www.youtube.com/edit?video_id=yjA3UtwbD80   
 * Code Walkthrough YouTube Video https://youtu.be/lkh3YbbNdYg     
-* GitHub here - https://github.com/pageauc/motion-track/tree/master/cam-track   
+* GitHub here https://github.com/pageauc/motion-track/tree/master/cam-track     
+* RPI Forum Post here https://www.raspberrypi.org/forums/viewtopic.php?p=1027463#p1027463   
 
 ### NEW hotspot-game.py - A simple motion tracking game
 The game play involves using body motion to get as many hits as possible inside
@@ -31,11 +32,10 @@ you can see body motions either close or standing. Pretty simple but I think
 kids would have fun with it and they just might take a look at the code to see 
 how it works, change variables or game logic.    
 hotspot-game     
-* YouTube video here https://youtu.be/xFl3lmbEO9Y   
-* github repo here https://github.com/pageauc/motion-track/tree/master/hotspot-game   
-* RPI Forum post here https://www.raspberrypi.org/forums/viewtopic.php?p=1026124#p1026124     
-* motion-track YouTube video here using RPI B2 https://youtu.be/09JS7twPBsQ     
-
+* hotspot YouTube Video https://youtu.be/xFl3lmbEO9Y   
+* github repo https://github.com/pageauc/motion-track/tree/master/hotspot-game      
+* RPI Forum Post https://www.raspberrypi.org/forums/viewtopic.php?p=1026124#p1026124   
+  
 ## Motion Tracking Demo (Now uses Threading for speed increase)
 motion-track.py is a raspberry pi python opencv2 (computer vision) demo.
 It will detect motion in the field of view and use opencv2 to compare
@@ -52,7 +52,7 @@ the most dominate moving object in the frame although some came close.
 Some of this code is based on a YouTube tutorial by
 Kyle Hounslow using C here - https://www.youtube.com/watch?v=X6rPdRZzgjg
 
-####Prerequisites
+###Prerequisites
 Requires a Raspberry Pi computer running with an up-to-date raspbian distro and a
 RPI camera module installed and configured. The dependencies below may be 
 required depending on your previous installs.
