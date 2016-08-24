@@ -9,7 +9,7 @@ largest contour above a minimum size and return its x,y coordinate.
 * RPI forum post https://www.raspberrypi.org/forums/viewtopic.php?p=790082#p790082  
  
 ### NEW speed2.py - Object (vehicle) speed camera based on motion tracking
-Track vehicle speeds or other moving objects in real time and take image and log data.
+Track vehicle speeds or other moving objects in real time and record image and log data.
 Now has improved performance using threading for video stream and clipping of 
 area of interest for greater performance  
 * Speed Camera YouTube Video https://youtu.be/eRi50BbJUro  
