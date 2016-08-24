@@ -4,7 +4,7 @@
 ### Motion Track Demo - basic concept of tracking moving objects
 This Demo program detects motion in the field of view and use opencv to calculate the 
 largest contour above a minimum size and return its x,y coordinate. 
-* Motion Track Demo YouTube Video here http://youtu.be/09JS7twPBsQ  
+* Motion Track Demo YouTube Video http://youtu.be/09JS7twPBsQ  
 * GitHub Repo https://github.com/pageauc/motion-track
 * RPI forum post https://www.raspberrypi.org/forums/viewtopic.php?p=790082#p790082  
  
@@ -22,8 +22,8 @@ the location.  Can be used for tracking camera x y movements for stabilization,
 robotics, Etc.   
 * cam-track YouTube Video https://www.youtube.com/edit?video_id=yjA3UtwbD80   
 * Code Walkthrough YouTube Video https://youtu.be/lkh3YbbNdYg     
-* GitHub here https://github.com/pageauc/motion-track/tree/master/cam-track     
-* RPI Forum Post here https://www.raspberrypi.org/forums/viewtopic.php?p=1027463#p1027463   
+* GitHub Repo https://github.com/pageauc/motion-track/tree/master/cam-track     
+* RPI Forum Post https://www.raspberrypi.org/forums/viewtopic.php?p=1027463#p1027463   
 
 ### NEW hotspot-game.py - A simple motion tracking game
 The game play involves using body motion to get as many hits as possible inside
