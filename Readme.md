@@ -1,23 +1,45 @@
 # motion-track.py - RPI openCV Motion Tracking Demo
-### Raspberry Pi - python opencv2 motion tracking using picamera module
-### written by Claude Pageau
-motion track code available here https://github.com/pageauc/motion-track
+### Raspberry Pi - python opencv2 motion tracking using picamera module   written by Claude Pageau
 
-See Motion Track YouTube video using RPI B2 here http://youtu.be/09JS7twPBsQ  
+### Motion Track Demo
+Motion Track Demo YouTube Video here http://youtu.be/09JS7twPBsQ  
+GitHub motion track code here https://github.com/pageauc/motion-track
 RPI forum post here https://www.raspberrypi.org/forums/viewtopic.php?p=790082#p790082
-
-## NEW speed2.py - Object (vehicle) speed camera based on motion tracking
+The program will detect motion in the field of view and use opencv to calculate the 
+largest contour and return its x,y coordinate. Motion detection is restricted 
+between y_upper and y_lower variables (road area). If a track is longer than 
+track_len_trig variable then average speed will be calculated 
+based on IMAGE_VIEW_FT variable) and a speed photo will be taken and saved in
+an images folder. If log_data_to_file=True then a speed2.csv file will be 
+created/updated with event data stored in CSV (Comma Separated Values) format. 
+This can be imported into a spreadsheet.
+ 
+### NEW speed2.py - Object (vehicle) speed camera based on motion tracking
+Improved using threading for video stream and clipping of area of interest for greater performance
 * See details here https://github.com/pageauc/motion-track/blob/master/speed-track-2/Readme.md 
 * YouTube video here https://youtu.be/eRi50BbJUro 
-* RPI forum post here https://www.raspberrypi.org/forums/viewtopic.php?p=1004150#p1004150
+* RPI forum post here https://www.raspberrypi.org/forums/viewtopic.php?p=1004150#p1004150  
 
-## NEW cam-track.py - Camera Motion Tracking Demo
+### NEW cam-track.py - Camera Motion Tracking Demo
 Uses a clipped search image rectangle to search subsequent video stream images and returns
 the location.  Can be used for tracking camera x y movements for stabilization,
-robotics, Etc.  
-code here - https://github.com/pageauc/motion-track/tree/master/cam-track
+robotics, Etc. 
+cam-track demo YouTube Video https://www.youtube.com/edit?video_id=yjA3UtwbD80   
+Code Walkthrough YouTube Video https://youtu.be/lkh3YbbNdYg     
+GitHub here - https://github.com/pageauc/motion-track/tree/master/cam-track   
 
-#### Motion Tracking Demo (Now uses Threading for speed increase)
+### NEW hotspot-game.py
+The game play involves using body motion to get as many hits as possible inside
+shrinking boxes that randomly move around the screen. Position the camera so
+you can see body motions either close or standing. Pretty simple but I think 
+kids would have fun with it and they just might take a look at the code to see 
+how it works, change variables or game logic.  
+hotspot-game YouTube video here https://youtu.be/xFl3lmbEO9Y   
+github repo here https://github.com/pageauc/motion-track/tree/master/hotspot-game   
+RPI Forum post here https://www.raspberrypi.org/forums/viewtopic.php?p=1026124#p1026124     
+motion-track YouTube video here using RPI B2 https://youtu.be/09JS7twPBsQ     
+
+## Motion Tracking Demo (Now uses Threading for speed increase)
 motion-track.py is a raspberry pi python opencv2 (computer vision) demo.
 It will detect motion in the field of view and use opencv2 to compare
 images and calculate a threshold image and related contours. It will
