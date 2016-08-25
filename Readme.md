@@ -1,7 +1,7 @@
-# motion-track.py - RPI openCV Motion Tracking Demo
-### Raspberry Pi - python opencv2 motion tracking using picamera module   written by Claude Pageau
+#Raspberry Pi Motion Tracking
+### Raspberry Pi - python opencv2 motion tracking using picamera module written by Claude Pageau
 
-### Motion Track Demo - Basic concept of tracking moving objects
+### motion-track.py - Motion Track Demo - Basic concept of tracking moving objects
 This Demo program detects motion in the field of view and uses opencv to calculate the 
 largest contour above a minimum size and return its x,y coordinate. 
 * Motion Track Demo YouTube Video http://youtu.be/09JS7twPBsQ  
@@ -38,14 +38,15 @@ take a look at the code to see how it works, change variables or game logic.
 ## Motion Tracking Demo (Now uses Threading for speed increase)
 motion-track.py is a raspberry pi python opencv2 (computer vision) demo.
 It will detect motion in the field of view and use opencv2 to compare
-images and calculate a threshold image and related contours. It will
-determine the largest contour and return it's x,y coordinates.
+images and calculate a threshold image and related contours. It will then
+find the largest contour and return it's x,y coordinates.
 I will implement similar code in a RPI robotics project, but thought the code
 would be useful for other users as a starting point or as part of an 
-existing project see New speed2 for object (vehicle) speed camera app.
+existing project see New speed2 for object (vehicle) speed camera app   
+here https://github.com/pageauc/motion-track/blob/master/speed-track-2
 
 I did quite a bit of searching on the internet, github, etc, but could not
-a the time find a similar python picamera implementation that returns x,y coordinates of
+at the time find a similar python picamera implementation that returns x,y coordinates of
 the most dominate moving object in the frame although some came close.  
 
 Some of this code is based on a YouTube tutorial by
