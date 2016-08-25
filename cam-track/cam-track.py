@@ -212,7 +212,7 @@ def cam_shift():
                 cam_cx1 = sw_cx
                 cam_cy1 = sw_cy
                 cam_cx2 = cam_cx1
-                cam_cy2 = cam_cy2
+                cam_cy2 = cam_cy1
         cam_cur_cx = cam_cx2
         cam_cur_cy = cam_cy2 
         
