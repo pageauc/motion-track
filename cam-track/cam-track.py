@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 
 progname = "cam-track.py"
-ver = "version 0.7"
+ver = "version 0.71"
 
 """
-cam-track ver 0.7 written by Claude Pageau pageauc@gmail.com
+cam-track ver 0.71 written by Claude Pageau pageauc@gmail.com
 Raspberry (Pi) - python opencv2 camera pan/tilt tracking using picamera module
 
 This is a raspberry pi python opencv2 camera tracking demonstration program.
