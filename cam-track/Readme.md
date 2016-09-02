@@ -8,7 +8,8 @@ Github Repo https://github.com/pageauc/motion-track/tree/master/cam-track
 
 ###Release History
 * ver 0.6 15-Aug-2016 - Initial Release
-* ver 0.7 16-Aug-2016 - Added extra comments and move np import
+* ver 0.7 16-Aug-2016 - Added extra comments and move np import  
+* ver 0.8 01-Sep-2016 - Updated and added resistance to quick movements
 
 ### Program Description
 This is a raspberry pi computer openCV2 program that tracks camera (pan/tilt)
@@ -61,6 +62,12 @@ tracking values may get out of sync.
 
 The two main variables are
 
+#### cam_move_x and cam_move_y variables
+These variables set the maximum allowed pixel movement allowed in one loop cycle.
+This reduces cam position changes when objects move through the frame quickly.
+Balance the setting to the normal expected cam movement speed.  
+defaults are 10 and 8
+
 #### MAX_SEARCH_THRESHOLD  default is .97
 This variable sets the value for the highest accuracy for maintaining a 
 lock on the search rectangle found in the stream images.  Otherwise another similar block will be returned.  
@@ -68,13 +75,6 @@ Setting this higher will force a closer match to the original search rectangle.
 If you have a unique background features then set this higher eg .98, .99 
 or for a background with fewer unique features set it lower since the match criteria
 will not be able to be met.  Review debug data for your environment.
-
-#### MIN_SEARCH_THRESHOLD default is .45
-This variable sets the threshold value for the lowest accuracy search result found.
-If the value falls below this setting then it will force a reset to get a new
-search rectangle.  This can happen if the original search rectangle is not visible 
-due to lighting or being obscured by something in frame.  Review debug data
-for your environment.
 
 Use a text editor to review code for other variable settings.  Eg. 
 
