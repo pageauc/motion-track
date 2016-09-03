@@ -60,21 +60,25 @@ You may have to experiment with some settings to optimize performance.
 If there are plain backgrounds or random motions in camera view then the
 tracking values may get out of sync.
 
-The two main variables are
+The main variables are
 
-#### cam_move_x and cam_move_y variables
-These variables set the maximum allowed pixel movement allowed in one loop cycle.
-This reduces cam position changes when objects move through the frame quickly.
-Balance the setting to the normal expected cam movement speed.  
-defaults are 10 and 8
-
-#### MAX_SEARCH_THRESHOLD  default is .97
+#### MAX_SEARCH_THRESHOLD - default is .97
 This variable sets the value for the highest accuracy for maintaining a 
 lock on the search rectangle found in the stream images.  Otherwise another similar block will be returned.  
 Setting this higher will force a closer match to the original search rectangle. 
 If you have a unique background features then set this higher eg .98, .99 
 or for a background with fewer unique features set it lower since the match criteria
 will not be able to be met.  Review debug data for your environment.
+
+#### cam_move_x and cam_move_y - defaults 10 and 8
+These variables set the maximum x and y pixel movement allowed in one loop cycle.
+This reduces unexpected cam position changes when objects move through the 
+camera image view quickly.  The search_rect can lock onto the moving objects
+pixel pattern and track it. When this happens, the cam position
+will get out of sync since it is not tracking the image background properly.
+Balance the setting with the normal expected cam movement speed.  
+defaults are 10 and 8
+
 
 Use a text editor to review code for other variable settings.  Eg. 
 
@@ -85,6 +89,7 @@ comforable with
 
 Have Fun Claude Pageau
 
-YouTube Channel https://www.youtube.com/user/pageaucp
+YouTube Channel https://www.youtube.com/user/pageaucp   
+GitHub https://github.com/pageauc   
 
-GitHub https://github.com/pageauc
+
