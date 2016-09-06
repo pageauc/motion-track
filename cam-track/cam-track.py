@@ -226,7 +226,7 @@ def xy_update(xy_cam, xy_prev, xy_new):
 def cam_track():
     # Process steam images to find camera movement 
     # using an extracted search rectangle in the middle of one frame
-    # and find location in subsequent images.  Grap a new search rect
+    # and find location in subsequent images.  Grab a new search rect
     # as needed based on nearness to edge of image or percent probability
     # of image search result Etc.
     
@@ -246,10 +246,10 @@ def cam_track():
     xy_new = sw_xy    # xy of current search_rect
     xy_prev = xy_new  # xy of prev search_rect
     search_reset = False  # Reset search window back to center    
-    image1 = vs.read()    # Grab a Video Steam 
+    image1 = vs.read()    # Grab image from video stream thread 
     search_rect = image1[sw_y:sw_y+sw_h, sw_x:sw_x+sw_w]  # Init centre search rectangle
     while True:
-        image1 = vs.read()  # capture a new image1 from video stream thread
+        image1 = vs.read()  # Grab a new image1 from video stream thread
         # Check location of search rect in image1
         xy_new, xy_val = check_image_match(image1, search_rect)
         # Analyse new xy for issues
