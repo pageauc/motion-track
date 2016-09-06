@@ -7,9 +7,10 @@ RPI Forum Post https://www.raspberrypi.org/forums/viewtopic.php?p=1027463#p10274
 Github Repo https://github.com/pageauc/motion-track/tree/master/cam-track   
 
 ###Release History
-* ver 0.6 15-Aug-2016 - Initial Release
-* ver 0.7 16-Aug-2016 - Added extra comments and move np import  
-* ver 0.8 01-Sep-2016 - Updated and added resistance to quick movements
+* ver 0.60 15-Aug-2016 - Initial Release
+* ver 0.70 16-Aug-2016 - Added extra comments and move np import  
+* ver 0.80 01-Sep-2016 - Updated and added resistance to quick movements  
+* ver 0.85 05-Sep-2016 - More functions and better resistance to moving objects  
 
 ### Program Description
 This is a raspberry pi computer openCV2 program that tracks camera (pan/tilt)

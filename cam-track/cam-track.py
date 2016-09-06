@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 progname = "cam-track.py"
-ver = "version 0.8"
+ver = "version 0.85"
 
 """
 cam-track written by Claude Pageau pageauc@gmail.com
@@ -59,21 +59,6 @@ fps_on = False    # Display fps (not implemented)
 cam_move_x = 12    # Max number of x pixels in one move
 cam_move_y = 8    # Max number of y pixels in one move 
 
-# OpenCV Settings
-show_search_box = True   # show outline of current search box on main window
-show_search_rect = False # show rectangle search_rect_1 window
-show_circle = True      # show a circle otherwise show bounding rectangle on window
-CIRCLE_SIZE = 3         # diameter of circle to show motion location in window
-WINDOW_BIGGER = 2.0     # increase the display window size
-MAX_SEARCH_THRESHOLD = .96  # default=.97 Accuracy for best search result of search_rect in stream images
-LINE_THICKNESS = 1      # thickness of bounding line in pixels
-CV_FONT_SIZE = .25      # size of font on opencv window default .5
-
-# Line Colours
-red = (0,0,255)
-green = (0,255,0)
-blue = (255,0,0)
-
 # Camera Settings
 CAMERA_WIDTH = 320
 CAMERA_HEIGHT = 240
@@ -82,6 +67,30 @@ CAMERA_VFLIP = True
 CAMERA_ROTATION=0
 CAMERA_FRAMERATE = 35  # framerate of video stream.  Can be 100+ with new R2 RPI camera module
 FRAME_COUNTER = 1000   # used by fps
+
+# OpenCV Settings
+show_search_rect = True # show outline of current search box on main window
+show_search_wind = False # show rectangle search_rect_1 window
+show_circle = True      # show a circle otherwise show bounding rectangle on window
+CIRCLE_SIZE = 3         # diameter of circle to show motion location in window
+WINDOW_BIGGER = 2.0     # increase the display window size
+MAX_SEARCH_THRESHOLD = .96 # default=.97 Accuracy for best search result of search_rect in stream images
+LINE_THICKNESS = 1      # thickness of bounding line in pixels
+CV_FONT_SIZE = .25      # size of font on opencv window default .5
+red = (0,0,255)         # opencv line colours
+green = (0,255,0)
+blue = (255,0,0)
+
+# search rectangle variables 
+image_cx = int(CAMERA_WIDTH/2)   # x center of image
+image_cy = int(CAMERA_HEIGHT/2)  # y center of image       
+sw_w = int(CAMERA_WIDTH/4)    # search window width
+sw_h = int(CAMERA_HEIGHT/4)   # search window height
+sw_buf_x = int(sw_w/4)        # buffer to left/right of image
+sw_buf_y = int(sw_h/4)        # buffer to top/bot of image
+sw_x = (image_cx - sw_w/2)    # top x corner of search rect
+sw_y = (image_cy - sw_h/2)    # top y corner of search rect
+sw_xy = (sw_x,sw_y)          # initialize cam position tracker
 
 #-----------------------------------------------------------------------------------------------  
 # Create a Video Stream Tread
@@ -148,9 +157,70 @@ def show_FPS(start_time,frame_count):
             frame_count += 1
     return start_time, frame_count
 
-#-----------------------------------------------------------------------------------------------     
-def get_center(x,y,w,h):
-    return int(x+w/2), int(y+h/2)    
+#-----------------------------------------------------------------------------------------------  
+def check_image_match(full_image, small_image):
+    # Look for small_image in full_image and return best and worst results
+    result = cv2.matchTemplate( full_image, small_image, cv2.TM_CCORR_NORMED)
+    # Process result to return probabilities and Location of best and worst image match
+    minVal, maxVal, minLoc, maxLoc = cv2.minMaxLoc(result)  # find search rect match in new image
+    return maxLoc, maxVal
+    
+#-----------------------------------------------------------------------------------------------  
+def xy_at_edge(xy_loc):  # check if search rect is near edge plus buffer space
+    near_edge = False
+    if ( xy_loc[0] < sw_buf_x 
+      or xy_loc[0] > CAMERA_WIDTH - (sw_buf_x + sw_w)
+      or xy_loc[1] < sw_buf_y 
+      or xy_loc[1] > CAMERA_HEIGHT - (sw_buf_y + sw_h)):
+        near_edge = True
+        if debug:
+            print("xy_at_edge - xy(%i, %i) xyBuf(%i,%i)" %( xy_loc[0], xy_loc[1], sw_buf_x, sw_buf_y))
+    return near_edge
+    
+#-----------------------------------------------------------------------------------------------  
+def xy_low_val(cur_val, val_setting):
+    bad_match = False
+    if cur_val < val_setting:
+        bad_match = True
+        if debug:
+            print("xy_low_val - maxVal=%0.5f  threshold=%0.4f" % (cur_val, val_setting))
+    return bad_match
+
+#-----------------------------------------------------------------------------------------------  
+def xy_moved(xy_prev, xy_loc):
+    # Check if x or y location has changed
+    moved = False
+    if (xy_loc[0] <> xy_prev[0] or
+        xy_loc[1] <> xy_prev[1]):
+        moved = True
+        if debug:
+            print("xy_moved   - dx=%i dy=%i " 
+                         %( xy_loc[0] - xy_prev[0], xy_loc[1] - xy_prev[1]))
+    return moved
+        
+#-----------------------------------------------------------------------------------------------  
+def xy_big_move(xy_prev, xy_new):
+    big_move = False        
+    if (abs( xy_new[0] - xy_prev[0] ) > cam_move_x or
+        abs( xy_new[1] - xy_prev[1] ) > cam_move_y):
+            exceeded = True
+            if debug:
+                print("xy_big-move- xy(%i,%i) move exceeded %i or %i"     
+                              % ( xy_new[0], xy_new[1], cam_move_x, cam_move_y))       
+    return big_move
+
+def xy_update(xy_cam, xy_prev, xy_new):
+    dx = 0
+    dy = 0
+    if abs(xy_prev[0] - xy_new[0]) > 0:
+        dx = xy_prev[0] - xy_new[0]
+    if abs(xy_prev[1] - xy_new[1]) > 0:
+        dy = xy_prev[1] - xy_new[1]       
+    xy_cam = ((xy_cam[0] + dx, xy_cam[1] + dy))
+    if debug:
+        print("xy-update  - cam xy (%i,%i) dxy(%i,%i)" 
+                         % (xy_cam[0], xy_cam[1], dx, dy)) 
+    return xy_cam
     
 #-----------------------------------------------------------------------------------------------  
 def cam_track():
@@ -171,102 +241,61 @@ def cam_track():
         big_w = int(CAMERA_WIDTH * WINDOW_BIGGER)
         big_h = int(CAMERA_HEIGHT * WINDOW_BIGGER) 
     
-    # initialize the search window (rect) variables 
-    image_cx = int(CAMERA_WIDTH/2)   # x center of image
-    image_cy = int(CAMERA_HEIGHT/2)  # y center of image       
-    sw_w = int(CAMERA_WIDTH/4)    # search window width
-    sw_h = int(CAMERA_HEIGHT/4)   # search window height
-    sw_buf_x = int(sw_w/4)        # buffer to left/right of image
-    sw_buf_y = int(sw_h/4)        # buffer to top/bot of image
-    sw_x = (image_cx - sw_w/2)       # top x corner of search rect
-    sw_y = (image_cy - sw_h/2)       # top y corner of search rect
     sw_maxVal = MAX_SEARCH_THRESHOLD  # Threshold Accuracy of search in image
-   
-    # Grab a Video Steam image and initialize search rectangle
-    cam_cx1 = image_cx    # Set Cam x center start position
-    cam_cy1 = image_cy    # Set Cam y center start position
-    cam_pos_x = 0   # initialize cam horizontal movement tracker
-    cam_pos_y = 0   # initialize cam vertical movement tracker
-    search_reset = False  # Reset search window
-    
-    image1 = vs.read()   # initialize first image
-    search_rect = image1[sw_y:sw_y+sw_h, sw_x:sw_x+sw_w]  # Initialize centre search rectangle
+    xy_cam = (0,0)    # xy of Cam Overall Position
+    xy_new = sw_xy    # xy of current search_rect
+    xy_prev = xy_new  # xy of prev search_rect
+    search_reset = False  # Reset search window back to center    
+    image1 = vs.read()    # Grab a Video Steam 
+    search_rect = image1[sw_y:sw_y+sw_h, sw_x:sw_x+sw_w]  # Init centre search rectangle
     while True:
         image1 = vs.read()  # capture a new image1 from video stream thread
-        # Look for search_rect in this image and return result
-        result = cv2.matchTemplate( image1, search_rect, cv2.TM_CCORR_NORMED)
-        # Process result to return probabilities and Location of best and worst image match
-        minVal, maxVal, minLoc, maxLoc = cv2.minMaxLoc(result)  # find search rect match in new image
-        # Get the center of the best matching result of search
-        cam_cx2, cam_cy2 = get_center( maxLoc[0], maxLoc[1], sw_w, sw_h ) 
-
-        # Update cumulative camera tracking data and check max_move
-        if cam_cx2 <> cam_cx1:
-            if abs(cam_cx2 - cam_cx1) > cam_move_x:
-                search_reset = True  
-                if debug:
-                    print("    cam_move_x=%i Exceeded %i" 
-                             % (abs(cam_cx2 - cam_cx1), cam_move_x))                        
-            else:                
-                cam_pos_x = cam_pos_x + (cam_cx1 - cam_cx2)
-                cam_cx1 = cam_cx2
-            
-        if cam_cy2 <> cam_cy1:
-            if abs(cam_cy2 - cam_cy1) > cam_move_y:
-                search_reset = True            
-                if debug:
-                    print("    cam_move_y=%i Exceeded %i" 
-                             % (abs(cam_cy2 - cam_cy1), cam_move_y))            
-            else:                
-                cam_pos_y = cam_pos_y + (cam_cy1 - cam_cy2)
-                cam_cy1 = cam_cy2
-            
-        # Check if search rect is well inside image1
-        # and maxVal and minVal are above threshold
-        if ( maxLoc[0] < sw_buf_x 
-          or maxLoc[0] > CAMERA_WIDTH - (sw_buf_x + sw_w)
-          or maxLoc[1] < sw_buf_y 
-          or maxLoc[1] > CAMERA_HEIGHT - (sw_buf_y + sw_h)
-          or maxVal < sw_maxVal):
-            search_reset = True
-
-        if search_reset:            
+        # Check location of search rect in image1
+        xy_new, xy_val = check_image_match(image1, search_rect)
+        # Analyse new xy for issues
+        if xy_moved(xy_prev, xy_new):
+            if (xy_big_move(xy_prev, xy_new) or
+                xy_at_edge(xy_new) or
+                xy_low_val(xy_val, sw_maxVal)):
+               search_reset = True  # Reset search to center
+            else:
+                # update new cam position
+                xy_cam = xy_update(xy_cam, xy_prev, xy_new)
+                xy_prev = xy_new
+        
+        if search_reset:   # Reset search_rect back to center         
             if debug:
-                print("    Reset search_rect cur_cx=%i cam_pos_x=%i cur_cy=%i cam_pos_y=%i" 
-                                           % (cam_cx2, cam_cy2, cam_pos_x, cam_pos_y))        
-            search_rect = image1[sw_y:sw_y+sw_h, sw_x:sw_x+sw_w]               
-            cam_cx1 = image_cx
-            cam_cy1 = image_cy    
-            cam_cx2 = cam_cx1         
-            cam_cy2 = cam_cy1
-            search_reset = False            
-
+                print("cam-track  - Reset search_rect img_xy(%i,%i) CamPos(%i,%i)" 
+                                           % (xy_new[0], xy_new[1], xy_cam[0], xy_cam[1]))        
+            search_rect = image1[sw_y:sw_y+sw_h, sw_x:sw_x+sw_w]
+            xy_new = sw_xy
+            xy_prev = xy_new            
+            search_reset = False
+ 
         if debug: 
-            print("CamPos (%i, %i) cam_pos_x, cam_pos_y" % ( cam_pos_x, cam_pos_y, ))
-            print(" maxLoc   maxVal   minLoc   minVal")
-            print maxLoc, "{0:0.4f}".format(maxVal) ,  minLoc ,"{0:0.4f}".format(minVal) 
+            print("cam-track  - Cam Pos(%i,%i) %0.5f  img_xy(%i,%i)" 
+                     % ( xy_cam[0], xy_cam[1], xy_val, xy_new[0], xy_new[1] ))
             
-        image2 = image1
         if window_on:
+            image2 = image1
             # Display openCV window information on RPI desktop if required
-            if show_search_rect:
-                cv2.imshow( 'search rectangle', search_rect )
             if show_circle:            
                cv2.circle(image2,(image_cx, image_cy), CIRCLE_SIZE, red, 1) 
-            if show_search_box:            
-                cv2.rectangle(image2,( maxLoc[0], maxLoc[1] ),
-                                     ( maxLoc[0] + sw_w, maxLoc[1] + sw_h ),
-                                     green, LINE_THICKNESS)     # show search rect
-                                     
+            if show_search_rect:            
+                cv2.rectangle(image2,( xy_new[0], xy_new[1] ),
+                                     ( xy_new[0] + sw_w, xy_new[1] + sw_h ),
+                                     green, LINE_THICKNESS)     # show search rect                                    
             # Show Cam Position text on bottom of opencv window
-            m_text = ("CAM POS( %i %i )   " % (cam_pos_x, cam_pos_y))
+            m_text = ("CAM POS( %i %i )   " % (xy_cam[0], xy_cam[1]))
             cv2.putText(image2, m_text, 
-                       (int(CAMERA_WIDTH/2) - len(m_text) * 3, CAMERA_HEIGHT - 15 ), 
-                        cv2.FONT_HERSHEY_SIMPLEX, CV_FONT_SIZE, green, 1)
-                        
+                       (image_cx - len(m_text) * 3, CAMERA_HEIGHT - 15 ), 
+                        cv2.FONT_HERSHEY_SIMPLEX, CV_FONT_SIZE, green, 1)                        
             if WINDOW_BIGGER > 1:
                 image2 = cv2.resize( image2,( big_w, big_h ))
-            cv2.imshow('Cam-Track  (q in window to quit)',image2)     
+            cv2.imshow('Cam-Track  (q in window to quit)',image2) 
+
+            if show_search_wind:
+                cv2.imshow( 'search rectangle', search_rect )         
 
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 vs.stop()    # Stop video stream thread
