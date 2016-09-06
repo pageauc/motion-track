@@ -27,7 +27,25 @@ an initial camera image center value of 0,0.
 This code could be used for a simple robotics application, movement stabilization, 
 searching for an object image in the video stream rather than taking a search
 rectangle from the stream itself.  Eg look for a dog.
-where the camera is mounted on a moving platform or object, Etc.  
+where the camera is mounted on a moving platform or object, Etc. 
+I will be working to implement Robot (without wheel encoders) Navigation
+Test using this camera tracking.
+
+####Project - Accurate Robot Navigation without wheel encoders using camera tracking
+I am looking at saving high value search rectangles that
+are spaced out around the full xy range of the camera movement and use those
+to correct any tracking errors. These check point rectangles will also need to
+be updated if a better (higher maxVal) is found in the same region. 
+I was thinking approx every half image spacing in xy cam position. 
+This would allow it to self correct position drift (calibrating). 
+I am hoping to test this on my robot since it does not have wheel encoders. 
+This camera track could allow the robot to more accurately navigate and rotate.
+I am pleased with the current FPS with ver 0.85. The multi version is not very
+stable due to segment faults so I will stick with only the video stream being
+threaded. 
+If you decide to try this as well, let me know.
+Claude ...
+ 
 
 Note: This application is a demo and is currently still in development, but I 
 thought it could still be useful, since I was not able to find a similar
