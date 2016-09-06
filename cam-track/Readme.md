@@ -35,11 +35,11 @@ Test using this camera tracking.
 I am looking at saving high value search rectangles that
 are spaced out around the full xy range of the camera movement and use those
 to correct any tracking errors. These check point rectangles will also need to
-be updated if a better (higher maxVal) is found in the same region. 
+be updated if a better check point rectangle (higher maxVal) is found in the same region. 
 I was thinking approx every half image spacing in xy cam position. 
-This would allow it to self correct position drift (calibrating). 
-I am hoping to test this on my robot since it does not have wheel encoders. 
-This camera track could allow the robot to more accurately navigate and rotate.
+This would allow it to self correct position drift (self calibrating). 
+I am hoping to test this on a robot that does not have wheel encoders. 
+Camera tracking could allow the robot to more accurately navigate and rotate.
 I am pleased with the current FPS with ver 0.85. The multi version is not very
 stable due to segment faults so I will stick with only the video stream being
 threaded. 
