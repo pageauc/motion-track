@@ -126,7 +126,6 @@ class PiVideoStream:
             # preparation for the next frame
             self.frame = f.array
             self.rawCapture.truncate(0)
-
             # if the thread indicator variable is set, stop the thread
             # and resource camera resources
             if self.stopped:
@@ -179,6 +178,7 @@ def xy_at_edge(xy_loc):  # check if search rect is near edge plus buffer space
     
 #-----------------------------------------------------------------------------------------------  
 def xy_low_val(cur_val, val_setting):
+    # Check if maxVal is below MAX_SEARCH_THRESHOLD value
     bad_match = False
     if cur_val < val_setting:
         bad_match = True
@@ -203,7 +203,7 @@ def xy_big_move(xy_prev, xy_new):
     big_move = False        
     if (abs( xy_new[0] - xy_prev[0] ) > cam_move_x or
         abs( xy_new[1] - xy_prev[1] ) > cam_move_y):
-            exceeded = True
+            big_move = True
             if debug:
                 print("xy_big-move- xy(%i,%i) move exceeded %i or %i"     
                               % ( xy_new[0], xy_new[1], cam_move_x, cam_move_y))       
