@@ -17,10 +17,19 @@ mkdir -p speed2
 cd ~/speed2
 echo "4 - Downloading github repo files"
 wget -O install.sh -q --show-progress https://raw.github.com/pageauc/motion-track/master/speed-track-2/install.sh
-wget -O speed2.py -q --show-progress https://raw.github.com/pageauc/motion-track/master/speed-track-2/speed2.py
-wget -O speed2.sh -q --show-progress https://raw.github.com/pageauc/motion-track/master/speed-track-2/speed2.sh
-wget -O Readme.md -q --show-progress https://raw.github.com/pageauc/motion-track/master/speed-track-2/Readme.md
-wget -q --show-progress https://raw.github.com/pageauc/motion-track/master/speed-track-2/config.py
+if [ $? -ne 0 ] ;  then
+  wget -O install.sh https://raw.github.com/pageauc/motion-track/master/speed-track-2/install.sh
+  wget -O speed2.py https://raw.github.com/pageauc/motion-track/master/speed-track-2/speed2.py
+  wget -O speed2.sh https://raw.github.com/pageauc/motion-track/master/speed-track-2/speed2.sh
+  wget -O Readme.md https://raw.github.com/pageauc/motion-track/master/speed-track-2/Readme.md
+  wget -q https://raw.github.com/pageauc/motion-track/master/speed-track-2/config.py
+else
+  wget -O install.sh -q --show-progress https://raw.github.com/pageauc/motion-track/master/speed-track-2/install.sh
+  wget -O speed2.py -q --show-progress https://raw.github.com/pageauc/motion-track/master/speed-track-2/speed2.py
+  wget -O speed2.sh -q --show-progress https://raw.github.com/pageauc/motion-track/master/speed-track-2/speed2.sh
+  wget -O Readme.md -q --show-progress https://raw.github.com/pageauc/motion-track/master/speed-track-2/Readme.md
+  wget -q --show-progress https://raw.github.com/pageauc/motion-track/master/speed-track-2/config.py
+fi
 echo "5 - Make required Files Executable"
 chmod +x speed2.py
 chmod +x speed2.sh
