@@ -1,6 +1,16 @@
 # speed2.py - RPI OpenCV2 Object Speed Tracker
 ####  A Raspberry Pi Speed Camera using python, Video Stream Thread, pi-camera
 
+For Easy speed2 install onto raspbian RPI. 
+
+    curl -L https://raw.github.com/pageauc/motion-track/master/speed-track-2/install.sh | bash
+
+From a computer logged into the RPI via ssh(Putty) session use mouse to highlight command above, right click, copy.  
+Then select ssh(Putty) window, mouse right click, paste.  The command should 
+download and execute the github install.sh script for speed2 object(vehicle) speed tracker.  Note a raspbian
+apt-get update and upgrade will be performed as part of install so it may take some time if these are not 
+up-to-date
+
 ### Links
 * speed-track YouTube video here https://youtu.be/eRi50BbJUro
 * speed2 RPI forum post here https://www.raspberrypi.org/forums/viewtopic.php?p=1004150#p1004150
@@ -10,12 +20,6 @@
 
 ### Release History
 * ver 2.03 16-May-2016 - Enhanced streaming speed by using threading
-* ver 2.04 01-Jul-2016 - Added speed2.sh background launch script and minor updates
-* ver 2.05 04-Jul-2016 - Added code to trap python3 cv2 import error
-* ver 2.06 07-Jul-2016 - New config.py Added x_left x_right plus track_timeout
-* ver 2.07 07-Jul-2016 - Updated variable display and slowed CAMERA_FRAMERATE=35 for slower RPI's 
-* ver 2.08 09-Jul-2016 - Crop image2 to motion area greyscale for faster processing
-* ver 2.09 21-Aug-2016 - Simplified first image logic by moving before main while loop
 
 ### Program Description
 This is a raspberry pi computer openCV2 object speed camera demo program.
@@ -45,6 +49,16 @@ and tested to verify it is working. I used a RPI model B2 but a B+ , 3 or
 earlier will work OK. A quad core processor will greatly improve performance
 due to threading
 
+For Easy speed2 install onto raspbian RPI. 
+
+    curl -L https://raw.github.com/pageauc/motion-track/master/speed-track-2/install.sh | bash
+
+From a computer logged into the RPI via ssh(Putty) session use mouse to highlight command above, right click, copy.  
+Then select ssh(Putty) window, mouse right click, paste.  The command should 
+download and execute the github install.sh script for speed2 object(vehicle) speed tracker.
+
+### or
+
 From logged in RPI SSH session or console terminal perform the following.
 
     wget https://raw.github.com/pageauc/motion-track/master/speed-track-2/install.sh
@@ -54,42 +68,25 @@ From logged in RPI SSH session or console terminal perform the following.
 
 Run install.sh again to upgrade to latest version of speed2 code.
     
-IMPORTANT - Review settings in config.py file and edit with nano as required.
+IMPORTANT - Review settings in config.py file and edit variables with nano as required.
 You will need to perform a calibration to set the correct value for IMG_VIEW_FT 
 variable based on the distance from camera to objects being measured for speed.  
 See video and this Readme.md below for more details.
 
-### Detailed Setup
-Install dependencies and program per the following
-login via SSH or use a desktop terminal session and perform the following
-
-    sudo apt-get update
-    sudo apt-get upgrade
-    sudo apt-get install -y python-opencv python-picamera python-imaging python-pyexiv2 libgl1-mesa-dri
-    sudo apt-get install -y fonts-freefont-ttf # Required for Jessie Lite Only
-    mkdir ~/speed2
-    cd ~/speed2
-    wget https://raw.github.com/pageauc/motion-track/master/speed-track-2/install.sh
-    wget https://raw.github.com/pageauc/motion-track/master/speed-track-2/speed2.py
-    wget https://raw.github.com/pageauc/motion-track/master/speed-track-2/speed2.sh
-    wget https://raw.github.com/pageauc/motion-track/master/speed-track-2/config.py
-    wget https://raw.github.com/pageauc/motion-track/master/speed-track-2/Readme.md
-    chmod +x speed2.py
-    chmod +x speed2.sh
-    chmod +x install.sh
-    python ./speed2.py
+### Running Speed2
     
 if wish to run speed2.py in background or on boot from /etc/rc.local then
 
     ./speed2.sh
     
-or insert line into /etc/rc.local using nano editor
+or edit /etc/rc.local file using nano editor per command below
 
     sudo nano /etc/rc.local
 
-then add the following before the exit line then ctrl-x y to save and reboot to test
+Then add line below before the exit line then ctrl-x y to save and reboot to test
 
-    /home/pi/speed2/speed2.sh  
+    /home/pi/speed2/speed2.sh
+    exit 0    
     
 Edit the speed2.sh script to suit your needs per comments.  
 Note you may need to change the sleep delay time if rc.local does not run script
@@ -111,7 +108,6 @@ also on raspberry pi 3's activate opengl support using
     sudo raspi-config,
 
 From 9 Advanced Options select AA GL Driver then enable driver and reboot 
- 
     
 You can also use git clone to copy the files to your RPI.
 
