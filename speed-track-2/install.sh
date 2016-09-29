@@ -1,6 +1,6 @@
 #!/bin/sh
 # Convenient speed2 install.sh script written by Claude Pageau 1-Jul-2016
-ver="1.6"
+ver="1.7"
 echo "      speed2 Install.sh script ver $ver"
 echo "Install or Upgrade speed2 Object speed tracking"
 echo "-----------------------------------------------"
@@ -24,7 +24,6 @@ if [ $? -ne 0 ] ;  then
   wget -O Readme.md https://raw.github.com/pageauc/motion-track/master/speed-track-2/Readme.md
   wget -q https://raw.github.com/pageauc/motion-track/master/speed-track-2/config.py
 else
-  wget -O install.sh -q --show-progress https://raw.github.com/pageauc/motion-track/master/speed-track-2/install.sh
   wget -O speed2.py -q --show-progress https://raw.github.com/pageauc/motion-track/master/speed-track-2/speed2.py
   wget -O speed2.sh -q --show-progress https://raw.github.com/pageauc/motion-track/master/speed-track-2/speed2.sh
   wget -O Readme.md -q --show-progress https://raw.github.com/pageauc/motion-track/master/speed-track-2/Readme.md
