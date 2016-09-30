@@ -4,6 +4,12 @@ ver="1.8"
 echo "      speed2 Install.sh script ver $ver"
 echo "Install or Upgrade speed2 Object speed tracking"
 echo "-----------------------------------------------"
+echo "Checking for speed2 folder"
+cd ~
+mkdir -p speed2
+cd ~/speed2
+pwd
+echo "Done"
 echo "1 - Downloading github repo files"
 wget -O install.sh -q --show-progress https://raw.github.com/pageauc/motion-track/master/speed-track-2/install.sh
 if [ $? -ne 0 ] ;  then
