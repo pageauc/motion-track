@@ -11,7 +11,7 @@ download and execute the github install.sh script for speed2 object(vehicle) spe
 apt-get update and upgrade will be performed as part of install so it may take some time if these are not 
 up-to-date
 
-(How to Run)[https://github.com/pageauc/motion-track/wiki/Running-Program]
+How to Run Info Here https://github.com/pageauc/motion-track/wiki/Running-Program
 
 ### Links
 * speed-track YouTube video here https://youtu.be/eRi50BbJUro
