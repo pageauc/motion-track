@@ -98,7 +98,7 @@ change variables in this file as desired.
 Use the calibrate option and follow instructions below to calculate an accurate
 value for IMAGE_VIEW_FT variable in the speed_settings.py
     
-### Calibrate IMG_VIEW_FT variable
+### Calibrate IMAGE_VIEW_FT variable
   
 speed_track.py needs to be calibrated in order to display a correct speed.
 
@@ -118,9 +118,9 @@ speed_track.py needs to be calibrated in order to display a correct speed.
   record pixels for vehicle length
   Note each division is 10 pixels.  I use filezilla to transfer files to/from
   my PC and the RPI using sftp protocol and the RPI IP address.
-* Use formula below to calculate a value for IMG_VIEW_FT variable   
+* Use formula below to calculate a value for IMAGE_VIEW_FT variable   
   You should use several photos to confirm and average results.
-* Use nano to edit the speed_settings.py and change IMG_VIEW_FT variable value
+* Use nano to edit the speed_settings.py and change IMAGE_VIEW_FT variable value
   to new calculated value.  Also change variable calibrate = False
 * Restart speed_track.py and monitor console messages.
   Perform a test using a vehicle at a known speed to verify calibration.
@@ -132,9 +132,9 @@ Please note that if road is too close and/or vehicles are moving too quickly the
 the camera may not capture motion and/or record vehicle in speed photo.
   
 #### Calibration formula
-Use this formula to calculate a value for IMG_VIEW_FT
+Use this formula to calculate a value for IMAGE_VIEW_FT
  
-IMG_VIEW_FT = (CAMERA_WIDTH * Ref_Obj_ft) / num_px_for_Ref_Object
+IMAGE_VIEW_FT = (CAMERA_WIDTH * Ref_Obj_ft) / num_px_for_Ref_Object
 
 eg (320 * 18) / 80 = 72
   
