@@ -8,23 +8,23 @@ largest contour above a minimum size and return its x,y coordinate.
 * GitHub Repo https://github.com/pageauc/motion-track
 * RPI forum post https://www.raspberrypi.org/forums/viewtopic.php?p=790082#p790082  
 
-## Other Raspberry Pi Projects based on motion tracing 
+## Other Raspberry Pi Projects Based on Motion Tracking 
 
 #### rpi-speed-camera - Object (vehicle) speed camera based on motion tracking
 Tracks vehicle speeds or other moving objects in real time and records image 
 and logs data. Now improved using threading for video stream and clipping of 
 area of interest for greater performance.  
-* Speed Camera YouTube Video https://youtu.be/eRi50BbJUro  
 * GitHub Repo https://github.com/pageauc/rpi-speed-camera
+* YouTube Speed Camera Video https://youtu.be/eRi50BbJUro  
 * RPI forum post https://www.raspberrypi.org/forums/viewtopic.php?p=1004150#p1004150  
 
 #### cam-track.py - Tracks camera x y movements
 Uses a clipped search image rectangle to search subsequent video stream images and returns
 the location. Can be used for tracking camera x y movements for stabilization,
-robotics, Etc.   
-* cam-track YouTube Video https://www.youtube.com/edit?video_id=yjA3UtwbD80   
-* Code Walkthrough YouTube Video https://youtu.be/lkh3YbbNdYg     
-* GitHub Repo https://github.com/pageauc/motion-track/tree/master/cam-track     
+robotics, Etc.  
+* GitHub Repo https://github.com/pageauc/rpi-cam-track
+* YouTube Cam-Track Video https://www.youtube.com/edit?video_id=yjA3UtwbD80   
+* Code Walkthrough YouTube Video https://youtu.be/lkh3YbbNdYg        
 * RPI Forum Post https://www.raspberrypi.org/forums/viewtopic.php?p=1027463#p1027463   
 
 #### hotspot-game.py - A simple motion tracking game
@@ -33,8 +33,8 @@ as possible inside shrinking boxes that randomly move around the screen.
 Position the camera so you can see body motions either close or standing. 
 Pretty simple but I think kids would have fun with it and they just might 
 take a look at the code to see how it works, change variables or game logic.      
-* hotspot YouTube Video https://youtu.be/xFl3lmbEO9Y   
-* GitHub hotspot-game Repo https://github.com/pageauc/hotspot-game      
+* GitHub hotspot-game Repo https://github.com/pageauc/hotspot-game 
+* YouTube Hotspot Gam Video https://youtu.be/xFl3lmbEO9Y       
 * RPI Forum Post https://www.raspberrypi.org/forums/viewtopic.php?p=1026124#p1026124   
 
 ### Introduction
@@ -47,14 +47,16 @@ Requires a Raspberry Pi computer running with an up-to-date raspbian distro and 
 RPI camera module installed and configured. The dependencies below may be 
 required depending on your previous installs.
 
+### Install Motion Tracking Demo
+
     cd ~
-    sudo apt-get update
-    sudo apt-get upgrade
-    sudo apt-get install python-opencv python-picamera
     mkdir -p motion-track
     cd motion-track    
     wget https://raw.github.com/pageauc/motion-track/master/motion-track.py
     chmod +x motion-track.py
+    sudo apt-get update
+    sudo apt-get upgrade
+    sudo apt-get install python-opencv python-picamera       
     ./motion_track.py
 
 From GUI desktop Terminal session Use nano to edit motion_track.py and change variable window_on=True ctrl-x y to save.
