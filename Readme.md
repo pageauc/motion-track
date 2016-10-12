@@ -1,6 +1,29 @@
 # Raspberry Pi Motion Tracking Demo
 ### Using picamera module, python, opencv  
 
+### Quick Install   
+Easy Install of speed-cam onto a Raspberry Pi Computer with latest Raspbian. 
+
+    curl -L https://raw.github.com/pageauc/motion-track/master/motion-track-install.sh | bash
+
+From a computer logged into the RPI via ssh(Putty) session use mouse to highlight command above, right click, copy.  
+Then select ssh(Putty) window, mouse right click, paste.  The command should 
+download and execute the github speed-install.sh script for rpi-speed-camera object(vehicle) speed tracker.  
+This install can also be done directly on an Internet connected Raspberry Pi via a console or desktop terminal session and web browser.      
+Note - a raspbian apt-get update and upgrade will be performed as part of install 
+so it may take some time if these are not up-to-date
+
+#### or Manual Install   
+From logged in RPI SSH session or console terminal perform the following.
+
+    wget https://raw.github.com/pageauc/motion-track/master/motion-track-install.sh
+    chmod +x motion-track-install.sh
+    ./motion-track-install.sh
+    cd motion-track-demo
+    ./motion-track.py
+    
+See How To Run section below  
+    
 ### motion-track.py - Motion Track Demo - Basic concept of tracking moving objects
 This Demo program detects motion in the field of view and uses opencv to calculate the 
 largest contour above a minimum size and return its x,y coordinate. 
@@ -47,22 +70,10 @@ Requires a Raspberry Pi computer running with an up-to-date raspbian distro and 
 RPI camera module installed and configured. The dependencies below may be 
 required depending on your previous installs.
 
-### Install Motion Tracking Demo
+### How to Run
 
-    cd ~
-    mkdir -p motion-track
-    cd motion-track    
-    wget https://raw.github.com/pageauc/motion-track/master/motion-track.py
-    chmod +x motion-track.py
-    sudo apt-get update
-    sudo apt-get upgrade
-    sudo apt-get install python-opencv python-picamera       
-    ./motion_track.py
-
-From GUI desktop Terminal session Use nano to edit motion_track.py and change variable window_on=True ctrl-x y to save.
-Start up a desktop GUI session and run the code from IDLE or open a terminal console and run 
-
-    python ./motion-track.py
+    cd ~/motion-track-demo
+    ./motion-track.py
     
 if you get an opengl error then see this article about installing opengl on 
 a RPI P2  https://www.raspberrypi.org/blog/another-new-raspbian-release/
@@ -79,40 +90,20 @@ You can set window_on = False if you need to run from SSH session.  If debug
 = True then status information will be displayed without a GUI desktop session.
 
 I have added motion3-track.py for use with python3 and OpenCV3 FYI. Only
-the cv2.findContour line needed to be changed due to OpenCV3 syntax difference.
+the cv2.findContour line needs to be changed due to OpenCV3 syntax difference.
 Steps for installing OpenCV3 can be found here
 https://www.raspberrypi.org/forums/viewtopic.php?p=792568&sid=adf009c84bee379cd08b377168535477#p792568
 
-## New track2.py 
-#### 18-May-2016 - track2.py (multi processor motion tracking demo)
-
-Added track2.py Demo of multi processor motion tracking.
-This uses one processor thread for camera stream, second for opencv motion tracking and
-the third for program logic.  Run track2.py in a local RPI GUI terminal window
-to display the opencv image window showing motion tracking stream.  The 
-motion track data will be displayed in the terminal window. I used an object
-on a string to test tracking.  This is amazingly fast.
-Note This will run fast on a single core RPI but best speed run on a quad core with no gui. Use htop to monitor cpu usage. Change window_on variable to run in a console/ssh session
-This code can be used as a starting point for a motion tracking project
-See code comments for details and installation requirements
-
-    # Basic installation instructions (default is GUI desktop mode)
-    wget https://raw.github.com/pageauc/motion-track/master/track2.py
-    sudo apt-get update
-    sudo apt-get upgrade
-    sudo apt-get install -y python-opencv python-picamera
-    chmod +x track2.py
-    ./track2.py
-    
-Note currently this code will fail after a while when in gui mode due to I believe is a Raspbian library memory issue 
-terminal only mode should be OK.
-
-### Credits
+### Credits  
 Some of this code is based on a YouTube tutorial by
-Kyle Hounslow using C here - https://www.youtube.com/watch?v=X6rPdRZzgjg
+Kyle Hounslow using C here https://www.youtube.com/watch?v=X6rPdRZzgjg
 
-Good Luck  Claude ...
-
-
-
+Thanks to Adrian Rosebrock jrosebr1 at http://www.pyimagesearch.com 
+for the PiVideoStream Class code available on github at
+https://github.com/jrosebr1/imutils/blob/master/imutils/video/pivideostream.py
+  
+Have Fun   
+Claude Pageau    
+YouTube Channel https://www.youtube.com/user/pageaucp   
+GitHub Repo https://github.com/pageauc
 
