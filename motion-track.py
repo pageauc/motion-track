@@ -1,7 +1,6 @@
 #!/usr/bin/env python
-
 progname = "motion_track.py"
-ver = "version 0.95"
+ver = "version 0.96"
 
 """
 motion-track ver 0.95 written by Claude Pageau pageauc@gmail.com
@@ -21,12 +20,16 @@ Here is a my YouTube video demonstrating this demo program using a
 Raspberry Pi B2 https://youtu.be/09JS7twPBsQ
 
 Requires a Raspberry Pi with a RPI camera module installed and configured
-dependencies
+dependencies. Cut and paste command below into a terminal sesssion to
+download and install motion_track demo.  Program will be installed to
+~/motion-track-demo folder
 
-sudo apt-get update
-sudo apt-get upgrade
-sudo apt-get install python-opencv python-picamera
-sudo apt-get install libgl1-mesa-dri  
+curl -L https://raw.github.com/pageauc/motion-track/master/motion-track-install.sh | bash
+
+To Run Demo
+
+cd ~/motion-track-demo
+./motion-track.py
 
 """
 print("%s %s using python2 and OpenCV2" % (progname, ver))
@@ -43,6 +46,8 @@ from threading import Thread
 # Display Settings
 debug = True        # Set to False for no data display
 window_on = False   # Set to True displays opencv windows (GUI desktop reqd)
+diff_window_on = False  # Show OpenCV image difference window
+thresh_window_on = False  # Show OpenCV image Threshold window
 SHOW_CIRCLE = True  # show a circle otherwise show bounding rectancle on window
 CIRCLE_SIZE = 8     # diameter of circle to show motion location in window
 LINE_THICKNESS = 1  # thickness of bounding line in pixels
@@ -201,8 +206,10 @@ def motion_track():
                 print("Motion at cx=%3i cy=%3i  total_Contours=%2i  biggest_area:%3ix%3i=%5i" % (cx ,cy, total_contours, cw, ch, biggest_area))
 
         if window_on:
-            # cv2.imshow('Difference Image',differenceimage) 
-            cv2.imshow('OpenCV Threshold', thresholdimage)
+            if diff_window_on:
+                cv2.imshow('Difference Image',differenceimage) 
+            if thresh_window_on:
+                cv2.imshow('OpenCV Threshold', thresholdimage)
             if WINDOW_BIGGER > 1:  # Note setting a bigger window will slow the FPS
                 image2 = cv2.resize( image2,( big_w, big_h ))                             
             cv2.imshow('Movement Status  (Press q in Window to Quit)', image2)
@@ -210,6 +217,7 @@ def motion_track():
             # Close Window if q pressed while movement status window selected
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 cv2.destroyAllWindows()
+                vs.stop()
                 print("End Motion Tracking")
                 still_scanning = False
 
