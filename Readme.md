@@ -8,12 +8,12 @@ largest contour above a minimum size and return its x,y coordinate.
 * GitHub Repo https://github.com/pageauc/motion-track
 * RPI forum post https://www.raspberrypi.org/forums/viewtopic.php?p=790082#p790082  
  
-### NEW speed2.py - Object (vehicle) speed camera based on motion tracking
+### NEW rpi-speed-camera - Object (vehicle) speed camera based on motion tracking
 Tracks vehicle speeds or other moving objects in real time and records image 
 and logs data. Now improved using threading for video stream and clipping of 
 area of interest for greater performance.  
 * Speed Camera YouTube Video https://youtu.be/eRi50BbJUro  
-* GitHub Repo https://github.com/pageauc/motion-track/blob/master/speed-track-2
+* GitHub Repo https://github.com/pageauc/rpi-speed-camera
 * RPI forum post https://www.raspberrypi.org/forums/viewtopic.php?p=1004150#p1004150  
 
 ### NEW cam-track.py - Tracks camera x y movements
@@ -32,18 +32,8 @@ Position the camera so you can see body motions either close or standing.
 Pretty simple but I think kids would have fun with it and they just might 
 take a look at the code to see how it works, change variables or game logic.      
 * hotspot YouTube Video https://youtu.be/xFl3lmbEO9Y   
-* GitHub repo https://github.com/pageauc/motion-track/tree/master/hotspot-game      
+* GitHub hotspot-game Repo https://github.com/pageauc/hotspot-game      
 * RPI Forum Post https://www.raspberrypi.org/forums/viewtopic.php?p=1026124#p1026124   
-  
-## Motion Tracking Demo (Now uses Threading for speed increase)
-motion-track.py is a raspberry pi python opencv2 (computer vision) demo.
-It will detect motion in the field of view and use opencv2 to compare
-images and calculate a threshold image and related contours. It will then
-find the largest contour and return it's x,y coordinates.
-I will implement similar code in a RPI robotics project, but thought the code
-would be useful for other users as a starting point or as part of an 
-existing project see New speed2 for object (vehicle) speed camera app   
-here https://github.com/pageauc/motion-track/blob/master/speed-track-2
 
 I did quite a bit of searching on the internet, github, etc, but could not
 at the time find a similar python picamera implementation that returns x,y coordinates of
