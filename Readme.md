@@ -1,5 +1,5 @@
-#Raspberry Pi Motion Tracking
-### Raspberry Pi - python opencv2 motion tracking using picamera module written by Claude Pageau
+# Raspberry Pi Motion Tracking Demo
+### Using picamera module, python, opencv  
 
 ### motion-track.py - Motion Track Demo - Basic concept of tracking moving objects
 This Demo program detects motion in the field of view and uses opencv to calculate the 
@@ -10,7 +10,7 @@ largest contour above a minimum size and return its x,y coordinate.
 
 ## Other Raspberry Pi Projects Based on Motion Tracking 
 
-#### rpi-speed-camera - Object (vehicle) speed camera based on motion tracking
+### speed-camera.py - Object (vehicle) speed camera based on motion tracking
 Tracks vehicle speeds or other moving objects in real time and records image 
 and logs data. Now improved using threading for video stream and clipping of 
 area of interest for greater performance.  
@@ -18,7 +18,7 @@ area of interest for greater performance.
 * YouTube Speed Camera Video https://youtu.be/eRi50BbJUro  
 * RPI forum post https://www.raspberrypi.org/forums/viewtopic.php?p=1004150#p1004150  
 
-#### cam-track.py - Tracks camera x y movements
+### cam-track.py - Tracks camera x y movements
 Uses a clipped search image rectangle to search subsequent video stream images and returns
 the location. Can be used for tracking camera x y movements for stabilization,
 robotics, Etc.  
@@ -27,7 +27,7 @@ robotics, Etc.
 * Code Walkthrough YouTube Video https://youtu.be/lkh3YbbNdYg        
 * RPI Forum Post https://www.raspberrypi.org/forums/viewtopic.php?p=1027463#p1027463   
 
-#### hotspot-game.py - A simple motion tracking game
+### hotspot-game.py - A simple motion tracking game
 The game play involves using streaming video of body motion to get as many hits 
 as possible inside shrinking boxes that randomly move around the screen. 
 Position the camera so you can see body motions either close or standing. 
@@ -42,7 +42,7 @@ I did quite a bit of searching on the internet, github, etc, but could not
 at the time find a similar python picamera implementation that returns x,y coordinates of
 the most dominate moving object in the frame although some came close.  
 
-###Prerequisites
+### Prerequisites
 Requires a Raspberry Pi computer running with an up-to-date raspbian distro and a
 RPI camera module installed and configured. The dependencies below may be 
 required depending on your previous installs.
