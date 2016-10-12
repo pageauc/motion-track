@@ -7,8 +7,10 @@ largest contour above a minimum size and return its x,y coordinate.
 * Motion Track Demo YouTube Video http://youtu.be/09JS7twPBsQ  
 * GitHub Repo https://github.com/pageauc/motion-track
 * RPI forum post https://www.raspberrypi.org/forums/viewtopic.php?p=790082#p790082  
- 
-### NEW rpi-speed-camera - Object (vehicle) speed camera based on motion tracking
+
+## Other Raspberry Pi Projects based on motion tracing 
+
+#### rpi-speed-camera - Object (vehicle) speed camera based on motion tracking
 Tracks vehicle speeds or other moving objects in real time and records image 
 and logs data. Now improved using threading for video stream and clipping of 
 area of interest for greater performance.  
@@ -16,7 +18,7 @@ area of interest for greater performance.
 * GitHub Repo https://github.com/pageauc/rpi-speed-camera
 * RPI forum post https://www.raspberrypi.org/forums/viewtopic.php?p=1004150#p1004150  
 
-### NEW cam-track.py - Tracks camera x y movements
+#### cam-track.py - Tracks camera x y movements
 Uses a clipped search image rectangle to search subsequent video stream images and returns
 the location. Can be used for tracking camera x y movements for stabilization,
 robotics, Etc.   
@@ -25,7 +27,7 @@ robotics, Etc.
 * GitHub Repo https://github.com/pageauc/motion-track/tree/master/cam-track     
 * RPI Forum Post https://www.raspberrypi.org/forums/viewtopic.php?p=1027463#p1027463   
 
-### NEW hotspot-game.py - A simple motion tracking game
+#### hotspot-game.py - A simple motion tracking game
 The game play involves using streaming video of body motion to get as many hits 
 as possible inside shrinking boxes that randomly move around the screen. 
 Position the camera so you can see body motions either close or standing. 
@@ -35,12 +37,10 @@ take a look at the code to see how it works, change variables or game logic.
 * GitHub hotspot-game Repo https://github.com/pageauc/hotspot-game      
 * RPI Forum Post https://www.raspberrypi.org/forums/viewtopic.php?p=1026124#p1026124   
 
+### Introduction
 I did quite a bit of searching on the internet, github, etc, but could not
 at the time find a similar python picamera implementation that returns x,y coordinates of
 the most dominate moving object in the frame although some came close.  
-
-Some of this code is based on a YouTube tutorial by
-Kyle Hounslow using C here - https://www.youtube.com/watch?v=X6rPdRZzgjg
 
 ###Prerequisites
 Requires a Raspberry Pi computer running with an up-to-date raspbian distro and a
@@ -104,6 +104,10 @@ See code comments for details and installation requirements
     
 Note currently this code will fail after a while when in gui mode due to I believe is a Raspbian library memory issue 
 terminal only mode should be OK.
+
+### Credits
+Some of this code is based on a YouTube tutorial by
+Kyle Hounslow using C here - https://www.youtube.com/watch?v=X6rPdRZzgjg
 
 Good Luck  Claude ...
 
