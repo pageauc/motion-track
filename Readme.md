@@ -1,5 +1,5 @@
 # Raspberry Pi Camera Motion Tracking Demo
-### Uses python, Opencv to Track x y position of largest moving object in camera view.  
+### Uses python, Opencv to Track x,y position of largest moving object in camera view.  
 
 ### Quick Install   
 Easy Install of motion-track-demo onto a Raspberry Pi Computer with latest Raspbian. 
@@ -36,7 +36,7 @@ largest contour above a minimum size and return its x,y coordinate.
 * GitHub Repo https://github.com/pageauc/motion-track
 * RPI forum post https://www.raspberrypi.org/forums/viewtopic.php?p=790082#p790082  
 
-## Other Raspberry Pi Projects Based on Motion Tracking 
+## ---------- Other Raspberry Pi Projects Based on Motion Tracking ------------
 
 ### speed-camera.py - Object (vehicle) speed camera based on motion tracking
 Tracks vehicle speeds or other moving objects in real time and records image 
@@ -65,6 +65,8 @@ take a look at the code to see how it works, change variables or game logic.
 * YouTube Hotspot Gam Video https://youtu.be/xFl3lmbEO9Y       
 * RPI Forum Post https://www.raspberrypi.org/forums/viewtopic.php?p=1026124#p1026124   
 
+## ----------------------------------------------------------------------------
+
 ### Introduction
 I did quite a bit of searching on the internet, github, etc, but could not
 at the time find a similar python picamera implementation that returns x,y coordinates of
@@ -72,8 +74,8 @@ the most dominate moving object in the frame although some came close.
 
 ### Prerequisites
 Requires a Raspberry Pi computer running with an up-to-date raspbian distro and a
-RPI camera module installed and configured. The dependencies below may be 
-required depending on your previous installs.
+RPI camera module installed and configured. The dependencies may be 
+installed per motion-track-install.sh depending on your previous installs.
 
 ### Trouble Shooting
     
