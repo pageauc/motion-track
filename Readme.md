@@ -1,5 +1,5 @@
 # Raspberry Pi Camera Motion Tracking Demo
-### Uses python, Opencv to Track x y position of larges moving object in camera view.  
+### Uses python, Opencv to Track x y position of largest moving object in camera view.  
 
 ### Quick Install   
 Easy Install of motion-track-demo onto a Raspberry Pi Computer with latest Raspbian. 
