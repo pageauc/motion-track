@@ -2,7 +2,7 @@
 ### Using picamera module, python, opencv  
 
 ### Quick Install   
-Easy Install of speed-cam onto a Raspberry Pi Computer with latest Raspbian. 
+Easy Install of motion-track-demo onto a Raspberry Pi Computer with latest Raspbian. 
 
     curl -L https://raw.github.com/pageauc/motion-track/master/motion-track-install.sh | bash
 
@@ -19,10 +19,15 @@ From logged in RPI SSH session or console terminal perform the following.
     wget https://raw.github.com/pageauc/motion-track/master/motion-track-install.sh
     chmod +x motion-track-install.sh
     ./motion-track-install.sh
-    cd motion-track-demo
-    ./motion-track.py
-    
-See How To Run section below  
+
+### How to Run
+Default is console only.  Use Nano to Edit motion-track.py variable window_on = True
+to display the opencv tracking window on GUI desktop. See other variables
+and descriptions for additional variable customization settings.
+From SSH session, console or GUI desktop terminal session execute the following commands 
+
+    cd ~/motion-track-demo
+    ./motion-track.py   
     
 ### motion-track.py - Motion Track Demo - Basic concept of tracking moving objects
 This Demo program detects motion in the field of view and uses opencv to calculate the 
@@ -70,10 +75,7 @@ Requires a Raspberry Pi computer running with an up-to-date raspbian distro and 
 RPI camera module installed and configured. The dependencies below may be 
 required depending on your previous installs.
 
-### How to Run
-
-    cd ~/motion-track-demo
-    ./motion-track.py
+### Trouble Shooting
     
 if you get an opengl error then see this article about installing opengl on 
 a RPI P2  https://www.raspberrypi.org/blog/another-new-raspbian-release/
