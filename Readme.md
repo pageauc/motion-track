@@ -1,5 +1,5 @@
-# Raspberry Pi Motion Tracking Demo
-### Using picamera module, python, opencv  
+# Raspberry Pi Camera Motion Tracking Demo
+### Uses python, Opencv to Track x y position of larges moving object in camera view.  
 
 ### Quick Install   
 Easy Install of motion-track-demo onto a Raspberry Pi Computer with latest Raspbian. 
@@ -21,7 +21,7 @@ From logged in RPI SSH session or console terminal perform the following.
     ./motion-track-install.sh
 
 ### How to Run
-Default is console only.  Use Nano to Edit motion-track.py variable window_on = True
+Default is console only display. Use Nano to Edit motion-track.py variable window_on = True
 to display the opencv tracking window on GUI desktop. See other variables
 and descriptions for additional variable customization settings.
 From SSH session, console or GUI desktop terminal session execute the following commands 
