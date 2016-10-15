@@ -29,9 +29,11 @@ wget -O motion-track-install.sh -q --show-progress https://raw.github.com/pageau
 if [ $? -ne 0 ] ;  then
   wget -O motion-track-install.sh https://raw.github.com/pageauc/motion-track/master/motion-track-install.sh
   wget -O motion-track.py https://raw.github.com/pageauc/motion-track/master/motion-track.py 
+  wget -O config.py https://raw.github.com/pageauc/motion-track/master/config.py  
   wget -O Readme.md https://raw.github.com/pageauc/motion-track/master/Readme.md  
 else
   wget -O motion-track.py -q --show-progress https://raw.github.com/pageauc/motion-track/master/motion-track.py
+  wget -O config.py -q --show-progress https://raw.github.com/pageauc/motion-track/master/config.py    
   wget -O Readme.md -q --show-progress  https://raw.github.com/pageauc/motion-track/master/Readme.md  
 fi
 echo "Done Download"

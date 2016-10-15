@@ -21,7 +21,7 @@ From logged in RPI SSH session or console terminal perform the following.
     ./motion-track-install.sh
 
 ### How to Run
-Default is console only display. Use Nano to Edit motion-track.py variable window_on = True
+Default is console only display. Use Nano to Edit config.py variable window_on = True
 to display the opencv tracking window on GUI desktop. See other variables
 and descriptions for additional variable customization settings.
 From SSH session, console or GUI desktop terminal session execute the following commands 
@@ -86,7 +86,7 @@ Otherwise install opengl support library per following command then reboot.
 
     sudo apt-get install libgl1-mesa-dri
     
-Set variable window_on = True so the opencv status windows can display camera
+Edit the config.py file and set variable window_on = True so the opencv status windows can display camera
 motion images and a circle marking x,y coordinates as well as
 the threshold images.  The circle diameter can be change using CIRCLE_SIZE
 variable.  

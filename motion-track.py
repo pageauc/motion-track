@@ -34,6 +34,37 @@ cd ~/motion-track-demo
 """
 print("%s %s using python2 and OpenCV2" % (progname, ver))
 print("Loading Please Wait ....")
+
+import os
+mypath=os.path.abspath(__file__)       # Find the full path of this python script
+baseDir=mypath[0:mypath.rfind("/")+1]  # get the path location only (excluding script name)
+baseFileName=mypath[mypath.rfind("/")+1:mypath.rfind(".")]
+progName = os.path.basename(__file__)
+
+# Check for variable file to import and error out if not found.
+configFilePath = baseDir + "config.py"
+if not os.path.exists(configFilePath):
+    print("ERROR - Missing config.py file - Could not find Configuration file %s" % (configFilePath))
+    import urllib2
+    config_url = "https://raw.github.com/pageauc/motion-track/master/config.py"
+    print("   Attempting to Download config.py file from %s" % ( config_url ))
+    try:
+        wgetfile = urllib2.urlopen(config_url)
+    except:
+        print("ERROR - Download of config.py Failed")
+        print("   Try Rerunning the motion-track-install.sh Again.")
+        print("   or")
+        print("   Perform GitHub curl install per Readme.md")
+        print("   and Try Again")
+        print("Exiting %s" % ( progName ))
+        quit()
+    f = open('config.py','wb')
+    f.write(wgetfile.read())
+    f.close()   
+# Read Configuration variables from config.py file
+from config import *
+
+
 # import the necessary packages
 import io
 import time
@@ -42,34 +73,6 @@ import cv2
 from picamera.array import PiRGBArray
 from picamera import PiCamera
 from threading import Thread
-
-# Display Settings
-debug = True        # Set to False for no data display
-window_on = False   # Set to True displays opencv windows (GUI desktop reqd)
-diff_window_on = False  # Show OpenCV image difference window
-thresh_window_on = False  # Show OpenCV image Threshold window
-SHOW_CIRCLE = True  # show a circle otherwise show bounding rectancle on window
-CIRCLE_SIZE = 8     # diameter of circle to show motion location in window
-LINE_THICKNESS = 1  # thickness of bounding line in pixels
-WINDOW_BIGGER = 1   # Resize multiplier for Movement Status Window
-                    # if gui_window_on=True then makes opencv window bigger
-                    # Note if the window is larger than 1 then a reduced frame rate will occur            
-
-# Camera Settings
-CAMERA_WIDTH = 320
-CAMERA_HEIGHT = 240
-big_w = int(CAMERA_WIDTH * WINDOW_BIGGER)
-big_h = int(CAMERA_HEIGHT * WINDOW_BIGGER)      
-CAMERA_HFLIP = False
-CAMERA_VFLIP = True
-CAMERA_ROTATION=0
-CAMERA_FRAMERATE = 35
-FRAME_COUNTER = 1000
-
-# Motion Tracking Settings
-MIN_AREA = 200       # excludes all contours less than or equal to this Area
-THRESHOLD_SENSITIVITY = 25
-BLUR_SIZE = 10
 
 #-----------------------------------------------------------------------------------------------  
 class PiVideoStream:
