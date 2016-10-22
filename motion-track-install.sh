@@ -44,19 +44,27 @@ chmod +x motion-track.py
 chmod +x motion-track-install.sh
 echo "Done Permissions"
 echo "------------------------------------------------"
-echo ""
-echo "3 - Performing Raspbian System Update"
-echo "    This Will Take Some Time ...."
-echo ""
-sudo apt-get -y update
-echo "Done update"
-echo "------------------------------------------------"
-echo ""
-echo "4 - Performing Raspbian System Upgrade"
-echo "    This Will Take Some Time ...."
-echo ""
-sudo apt-get -y upgrade
-echo "Done upgrade"
+# check if system was updated today
+NOW="$( date +%d-%m-%y )"
+LAST="$( date -r /var/lib/dpkg/info +%d-%m-%y )"
+if [ "$NOW" == "$LAST" ] ; then
+  echo "4 Raspbian System is Up To Date"
+  echo ""  
+else
+  echo ""
+  echo "3 - Performing Raspbian System Update"
+  echo "    This Will Take Some Time ...."
+  echo ""
+  sudo apt-get -y update
+  echo "Done update"
+  echo "------------------------------------------------"
+  echo ""
+  echo "4 - Performing Raspbian System Upgrade"
+  echo "    This Will Take Some Time ...."
+  echo ""
+  sudo apt-get -y upgrade
+  echo "Done upgrade"
+fi  
 echo "------------------------------------------------"
 echo ""
 echo "5 - Installing motion-track Dependencies"

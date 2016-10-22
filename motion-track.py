@@ -64,7 +64,6 @@ if not os.path.exists(configFilePath):
 # Read Configuration variables from config.py file
 from config import *
 
-
 # import the necessary packages
 import io
 import time
