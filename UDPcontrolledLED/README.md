@@ -16,5 +16,5 @@ NEEDED EQUIPMENT:
 
 NOTE:
 
-  -You will have to provide enogh energy to the Raspberry. \\
+  -You will have to provide enogh energy to the Raspberry. \n
   -The nodeMCU can be powered with 5V on the VIN pin. So if you are smart, take 5V LEDstripes ;)  
