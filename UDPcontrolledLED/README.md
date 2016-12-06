@@ -25,14 +25,14 @@ STEP!: The Raspberry Pi part
 install the needed packages on your Raspberry Pi (suggesting you use some actual version (date: 4.12.2016))
 in my case it was done by only install these:
 
-  * sudo apt-get install python-opencv python-picamera
-	* sudo apt-get install lightdm
-	* sudo apt-get install lubuntu-core xvfb x11vnc
-  * mkdir motion-track
-	* cd motion-track   
-	* wget https://raw.github.com/pageauc/motion-track/master/motion-track.py
+    sudo apt-get install python-opencv python-picamera
+    sudo apt-get install lightdm
+    sudo apt-get install lubuntu-core xvfb x11vnc
+    mkdir motion-track
+    cd motion-track
+    wget https://github.com/lustigerluke/motion-track/tree/master/UDPcontrolledLED/motion-track.py
 
-the motion-track.py file was my starting point. you would take my copy of it ;)
+the motion-track.py file was my starting point. The wget version is my copy of the original motion-track.py
 
 STEP2: The nodeMCU part
 connect your nodeMCU to a PC running ArduinoIDE. get the needed additional BoardManager Adresses and set them in settns, Now go to Board-Manager and add "ESP8266" or "nodemcu". Load the needed Boards and you are ready to go. 
