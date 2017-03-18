@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 progname = "motion_track.py"
-ver = "version 0.97
+ver = "version 0.97"
 
 """
 motion-track ver 0.95 written by Claude Pageau pageauc@gmail.com
