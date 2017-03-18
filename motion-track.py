@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 progname = "motion_track.py"
-ver = "version 0.96"
+ver = "version 0.97
 
 """
 motion-track ver 0.95 written by Claude Pageau pageauc@gmail.com
@@ -32,7 +32,7 @@ cd ~/motion-track-demo
 ./motion-track.py
 
 """
-print("%s %s using python2 and OpenCV2" % (progname, ver))
+print("%s %s motion tracking using python2 or 3 and OpenCV" % (progname, ver))
 print("Loading Please Wait ....")
 
 import os
@@ -176,9 +176,12 @@ def motion_track():
         differenceimage = cv2.absdiff(grayimage1, grayimage2)
         differenceimage = cv2.blur(differenceimage,(BLUR_SIZE,BLUR_SIZE))
         # Get threshold of difference image based on THRESHOLD_SENSITIVITY variable
-        retval, thresholdimage = cv2.threshold(differenceimage,THRESHOLD_SENSITIVITY,255,cv2.THRESH_BINARY)
-        # Get all the contours found in the thresholdimage
-        contours, hierarchy = cv2.findContours(thresholdimage,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
+        retval, thresholdimage = cv2.threshold( differenceimage, THRESHOLD_SENSITIVITY, 255, cv2.THRESH_BINARY )         
+        try:
+            thresholdimage, contours, hierarchy = cv2.findContours( thresholdimage, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE )        
+        except:       
+            contours, hierarchy = cv2.findContours( thresholdimage, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE )         
+        # Get total number of contours
         total_contours = len(contours)
         # save grayimage2 to grayimage1 ready for next image2
         grayimage1 = grayimage2
