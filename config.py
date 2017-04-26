@@ -1,4 +1,4 @@
-# Config.py file for motion-track.py
+# Config.py file for motion-track.py  Release 0.98
 
 # Display Settings
 debug = True        # Set to False for no data display
@@ -13,6 +13,7 @@ WINDOW_BIGGER = 1   # Resize multiplier for Movement Status Window
                     # Note if the window is larger than 1 then a reduced frame rate will occur            
 
 # Camera Settings
+WEBCAM = False      # Use a Web Camera ( Must be plugged into a USB socket)
 CAMERA_WIDTH = 320
 CAMERA_HEIGHT = 240
 big_w = int(CAMERA_WIDTH * WINDOW_BIGGER)
