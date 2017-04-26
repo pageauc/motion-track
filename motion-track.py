@@ -60,7 +60,8 @@ if not os.path.exists(configFilePath):
         quit()
     f = open('config.py','wb')
     f.write(wgetfile.read())
-    f.close()   
+    f.close()
+    
 # Read Configuration variables from config.py file
 from config import *
 
@@ -122,8 +123,6 @@ class PiVideoStream:
     def stop(self):
         # indicate that the thread should be stopped
         self.stopped = True
-
-# import the necessary packages
 
 class WebcamVideoStream:
         def __init__(self, src=0):
