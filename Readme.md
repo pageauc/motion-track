@@ -1,5 +1,19 @@
 # Raspberry Pi Camera Motion Tracking Demo
-### Uses python, Opencv to Track x,y position of largest moving object in camera view.  
+### Uses python2/3, Opencv2/3 to Track x,y position of largest moving object in camera view.  
+
+### Introduction
+I did quite a bit of searching on the internet, github, etc, but could not
+at the time find a similar python picamera implementation that returns x,y coordinates of
+the most dominate moving object in the frame although some came close.  
+
+### Prerequisites
+Requires a Raspberry Pi computer with an up-to-date Raspbian distro and a
+RPI camera module or Web Camera installed and configured.  
+If you wish to use a web camera that is plugged into a RPI usb port. Set WEBCAM = True in config.py
+otherwise, WEBCAM = False will use a connected raspberry pi camera module video stream.
+
+The dependencies and code files can be installed per the motion-track-install.sh script.
+See Quick or Manual install instructions below for details
 
 ### Quick Install   
 Easy Install of motion-track-demo onto a Raspberry Pi Computer with latest Raspbian. 
@@ -13,7 +27,7 @@ This install can also be done directly on an Internet connected Raspberry Pi via
 Note - a raspbian apt-get update and upgrade will be performed as part of install 
 so it may take some time if these are not up-to-date
 
-#### or Manual Install   
+#### Manual Install   
 From logged in RPI SSH session or console terminal perform the following.
 
     wget https://raw.github.com/pageauc/motion-track/master/motion-track-install.sh
@@ -28,7 +42,34 @@ From SSH session, console or GUI desktop terminal session execute the following 
 
     cd ~/motion-track-demo
     ./motion-track.py   
+ 
+### Trouble Shooting
     
+if you get an opengl error then see this article about installing opengl on 
+a RPI P2  https://www.raspberrypi.org/blog/another-new-raspbian-release/
+
+Otherwise install opengl support library per following command then reboot.
+
+    sudo apt-get install libgl1-mesa-dri
+    
+Edit the config.py file and set variable window_on = True so the opencv status windows can display camera
+motion images and a circle marking x,y coordinates as well as
+the threshold images.  The circle diameter can be change using CIRCLE_SIZE
+variable.  
+You can set window_on = False if you need to run from SSH session.  If   
+debug= True then status information will be displayed without a GUI desktop session.
+
+### Credits  
+Some of this code is based on a YouTube tutorial by
+Kyle Hounslow using C here https://www.youtube.com/watch?v=X6rPdRZzgjg
+
+Thanks to Adrian Rosebrock jrosebr1 at http://www.pyimagesearch.com 
+for the PiVideoStream Class code available on github at
+https://github.com/jrosebr1/imutils/blob/master/imutils/video/pivideostream.py
+  
+
+
+ 
 ### motion-track.py - Motion Track Demo - Basic concept of tracking moving objects
 This Demo program detects motion in the field of view and uses opencv to calculate the 
 largest contour above a minimum size and return its x,y coordinate. 
@@ -67,45 +108,7 @@ take a look at the code to see how it works, change variables or game logic.
 
 ## ----------------------------------------------------------------------------
 
-### Introduction
-I did quite a bit of searching on the internet, github, etc, but could not
-at the time find a similar python picamera implementation that returns x,y coordinates of
-the most dominate moving object in the frame although some came close.  
 
-### Prerequisites
-Requires a Raspberry Pi computer running with an up-to-date raspbian distro and a
-RPI camera module installed and configured. The dependencies may be 
-installed per motion-track-install.sh depending on your previous installs.
-
-### Trouble Shooting
-    
-if you get an opengl error then see this article about installing opengl on 
-a RPI P2  https://www.raspberrypi.org/blog/another-new-raspbian-release/
-
-Otherwise install opengl support library per following command then reboot.
-
-    sudo apt-get install libgl1-mesa-dri
-    
-Edit the config.py file and set variable window_on = True so the opencv status windows can display camera
-motion images and a circle marking x,y coordinates as well as
-the threshold images.  The circle diameter can be change using CIRCLE_SIZE
-variable.  
-You can set window_on = False if you need to run from SSH session.  If debug
-= True then status information will be displayed without a GUI desktop session.
-
-I have added motion3-track.py for use with python3 and OpenCV3 FYI. Only
-the cv2.findContour line needs to be changed due to OpenCV3 syntax difference.
-Steps for installing OpenCV3 can be found here
-https://www.raspberrypi.org/forums/viewtopic.php?p=792568&sid=adf009c84bee379cd08b377168535477#p792568
-
-### Credits  
-Some of this code is based on a YouTube tutorial by
-Kyle Hounslow using C here https://www.youtube.com/watch?v=X6rPdRZzgjg
-
-Thanks to Adrian Rosebrock jrosebr1 at http://www.pyimagesearch.com 
-for the PiVideoStream Class code available on github at
-https://github.com/jrosebr1/imutils/blob/master/imutils/video/pivideostream.py
-  
 Have Fun   
 Claude Pageau    
 YouTube Channel https://www.youtube.com/user/pageaucp   
