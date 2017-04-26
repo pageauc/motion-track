@@ -27,7 +27,7 @@ This install can also be done directly on an Internet connected Raspberry Pi via
 Note - a raspbian apt-get update and upgrade will be performed as part of install 
 so it may take some time if these are not up-to-date
 
-#### Manual Install   
+### Manual Install   
 From logged in RPI SSH session or console terminal perform the following.
 
     wget https://raw.github.com/pageauc/motion-track/master/motion-track-install.sh
