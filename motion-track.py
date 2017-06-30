@@ -1,22 +1,22 @@
 #!/usr/bin/env python
 progname = "motion_track.py"
-ver = "version 0.98"
+ver = "version 1.00"
 
 """
-motion-track ver 0.95 written by Claude Pageau pageauc@gmail.com
+motion-track ver 1.00 written by Claude Pageau pageauc@gmail.com
 Raspberry (Pi) - python opencv2 motion tracking using picamera module
 
 This is a raspberry pi python opencv2 motion tracking demonstration program.
 It will detect motion in the field of view and use opencv to calculate the
 largest contour and return its x,y coordinate.  I will be using this for
-a simple RPI robotics project, but thought the code would be useful for 
-other users as a starting point for a project.  I did quite a bit of 
+a simple RPI robotics project, but thought the code would be useful for
+other users as a starting point for a project.  I did quite a bit of
 searching on the internet, github, etc but could not find a similar
-implementation that returns x,y coordinates of the most dominate moving 
+implementation that returns x,y coordinates of the most dominate moving
 object in the frame.  Some of this code is base on a YouTube tutorial by
 Kyle Hounslow using C here https://www.youtube.com/watch?v=X6rPdRZzgjg
 
-Here is a my YouTube video demonstrating this demo program using a 
+Here is a my YouTube video demonstrating this demo program using a
 Raspberry Pi B2 https://youtu.be/09JS7twPBsQ
 
 Requires a Raspberry Pi with a RPI camera module installed and configured
@@ -61,12 +61,12 @@ if not os.path.exists(configFilePath):
     f = open('config.py','wb')
     f.write(wgetfile.read())
     f.close()
-    
+
 # Read Configuration variables from config.py file
 from config import *
 
 # import the necessary packages
-import io
+import logging
 import time
 import cv2
 
@@ -74,7 +74,12 @@ from picamera.array import PiRGBArray
 from picamera import PiCamera
 from threading import Thread
 
-#-----------------------------------------------------------------------------------------------  
+if debug:
+    logging.basicConfig(level=logging.DEBUG,
+                    format='%(asctime)s %(levelname)-8s %(funcName)-10s %(message)s',
+                    datefmt='%Y-%m-%d %H:%M:%S')
+
+#-----------------------------------------------------------------------------------------------
 class PiVideoStream:
     def __init__(self, resolution=(CAMERA_WIDTH, CAMERA_HEIGHT), framerate=CAMERA_FRAMERATE, rotation=0, hflip=False, vflip=False):
         # initialize the camera and stream
@@ -123,13 +128,15 @@ class PiVideoStream:
     def stop(self):
         # indicate that the thread should be stopped
         self.stopped = True
-        
+
 #-----------------------------------------------------------------------------------------------
 class WebcamVideoStream:
-    def __init__(self, src=0):
+    def __init__(self, src=0, WEBCAM_WIDTH=320, WEBCAM_HEIGHT=240):
         # initialize the video camera stream and read the first frame
         # from the stream
         self.stream = cv2.VideoCapture(src)
+        self.stream.set(3,WEBCAM_WIDTH)
+        self.stream.set(4,WEBCAM_HEIGHT)
         (self.grabbed, self.frame) = self.stream.read()
 
         # initialize the variable used to indicate if the thread should
@@ -161,105 +168,118 @@ class WebcamVideoStream:
         # indicate that the thread should be stopped
         self.stopped = True
 
-#-----------------------------------------------------------------------------------------------  
+#-----------------------------------------------------------------------------------------------
 def show_FPS(start_time,frame_count):
     if debug:
         if frame_count >= FRAME_COUNTER:
             duration = float(time.time() - start_time)
             FPS = float(frame_count / duration)
-            print("Processing at %.2f fps last %i frames" %( FPS, frame_count))
+            logging.info("Processing at %.2f fps last %i frames", FPS, frame_count)
             frame_count = 0
             start_time = time.time()
         else:
             frame_count += 1
     return start_time, frame_count
 
-#-----------------------------------------------------------------------------------------------  
-def motion_track():
-    print("Initializing Camera ....")
+#-----------------------------------------------------------------------------------------------
+def track():
+        
     # Save images to an in-program stream
     # Setup video stream on a processor Thread for faster speed
-    if WEBCAM:   #  Start Web Cam stream (Note USB webcam must be plugged in) 
+    if WEBCAM:   #  Start Web Cam stream (Note USB webcam must be plugged in)
+        print("Initializing USB Web Camera ....")
+        WEBCAMSRC=0
         vs = WebcamVideoStream().start()
+        vs.src = WEBCAMSRC
+        vs.WEBCAM_WIDTH = CAMERA_WIDTH
+        vs.WEBCAM_HEIGHT = CAMERA_HEIGHT
     else:
+        print("Initializing Pi Camera ....")    
         vs = PiVideoStream().start()
         vs.camera.rotation = CAMERA_ROTATION
         vs.camera.hflip = CAMERA_HFLIP
         vs.camera.vflip = CAMERA_VFLIP
-    time.sleep(2.0)    
+    time.sleep(2.0)  # Allow cam to initialize
+
     if window_on:
-        print("press q to quit opencv display")
+        print("Press q in window Quits")
     else:
-        print("press ctrl-c to quit")        
-    print("Start Motion Tracking ....")
-    cx = 0
-    cy = 0
-    cw = 0
-    ch = 0
-    frame_count = 0
-    start_time = time.time()
-    # initialize image1 using image2 (only done first time)
-    image2 = vs.read()     
-    image1 = image2
-    grayimage1 = cv2.cvtColor(image1, cv2.COLOR_BGR2GRAY)
-    first_image = False    
+        print("Press ctrl-c to Quit")       
+    
+    if debug:
+        logging.info("Start Motion Tracking ....")     
+    else:
+        print("Start Motion Tracking ....")     
+        print("Note: Console Messages Supressed per debug=%s" % debug)
+   
+    big_w = int(CAMERA_WIDTH * WINDOW_BIGGER)
+    big_h = int(CAMERA_HEIGHT * WINDOW_BIGGER)
+    cx, cy, cw, ch = 0, 0, 0, 0   # initialize contour center variables
+    frame_count = 0  #initialize for show_fps
+    start_time = time.time() #initialize for show_fps
+    image1 = vs.read()   # initialize image1 (done once)
+    try:
+        grayimage1 = cv2.cvtColor(image1, cv2.COLOR_BGR2GRAY)
+    except:
+        print("---------------- ERROR ------------------")
+        print(" Problem with Camera.")
+        print(" Maybe Due to Restarting Web Cam Too Soon After Shutdown")
+        print(" Please Wait a Few Seconds and Try Again.")
+        quit(1)
     still_scanning = True
     while still_scanning:
-        image2 = vs.read()        
-        start_time, frame_count = show_FPS(start_time, frame_count)
-        # initialize variables         
+        # initialize variables
         motion_found = False
         biggest_area = MIN_AREA
-        # At this point the image is available as stream.array
-        # Convert to gray scale, which is easier
+        image2 = vs.read()  # initialize image2
         grayimage2 = cv2.cvtColor(image2, cv2.COLOR_BGR2GRAY)
-        # Get differences between the two greyed, blurred images
+        if show_fps:
+            start_time, frame_count = show_FPS(start_time, frame_count)
+        # Get differences between the two greyed images
         differenceimage = cv2.absdiff(grayimage1, grayimage2)
+        grayimage1 = grayimage2  # save grayimage2 to grayimage1 ready for next image2
         differenceimage = cv2.blur(differenceimage,(BLUR_SIZE,BLUR_SIZE))
         # Get threshold of difference image based on THRESHOLD_SENSITIVITY variable
-        retval, thresholdimage = cv2.threshold( differenceimage, THRESHOLD_SENSITIVITY, 255, cv2.THRESH_BINARY )         
+        retval, thresholdimage = cv2.threshold( differenceimage, THRESHOLD_SENSITIVITY, 255, cv2.THRESH_BINARY )
         try:
-            thresholdimage, contours, hierarchy = cv2.findContours( thresholdimage, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE )        
-        except:       
-            contours, hierarchy = cv2.findContours( thresholdimage, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE )         
-        # Get total number of contours
-        total_contours = len(contours)
-        # save grayimage2 to grayimage1 ready for next image2
-        grayimage1 = grayimage2
-        # find contour with biggest area
-        for c in contours:
-            # get area of next contour
-            found_area = cv2.contourArea(c)
-            # find the middle of largest bounding rectangle
-            if found_area > biggest_area:
-                motion_found = True
-                biggest_area = found_area
-                (x, y, w, h) = cv2.boundingRect(c)
-                cx = int(x + w/2)   # put circle in middle of width
-                cy = int(y + h/6)   # put circle closer to top
-                cw = w
-                ch = h
-                
-        if motion_found:
-            # Do Something here with motion data
-            if window_on:
-                # show small circle at motion location
-                if SHOW_CIRCLE:
-                    cv2.circle(image2,(cx,cy),CIRCLE_SIZE,(0,255,0), LINE_THICKNESS)
-                else:
-                    cv2.rectangle(image2,(cx,cy),(x+cw,y+ch),(0,255,0), LINE_THICKNESS)                  
-            if debug:
-                print("Motion at cx=%3i cy=%3i  total_Contours=%2i  biggest_area:%3ix%3i=%5i" % (cx ,cy, total_contours, cw, ch, biggest_area))
+            thresholdimage, contours, hierarchy = cv2.findContours( thresholdimage, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE )
+        except:
+            contours, hierarchy = cv2.findContours( thresholdimage, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE )
+
+        if contours != ():
+            total_contours = len(contours)  # Get total number of contours
+            for c in contours:              # find contour with biggest area
+                found_area = cv2.contourArea(c)  # get area of next contour
+                # find the middle of largest bounding rectangle
+                if found_area > biggest_area:
+                    motion_found = True
+                    biggest_area = found_area
+                    (x, y, w, h) = cv2.boundingRect(c)
+                    cx = int(x + w/2)   # put circle in middle of width
+                    cy = int(y + h/6)   # put circle closer to top
+                    cw, ch = w, h
+
+            if motion_found:
+                # Do Something here with motion data
+                if window_on:
+                    # show small circle at motion location
+                    if SHOW_CIRCLE:
+                        cv2.circle(image2,(cx,cy),CIRCLE_SIZE,(0,255,0), LINE_THICKNESS)
+                    else:
+                        cv2.rectangle(image2,(cx,cy),(x+cw,y+ch),(0,255,0), LINE_THICKNESS)
+                if debug:
+                    logging.info("at cx,cy(%3i,%3i)  TC's=%2i  BC:%ix%i=%i SqPx" %
+                                    (cx ,cy, total_contours, cw, ch, biggest_area))
 
         if window_on:
             if diff_window_on:
-                cv2.imshow('Difference Image',differenceimage) 
+                cv2.imshow('Difference Image',differenceimage)
             if thresh_window_on:
                 cv2.imshow('OpenCV Threshold', thresholdimage)
             if WINDOW_BIGGER > 1:  # Note setting a bigger window will slow the FPS
-                image2 = cv2.resize( image2,( big_w, big_h ))                             
+                image2 = cv2.resize( image2,( big_w, big_h ))
             cv2.imshow('Movement Status  (Press q in Window to Quit)', image2)
-            
+
             # Close Window if q pressed while movement status window selected
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 cv2.destroyAllWindows()
@@ -267,16 +287,16 @@ def motion_track():
                 print("End Motion Tracking")
                 still_scanning = False
 
-#-----------------------------------------------------------------------------------------------    
+#-----------------------------------------------------------------------------------------------
 if __name__ == '__main__':
     try:
-        motion_track()
+        track()
     finally:
         print("")
         print("+++++++++++++++++++++++++++++++++++")
         print("%s %s - Exiting" % (progname, ver))
         print("+++++++++++++++++++++++++++++++++++")
-        print("")                                
+        print("")
 
 
 
