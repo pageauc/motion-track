@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 progname = "motion_track.py"
-ver = "version 1.10"
+ver = "version 1.20"
 
 """
-motion-track ver 1.00 written by Claude Pageau pageauc@gmail.com
+motion-track  written by Claude Pageau pageauc@gmail.com
 Raspberry (Pi) - python opencv2 motion tracking using picamera module
 
 This is a raspberry pi python opencv2 motion tracking demonstration program.
@@ -47,7 +47,8 @@ if not os.path.exists(configFilePath):
     print("ERROR - Missing config.py file - Could not find Configuration file %s" % (configFilePath))
     import urllib2
     config_url = "https://raw.github.com/pageauc/motion-track/master/config.py"
-    print("   Attempting to Download config.py file from %s" % ( config_url ))
+    print("Attempting to Download new config.py file")
+    print("from %s" % ( config_url ))
     try:
         wgetfile = urllib2.urlopen(config_url)
     except:
@@ -57,7 +58,7 @@ if not os.path.exists(configFilePath):
         print("   Perform GitHub curl install per Readme.md")
         print("   and Try Again")
         print("Exiting %s" % ( progName ))
-        quit()
+        quit(1)
     f = open('config.py','wb')
     f.write(wgetfile.read())
     f.close()
@@ -290,14 +291,14 @@ if __name__ == '__main__':
                 vs.CAM_SRC = WEBCAM_SRC
                 vs.CAM_WIDTH = WEBCAM_WIDTH
                 vs.CAM_HEIGHT = WEBCAM_HEIGHT
-                time.sleep(4.0)  # Allow webcam to initialize
+                time.sleep(4.0)  # Allow WebCam to initialize
             else:
                 print("Initializing Pi Camera ....")
                 vs = PiVideoStream().start()
                 vs.camera.rotation = CAMERA_ROTATION
                 vs.camera.hflip = CAMERA_HFLIP
                 vs.camera.vflip = CAMERA_VFLIP
-                time.sleep(2.0)  # Allow pi cam to initialize
+                time.sleep(2.0)  # Allow PiCamera to initialize
             track()
         except KeyboardInterrupt:
             vs.stop()
