@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 progname = "motion_track.py"
-ver = "version 1.00"
+ver = "version 1.10"
 
 """
 motion-track ver 1.00 written by Claude Pageau pageauc@gmail.com
@@ -131,12 +131,13 @@ class PiVideoStream:
 
 #-----------------------------------------------------------------------------------------------
 class WebcamVideoStream:
-    def __init__(self, src=0, WEBCAM_WIDTH=320, WEBCAM_HEIGHT=240):
+    def __init__(self, CAM_SRC=WEBCAM_SRC, CAM_WIDTH=WEBCAM_WIDTH, CAM_HEIGHT=WEBCAM_HEIGHT):
         # initialize the video camera stream and read the first frame
         # from the stream
-        self.stream = cv2.VideoCapture(src)
-        self.stream.set(3,WEBCAM_WIDTH)
-        self.stream.set(4,WEBCAM_HEIGHT)
+        self.stream = CAM_SRC
+        self.stream = cv2.VideoCapture(WEBCAM_SRC)
+        self.stream.set(3,CAM_WIDTH)
+        self.stream.set(4,CAM_HEIGHT)
         (self.grabbed, self.frame) = self.stream.read()
 
         # initialize the variable used to indicate if the thread should
@@ -183,55 +184,44 @@ def show_FPS(start_time,frame_count):
 
 #-----------------------------------------------------------------------------------------------
 def track():
-        
-    # Save images to an in-program stream
-    # Setup video stream on a processor Thread for faster speed
-    if WEBCAM:   #  Start Web Cam stream (Note USB webcam must be plugged in)
-        print("Initializing USB Web Camera ....")
-        WEBCAMSRC=0
-        vs = WebcamVideoStream().start()
-        vs.src = WEBCAMSRC
-        vs.WEBCAM_WIDTH = CAMERA_WIDTH
-        vs.WEBCAM_HEIGHT = CAMERA_HEIGHT
-    else:
-        print("Initializing Pi Camera ....")    
-        vs = PiVideoStream().start()
-        vs.camera.rotation = CAMERA_ROTATION
-        vs.camera.hflip = CAMERA_HFLIP
-        vs.camera.vflip = CAMERA_VFLIP
-    time.sleep(2.0)  # Allow cam to initialize
+    image1 = vs.read()   # initialize image1 (done once)
+    try:
+        grayimage1 = cv2.cvtColor(image1, cv2.COLOR_BGR2GRAY)
+    except:
+        vs.stop()
+        print("Problem Connecting To Camera Stream.")
+        print("Restarting Camera.  One Moment Please .....")
+        time.sleep(4)
+        return
 
     if window_on:
         print("Press q in window Quits")
     else:
-        print("Press ctrl-c to Quit")       
-    
-    if debug:
-        logging.info("Start Motion Tracking ....")     
-    else:
-        print("Start Motion Tracking ....")     
+        print("Press ctrl-c to Quit")
+    print("Start Motion Tracking ....")
+
+    if not debug:
         print("Note: Console Messages Supressed per debug=%s" % debug)
-   
+
     big_w = int(CAMERA_WIDTH * WINDOW_BIGGER)
     big_h = int(CAMERA_HEIGHT * WINDOW_BIGGER)
     cx, cy, cw, ch = 0, 0, 0, 0   # initialize contour center variables
     frame_count = 0  #initialize for show_fps
     start_time = time.time() #initialize for show_fps
-    image1 = vs.read()   # initialize image1 (done once)
-    try:
-        grayimage1 = cv2.cvtColor(image1, cv2.COLOR_BGR2GRAY)
-    except:
-        print("---------------- ERROR ------------------")
-        print(" Problem with Camera.")
-        print(" Maybe Due to Restarting Web Cam Too Soon After Shutdown")
-        print(" Please Wait a Few Seconds and Try Again.")
-        quit(1)
+
     still_scanning = True
     while still_scanning:
         # initialize variables
         motion_found = False
         biggest_area = MIN_AREA
         image2 = vs.read()  # initialize image2
+        if WEBCAM:      
+            if ( WEBCAM_HFLIP and WEBCAM_VFLIP ):
+                image2 = cv2.flip( image2, -1 )
+            elif WEBCAM_HFLIP:
+                image2 = cv2.flip( image2, 1 )          
+            elif WEBCAM_VFLIP:
+                image2 = cv2.flip( image2, 0 )          
         grayimage2 = cv2.cvtColor(image2, cv2.COLOR_BGR2GRAY)
         if show_fps:
             start_time, frame_count = show_FPS(start_time, frame_count)
@@ -268,7 +258,7 @@ def track():
                     else:
                         cv2.rectangle(image2,(cx,cy),(x+cw,y+ch),(0,255,0), LINE_THICKNESS)
                 if debug:
-                    logging.info("at cx,cy(%3i,%3i)  TC's=%2i  BC:%ix%i=%i SqPx" %
+                    logging.info("cx,cy(%3i,%3i) contours:%2i  biggest %ix%i=%i SqPx" %
                                     (cx ,cy, total_contours, cw, ch, biggest_area))
 
         if window_on:
@@ -278,25 +268,46 @@ def track():
                 cv2.imshow('OpenCV Threshold', thresholdimage)
             if WINDOW_BIGGER > 1:  # Note setting a bigger window will slow the FPS
                 image2 = cv2.resize( image2,( big_w, big_h ))
-            cv2.imshow('Movement Status  (Press q in Window to Quit)', image2)
+            cv2.imshow('Press q in Window Quits)', image2)
 
-            # Close Window if q pressed while movement status window selected
+            # Close Window if q pressed while mouse over opencv gui window
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 cv2.destroyAllWindows()
                 vs.stop()
                 print("End Motion Tracking")
-                still_scanning = False
+                quit(0)
 
 #-----------------------------------------------------------------------------------------------
 if __name__ == '__main__':
-    try:
-        track()
-    finally:
-        print("")
-        print("+++++++++++++++++++++++++++++++++++")
-        print("%s %s - Exiting" % (progname, ver))
-        print("+++++++++++++++++++++++++++++++++++")
-        print("")
+    while True:
+        try:
+            # Save images to an in-program stream
+            # Setup video stream on a processor Thread for faster speed
+            if WEBCAM:   #  Start Web Cam stream (Note USB webcam must be plugged in)
+                print("Initializing USB Web Camera ....")
+                WEB_CAMERA_SOURCEC = 0
+                vs = WebcamVideoStream().start()
+                vs.CAM_SRC = WEBCAM_SRC
+                vs.CAM_WIDTH = WEBCAM_WIDTH
+                vs.CAM_HEIGHT = WEBCAM_HEIGHT
+                time.sleep(4.0)  # Allow webcam to initialize
+            else:
+                print("Initializing Pi Camera ....")
+                vs = PiVideoStream().start()
+                vs.camera.rotation = CAMERA_ROTATION
+                vs.camera.hflip = CAMERA_HFLIP
+                vs.camera.vflip = CAMERA_VFLIP
+                time.sleep(2.0)  # Allow pi cam to initialize
+            track()
+        except KeyboardInterrupt:
+            vs.stop()
+            print("")
+            print("+++++++++++++++++++++++++++++++++++")
+            print("User Pressed Keyboard ctrl-c")
+            print("%s %s - Exiting" % (progname, ver))
+            print("+++++++++++++++++++++++++++++++++++")
+            print("")
+            quit(0)
 
 
 
