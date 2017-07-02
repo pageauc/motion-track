@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 progname = "motion_track.py"
-ver = "version 1.20"
+ver = "version 1.30"
 
 """
 motion-track  written by Claude Pageau pageauc@gmail.com
@@ -286,7 +286,6 @@ if __name__ == '__main__':
             # Setup video stream on a processor Thread for faster speed
             if WEBCAM:   #  Start Web Cam stream (Note USB webcam must be plugged in)
                 print("Initializing USB Web Camera ....")
-                WEB_CAMERA_SOURCEC = 0
                 vs = WebcamVideoStream().start()
                 vs.CAM_SRC = WEBCAM_SRC
                 vs.CAM_WIDTH = WEBCAM_WIDTH
