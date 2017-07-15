@@ -202,7 +202,7 @@ def track():
     print("Start Motion Tracking ....")
 
     if not debug:
-        print("Note: Console Messages Supressed per debug=%s" % debug)
+        print("Note: Console Messages Suppressed per debug=%s" % debug)
 
     big_w = int(CAMERA_WIDTH * WINDOW_BIGGER)
     big_h = int(CAMERA_HEIGHT * WINDOW_BIGGER)

@@ -1,4 +1,4 @@
-# Raspberry Pi Camera Motion Tracking Demo
+# Raspberry Pi/USB Web Camera Motion Tracking Demo
 ### Uses python2/3, Opencv2/3 to Track x,y position of largest moving object in camera view.  
 
 ### Introduction
