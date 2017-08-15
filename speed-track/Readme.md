@@ -3,7 +3,7 @@
 ###               A Raspberry Pi Object (Vehicle) speed camera
 ##### using a Raspberry Pi computer, python, openCV and picamera module
 
-IMPORTANT - This project has moved to https://github.com/pageauc/rpi-speed-camera
+IMPORTANT - This project has moved to https://github.com/pageauc/speed-camera
  
 Claude Pageau
 
