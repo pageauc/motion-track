@@ -94,8 +94,8 @@ cvBlue = (255,0,0)
 cvGreen = (0,255,0)
 cvRed = (0,0,255)
 
-mo_color = cvRed  # color of motion circle or rectangle                   
-                    
+mo_color = cvRed  # color of motion circle or rectangle
+
 #-----------------------------------------------------------------------------------------------
 class PiVideoStream:
     def __init__(self, resolution=(CAMERA_WIDTH, CAMERA_HEIGHT), framerate=CAMERA_FRAMERATE, rotation=0, hflip=False, vflip=False):
@@ -255,6 +255,7 @@ def track():
 
         if contours:
             total_contours = len(contours)  # Get total number of contours
+            cx, cy, cw, ch = 0, 0, 0, 0
             for c in contours:              # find contour with biggest area
                 found_area = cv2.contourArea(c)  # get area of next contour
                 # find the middle of largest bounding rectangle
@@ -263,7 +264,7 @@ def track():
                     biggest_area = found_area
                     (x, y, w, h) = cv2.boundingRect(c)
                     cx = int(x + w/2)   # put circle in middle of width
-                    cy = int(y + h/6)   # put circle closer to top
+                    cy = int(y + h/2)   # put circle closer to top
                     cw, ch = w, h
 
             if motion_found:
@@ -275,8 +276,9 @@ def track():
                     else:
                         cv2.rectangle(image2,(cx,cy),(x+cw,y+ch),(mo_color), LINE_THICKNESS)
                 if debug:
-                    logging.info("cx,cy(%3i,%3i) contours:%2i  biggest %ix%i=%i SqPx" %
+                    logging.info("cx,cy(%3i,%3i) C:%2i  LxW:%ix%i=%i SqPx" %
                                     (cx ,cy, total_contours, cw, ch, biggest_area))
+
 
         if window_on:
             if diff_window_on:
