@@ -1,4 +1,4 @@
-# Raspberry Pi/USB Web Camera Motion Tracking Demo
+# Windows, Unix, Raspberry Motion Tracking Demo
 ### Uses python2/3, Opencv2/3 to do Real Time x,y tracking of largest moving object in camera view.  
 
 ### Introduction
@@ -7,16 +7,20 @@ at the time find a similar python picamera implementation that returns x,y coord
 the most dominate moving object in the frame although some came close.  
 
 ### Prerequisites
-Requires a Raspberry Pi computer with an up-to-date Raspbian distro and a
-RPI camera module or Web Camera installed and configured.  
-If you wish to use a web camera that is plugged into a RPI usb port. Set WEBCAM = True in config.py
+Requires Windows, Unix computer with a Web Camera or a Raspberry Pi computer with
+a Web Camera or RPI Camera Module and an up-to-date Raspbian distro.
+If you wish to use a web camera that is plugged into a usb port. Set WEBCAM = True in config.py
 otherwise, WEBCAM = False will use a connected raspberry pi camera module video stream.
+If running under Windows or a Not RPI unix distro then Web camera will automatically be
+selected WEBCAM = True
 
-The dependencies and code files can be installed per the motion-track-install.sh script.
+The dependencies and code files can be installed per the motion-track-install.sh script
+if you are using Debbian or Raspbian, Otherwise select the Github download zip or clone
+option from the github repo here https://github.com/pageauc/motion-track
 See Quick or Manual install instructions below for details
 
 ### Quick Install   
-Easy Install of motion-track-demo onto a Raspberry Pi Computer with latest Raspbian. 
+Easy Install of motion-track-demo onto Debbian or Raspberry Pi Computer with latest Raspbian. 
 
     curl -L https://raw.github.com/pageauc/motion-track/master/motion-track-install.sh | bash
 
@@ -35,14 +39,17 @@ From logged in RPI SSH session or console terminal perform the following.
     ./motion-track-install.sh
 
 ### How to Run
-Default is console only display. Use Nano to Edit config.py variable window_on = True
+Default is console only display. Use Nano or text editor to Edit config.py 
+variable window_on = True
 to display the opencv tracking window on GUI desktop. See other variables
 and descriptions for additional variable customization settings.
 From SSH session, console or GUI desktop terminal session execute the following commands 
 
     cd ~/motion-track-demo
     ./motion-track.py   
- 
+
+On Windows make sure you have the latest python installed from https://www.python.org/downloads/
+    
 ### Trouble Shooting
     
 if you get an opengl error then see this article about installing opengl on 
