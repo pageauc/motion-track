@@ -87,6 +87,15 @@ if debug:
                     format='%(asctime)s %(levelname)-8s %(funcName)-10s %(message)s',
                     datefmt='%Y-%m-%d %H:%M:%S')
 
+# Color data for OpenCV lines and text
+cvWhite = (255,255,255)
+cvBlack = (0,0,0)
+cvBlue = (255,0,0)
+cvGreen = (0,255,0)
+cvRed = (0,0,255)
+
+mo_color = cvRed  # color of motion circle or rectangle                   
+                    
 #-----------------------------------------------------------------------------------------------
 class PiVideoStream:
     def __init__(self, resolution=(CAMERA_WIDTH, CAMERA_HEIGHT), framerate=CAMERA_FRAMERATE, rotation=0, hflip=False, vflip=False):
@@ -262,9 +271,9 @@ def track():
                 if window_on:
                     # show small circle at motion location
                     if SHOW_CIRCLE:
-                        cv2.circle(image2,(cx,cy),CIRCLE_SIZE,(0,255,0), LINE_THICKNESS)
+                        cv2.circle(image2,(cx,cy),CIRCLE_SIZE,(mo_color), LINE_THICKNESS)
                     else:
-                        cv2.rectangle(image2,(cx,cy),(x+cw,y+ch),(0,255,0), LINE_THICKNESS)
+                        cv2.rectangle(image2,(cx,cy),(x+cw,y+ch),(mo_color), LINE_THICKNESS)
                 if debug:
                     logging.info("cx,cy(%3i,%3i) contours:%2i  biggest %ix%i=%i SqPx" %
                                     (cx ,cy, total_contours, cw, ch, biggest_area))
