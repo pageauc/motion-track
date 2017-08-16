@@ -90,7 +90,7 @@ largest contour above a minimum size and return its x,y coordinate.
 Tracks vehicle speeds or other moving objects in real time and records image 
 and logs data. Now improved using threading for video stream and clipping of 
 area of interest for greater performance.  
-* GitHub Repo https://github.com/pageauc/rpi-speed-camera
+* GitHub Repo https://github.com/pageauc/speed-camera
 * YouTube Speed Camera Video https://youtu.be/eRi50BbJUro  
 * RPI forum post https://www.raspberrypi.org/forums/viewtopic.php?p=1004150#p1004150  
 
