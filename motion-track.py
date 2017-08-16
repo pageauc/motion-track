@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 progname = "motion_track.py"
-ver = "version 1.4"
+ver = "version 1.41"
 
 """
 motion-track  written by Claude Pageau pageauc@gmail.com
@@ -78,7 +78,8 @@ from threading import Thread
 try:  # Bypass loading picamera library if not available eg. UNIX or WINDOWS
     from picamera.array import PiRGBArray
     from picamera import PiCamera
-else:
+except:
+    WEBCAM = True
     pass
 
 if debug:
