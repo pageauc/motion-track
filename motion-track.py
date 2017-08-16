@@ -1,12 +1,13 @@
 #!/usr/bin/env python
 progname = "motion_track.py"
-ver = "version 1.30"
+ver = "version 1.4"
 
 """
 motion-track  written by Claude Pageau pageauc@gmail.com
-Raspberry (Pi) - python opencv2 motion tracking using picamera module
+Windows, Unix, Raspberry (Pi) - python opencv2 motion tracking
+using web camera or raspberry pi camera module.
 
-This is a raspberry pi python opencv2 motion tracking demonstration program.
+This is a python opencv2 motion tracking demonstration program.
 It will detect motion in the field of view and use opencv to calculate the
 largest contour and return its x,y coordinate.  I will be using this for
 a simple RPI robotics project, but thought the code would be useful for
@@ -19,10 +20,12 @@ Kyle Hounslow using C here https://www.youtube.com/watch?v=X6rPdRZzgjg
 Here is a my YouTube video demonstrating this demo program using a
 Raspberry Pi B2 https://youtu.be/09JS7twPBsQ
 
-Requires a Raspberry Pi with a RPI camera module installed and configured
-dependencies. Cut and paste command below into a terminal sesssion to
-download and install motion_track demo.  Program will be installed to
-~/motion-track-demo folder
+This will run on a Windows, Unix OS using a Web Cam or a Raspberry Pi
+using a Web Cam or RPI camera module installed and configured
+
+To do a quick install On Raspbian or Debbian Copy and paste command below
+into a terminal sesssion to download and install motion_track demo.
+Program will be installed to ~/motion-track-demo folder
 
 curl -L https://raw.github.com/pageauc/motion-track/master/motion-track-install.sh | bash
 
@@ -70,10 +73,13 @@ from config import *
 import logging
 import time
 import cv2
-
-from picamera.array import PiRGBArray
-from picamera import PiCamera
 from threading import Thread
+
+try:  # Bypass loading picamera library if not available eg. UNIX or WINDOWS
+    from picamera.array import PiRGBArray
+    from picamera import PiCamera
+else:
+    pass
 
 if debug:
     logging.basicConfig(level=logging.DEBUG,
@@ -216,13 +222,13 @@ def track():
         motion_found = False
         biggest_area = MIN_AREA
         image2 = vs.read()  # initialize image2
-        if WEBCAM:      
+        if WEBCAM:
             if ( WEBCAM_HFLIP and WEBCAM_VFLIP ):
                 image2 = cv2.flip( image2, -1 )
             elif WEBCAM_HFLIP:
-                image2 = cv2.flip( image2, 1 )          
+                image2 = cv2.flip( image2, 1 )
             elif WEBCAM_VFLIP:
-                image2 = cv2.flip( image2, 0 )          
+                image2 = cv2.flip( image2, 0 )
         grayimage2 = cv2.cvtColor(image2, cv2.COLOR_BGR2GRAY)
         if show_fps:
             start_time, frame_count = show_FPS(start_time, frame_count)
@@ -237,7 +243,7 @@ def track():
         except:
             contours, hierarchy = cv2.findContours( thresholdimage, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE )
 
-        if contours != ():
+        if contours:
             total_contours = len(contours)  # Get total number of contours
             for c in contours:              # find contour with biggest area
                 found_area = cv2.contourArea(c)  # get area of next contour
