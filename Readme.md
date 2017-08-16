@@ -1,4 +1,4 @@
-# Windows, Unix, Raspberry Motion Tracking Demo
+# Windows, Unix, Raspberry Pi Motion Tracking Demo
 ### Uses python2/3, Opencv2/3 to do Real Time x,y tracking of largest moving object in camera view.  
 
 ### Introduction
