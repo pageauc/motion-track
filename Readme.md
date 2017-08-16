@@ -49,6 +49,11 @@ From SSH session, console or GUI desktop terminal session execute the following 
     ./motion-track.py   
 
 On Windows make sure you have the latest python installed from https://www.python.org/downloads/
+Run motion-track.py from IDLE or if file association exists it can also be
+run from cmd prompt by double clicking on motion-track.py.  Use a text editor
+to modify config.py to view opencv window(s) and set other configuration
+variables.
+
     
 ### Trouble Shooting
     
