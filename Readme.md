@@ -96,14 +96,14 @@ This project Runs on Windows or Unix using Web Cam or Raspberry Pi using Web Cam
 and Uses Python2/3, OpenCV2/3 to track motion and record object enter or leave camera view when
 they cross a trigger centerline.
 Has options to take image and/or record data in a csv file   
-* GitHub Repo https://github.com/pageauc/track-inout  
+* GitHub track inout Repo https://github.com/pageauc/track-inout  
 
 ## speed-camera.py
 Windows, Unix vehicle (object) speed camera using motion tracking
 Tracks vehicle speeds or other moving objects in real time and records image
 and logs data. Now improved using threading for video stream and clipping of
 area of interest for greater performance.
-* GitHub Repo https://github.com/pageauc/speed-camera   
+* GitHub speed camera Repo https://github.com/pageauc/speed-camera   
 * YouTube Speed Camera Video https://youtu.be/eRi50BbJUro   
 * RPI forum post https://www.raspberrypi.org/forums/viewtopic.php?p=1004150#p1004150   
 
@@ -112,7 +112,7 @@ Tracks camera pan/tilt motion position based on opencv template matching
 Uses a clipped search image rectangle to search subsequent video stream images and returns
 the location. Can be used for tracking camera x y movements for stabilization,
 robotics, Etc.
-* GitHub Repo https://github.com/pageauc/rpi-cam-track   
+* GitHub cam track Repo https://github.com/pageauc/rpi-cam-track   
 * YouTube Cam-Track Video https://www.youtube.com/watch?v=yjA3UtwbD80  
 * Code Walkthrough YouTube Video https://youtu.be/lkh3YbbNdYg    
 * RPI Forum Post https://www.raspberrypi.org/forums/viewtopic.php?p=1027463#p1027463          
@@ -125,7 +125,7 @@ Position the camera so you can see body motions either close or standing.
 Pretty simple but I think kids would have fun with it and they just might
 take a look at the code to see how it works, change variables or game logic.
 * GitHub hotspot-game Repo https://github.com/pageauc/hotspot-game   
-* YouTube Hotspot Gam Video https://youtu.be/xFl3lmbEO9Y    
+* YouTube Hotspot Game Video https://youtu.be/xFl3lmbEO9Y    
 * RPI Forum Post https://www.raspberrypi.org/forums/viewtopic.php?p=1026124#p1026124   
 
 ## sonic-track.py
@@ -135,12 +135,12 @@ sonic-track sends data to sonic-pi via psonic.py and pythonosc. You will need
 a pi camera and a powered speaker connected to the Raspberry Pi audio/video 
 plug via appropriate cables or you can attach RPI to an HDMI TV via HDMI cable
 and sound will redirect to TV speakers.
+* GitHub sonic track Repo https://github.com/pageauc/sonic-track
 * YouTube Air Drum Demo https://youtu.be/PSrzbeVX8DE
 * YouTube Air Note Demo https://youtu.be/dC26PUYYR5E
 * YouTube Motion Activated Menus https://youtu.be/PQjpskPAtR0
 
 ## ----------------------------------------------------------------------------
-
 
 Have Fun
 Claude Pageau   
