@@ -14,9 +14,7 @@ a Web Camera or RPI Camera Module and an up-to-date Raspbian distro.
 If you wish to use a web camera that is plugged into a usb port. Set WEBCAM = True in config.py
 otherwise, WEBCAM = False will use a connected raspberry pi camera module video stream.
 When running under Windows or a non RPI unix distro import of pi-camera python 
-libraries will fail and Web camera setting
-    WEBCAM = True   
-will automatically be configured.  
+libraries will fail and Web camera setting WEBCAM = True will automatically be configured.  
 
 The dependencies and code files can be installed per the motion-track-install.sh script
 if you are using Debbian or Raspbian, Otherwise select the Github download zip or clone
@@ -24,7 +22,7 @@ option from the github repo here https://github.com/pageauc/motion-track
 See Quick or Manual install instructions below for details
 
 ## Quick Install
-Easy Install of motion-track-demo onto Debbian or Raspberry Pi Computer with latest Raspbian.
+Easy Install of motion-track-demo onto Debian or Raspberry Pi Computer with latest Raspbian.
 
     curl -L https://raw.github.com/pageauc/motion-track/master/motion-track-install.sh | bash
 
