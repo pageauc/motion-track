@@ -110,7 +110,7 @@ Uses a clipped search image rectangle to search subsequent video stream images a
 the location. Can be used for tracking camera x y movements for stabilization,
 robotics, Etc.
 * GitHub Repo https://github.com/pageauc/rpi-cam-track   
-* YouTube Cam-Track Video https://www.youtube.com/edit?video_id=yjA3UtwbD80   
+* YouTube Cam-Track Video https://www.youtube.com/watch?v=yjA3UtwbD80  
 * Code Walkthrough YouTube Video https://youtu.be/lkh3YbbNdYg    
 * RPI Forum Post https://www.raspberrypi.org/forums/viewtopic.php?p=1027463#p1027463          
 
