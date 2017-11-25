@@ -82,7 +82,19 @@ https://github.com/jrosebr1/imutils/blob/master/imutils/video/pivideostream.py
 ## motion-track.py
 Motion Track Demo - Basic concept of tracking moving objects.
 This Demo program detects motion in the field of view and uses opencv to calculate the
-largest contour above a minimum size and return its x,y coordinate.
+largest contour above a minimum size and return its x,y coordinate. 
+
+## Track Multiple Objects
+This code example only tracks the largest moving object since it is done in
+real time. If you are interested in tracking multiple objects you might want to
+take a look at this github repo for multitracker code example.  
+https://github.com/opencv/opencv_contrib/blob/master/modules/tracking/samples/multitracker.py
+My suggestion would be to cut contours and pass this as the ROI (Rectangle of Interest).
+Read the issues on this since there will be issues regarding objects that leave, enter
+and stop that will need to have new ROI's initialized.
+
+## Project links
+
 * Motion Track Demo YouTube Video http://youtu.be/09JS7twPBsQ   
 * GitHub Repo https://github.com/pageauc/motion-track   
 * RPI forum post https://www.raspberrypi.org/forums/viewtopic.php?p=790082#p790082   
