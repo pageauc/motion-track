@@ -1,36 +1,38 @@
-# Windows, Unix, Raspberry Pi Motion Tracking Demo
+# MOTION TRACK - Windows, Unix, Raspberry Pi Demo
 ### Uses python2/3, Opencv2/3 to do Real Time x,y tracking of largest moving object in camera view.
-#### Motion Track Demo YouTube Video http://youtu.be/09JS7twPBsQ   
-#### GitHub Repo https://github.com/pageauc/motion-track  
+### Motion Track Demo [YouTube Video](http://youtu.be/09JS7twPBsQ) 
 
 ## Introduction
-I did quite a bit of searching on the internet, github, etc, but could not
+I did quite a bit of searching on the internet, GitHub, etc, but could not
 at the time find a similar python picamera implementation that returns x,y coordinates of
 the most dominate moving object in the frame although some came close.
 
 ## Prerequisites
-Requires Windows, Unix computer with a Web Camera or a Raspberry Pi computer with
-a Web Camera or RPI Camera Module and an up-to-date Raspbian distro.
-If you wish to use a web camera that is plugged into a usb port. Set WEBCAM = True in config.py
-otherwise, WEBCAM = False will use a connected raspberry pi camera module video stream.
+Requires a Raspberry Pi computer with a Web Camera or RPI Camera Module and Recent Raspbian  
+or   
+MS Windows, Unix computer with a Web Camera with recent python installed   
+
+If you wish to use a web camera that is plugged into a usb port. Set ***WEBCAM = True*** in ***config.py***
+otherwise, ***WEBCAM = False*** will use a connected raspberry pi camera module video stream.
 When running under Windows or a non RPI unix distro import of pi-camera python 
 libraries will fail and Web camera setting WEBCAM = True will automatically be configured.  
 
-The dependencies and code files can be installed per the motion-track-install.sh script
-if you are using Debbian or Raspbian, Otherwise select the Github download zip or clone
-option from the github repo here https://github.com/pageauc/motion-track
-See Quick or Manual install instructions below for details
+The Raspberry Pi or Debian dependencies and code files can be installed per the 
+***motion-track-install.sh*** curl script below.    
+if you are using MS Win or Non Debian Unix Repo, select the GitHub
+[***Clone or download***](https://github.com/pageauc/motion-track) green button
+at top right of web page and select desired method.
 
-## Quick Install
+## Quick Install or Upgrade
 Easy Install of motion-track-demo onto Debian or Raspberry Pi Computer with latest Raspbian.
+
+***Step 1*** With mouse left button highlight curl command in code box below. Right click mouse in **highlighted** area and Copy.     
+***Step 2*** On RPI putty SSH or terminal session right click, select paste then Enter to download and run script.     
 
     curl -L https://raw.github.com/pageauc/motion-track/master/motion-track-install.sh | bash
 
-From a computer logged into the RPI via ssh(Putty) session use mouse to highlight command above, right click, copy.
-Then select ssh(Putty) window, mouse right click, paste.  The command should
-download and execute the github motion-track-install.sh script and install the motion-track-demo.
-This install can also be done directly on an Internet connected Raspberry Pi via a console or desktop terminal session and web browser.
-Note - a raspbian apt-get update and upgrade will be performed as part of install
+Command above will install all code and dependencies   
+***Note*** - a raspbian ***sudo apt-get update*** and upgrade will be performed as part of install
 so it may take some time if these are not up-to-date
 
 ## Manual Install
@@ -41,7 +43,7 @@ From logged in RPI SSH session or console terminal perform the following.
     ./motion-track-install.sh
 
 ## How to Run
-Default is console only display. Use Nano or text editor to Edit config.py
+Default is console only display. Use Nano or text editor to Edit ***config.py***
 variable window_on = True
 to display the opencv tracking window on GUI desktop. See other variables
 and descriptions for additional variable customization settings.
@@ -51,7 +53,7 @@ From SSH session, console or GUI desktop terminal session execute the following 
     ./motion-track.py
 
 On Windows make sure you have the latest python installed from https://www.python.org/downloads/
-Run motion-track.py from IDLE or if file association exists it can also be
+Run ***motion-track.py*** from IDLE or if file association exists it can also be
 run from cmd prompt by double clicking on motion-track.py.  Use a text editor
 to modify config.py to view opencv window(s) and set other configuration
 variables.
