@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 progname = "motion_track.py"
-ver = "version 1.41"
+ver = "version 1.5"
 
 """
 motion-track  written by Claude Pageau pageauc@gmail.com
@@ -35,19 +35,33 @@ cd ~/motion-track-demo
 ./motion-track.py
 
 """
-print("%s %s motion tracking using python2 or 3 and OpenCV" % (progname, ver))
+print("%s %s motion tracking   written by Claude Pageau" % (progname, ver))
 print("Loading Please Wait ....")
 
 import os
+import subprocess
 mypath=os.path.abspath(__file__)       # Find the full path of this python script
 baseDir=mypath[0:mypath.rfind("/")+1]  # get the path location only (excluding script name)
 baseFileName=mypath[mypath.rfind("/")+1:mypath.rfind(".")]
 progName = os.path.basename(__file__)
 
+# Check that pi camera module is installed and enabled
+camResult = subprocess.check_output("vcgencmd get_camera", shell=True)
+camResult = camResult.decode("utf-8")
+camResult = camResult.replace("\n", "")
+if (camResult.find("0")) >= 0:   # Was a 0 found in vcgencmd output
+    print("ERROR : Pi Camera Module Not Found %s" % camResult)
+    print("         if supported=0 Enable Camera using command sudo raspi-config")
+    print("         if detected=0 Check Pi Camera Module is Installed Correctly")
+    print("INFO  : Exiting %s Due to Error" % progName)
+    quit()
+else:
+    print("INFO  : Pi Camera Module is Enabled and Connected %s" % camResult )
+
 # Check for variable file to import and error out if not found.
 configFilePath = baseDir + "config.py"
 if not os.path.exists(configFilePath):
-    print("ERROR - Missing config.py file - Could not find Configuration file %s" % (configFilePath))
+    print("ERROR : Missing config.py file - Could not find Configuration file %s" % (configFilePath))
     import urllib2
     config_url = "https://raw.github.com/pageauc/motion-track/master/config.py"
     print("Attempting to Download new config.py file")
@@ -55,7 +69,7 @@ if not os.path.exists(configFilePath):
     try:
         wgetfile = urllib2.urlopen(config_url)
     except:
-        print("ERROR - Download of config.py Failed")
+        print("ERROR : Download of config.py Failed")
         print("   Try Rerunning the motion-track-install.sh Again.")
         print("   or")
         print("   Perform GitHub curl install per Readme.md")
@@ -82,6 +96,13 @@ except:
     WEBCAM = True
     pass
 
+if WEBCAM:
+    imageW = WEBCAM_WIDTH
+    imageH = WEBCAM_HEIGHT
+else:
+    imageW = CAMERA_WIDTH
+    imageH = CAMERA_HEIGHT
+    
 if debug:
     logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s %(levelname)-8s %(funcName)-10s %(message)s',
@@ -97,10 +118,32 @@ cvRed = (0,0,255)
 mo_color = cvRed  # color of motion circle or rectangle
 
 #-----------------------------------------------------------------------------------------------
+def myMotionStuff(x,y):
+    # This is where You would put code for handling motion event(s)
+    # Below is just some sample code to indicate area of movement
+    quadrant = "myMotionStuff : Motion In "
+    if y < imageH/2:
+       quadrant = quadrant + "Top"
+    else:
+       quadrant = quadrant + "Bottom"    
+
+    if x < imageW/2:
+       quadrant = quadrant + " Left"
+    else:
+       quadrant = quadrant + " Right"
+
+    print("%s quadrant" % quadrant)
+
+#-----------------------------------------------------------------------------------------------
 class PiVideoStream:
     def __init__(self, resolution=(CAMERA_WIDTH, CAMERA_HEIGHT), framerate=CAMERA_FRAMERATE, rotation=0, hflip=False, vflip=False):
         # initialize the camera and stream
-        self.camera = PiCamera()
+        try:
+           self.camera = PiCamera()
+        except:
+           print("ERROR : PiCamera Already in Use by Another Process")
+           print("INFO  : Exiting %s Due to Error" % progName)
+           quit()
         self.camera.resolution = resolution
         self.camera.rotation = rotation
         self.camera.framerate = framerate
@@ -220,8 +263,8 @@ def track():
     if not debug:
         print("Note: Console Messages Suppressed per debug=%s" % debug)
 
-    big_w = int(CAMERA_WIDTH * WINDOW_BIGGER)
-    big_h = int(CAMERA_HEIGHT * WINDOW_BIGGER)
+    big_w = int(imageW * WINDOW_BIGGER)
+    big_h = int(imageH * WINDOW_BIGGER)
     cx, cy, cw, ch = 0, 0, 0, 0   # initialize contour center variables
     frame_count = 0  #initialize for show_fps
     start_time = time.time() #initialize for show_fps
@@ -268,7 +311,7 @@ def track():
                     cw, ch = w, h
 
             if motion_found:
-                # Do Something here with motion data
+                myMotionStuff(cx,cy) # Do Something here with motion data
                 if window_on:
                     # show small circle at motion location
                     if SHOW_CIRCLE:
@@ -278,7 +321,6 @@ def track():
                 if debug:
                     logging.info("cx,cy(%3i,%3i) C:%2i  LxW:%ix%i=%i SqPx" %
                                     (cx ,cy, total_contours, cw, ch, biggest_area))
-
 
         if window_on:
             if diff_window_on:
