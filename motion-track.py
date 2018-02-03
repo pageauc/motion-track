@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 progname = "motion_track.py"
-ver = "version 1.5"
+ver = "version 1.6"
 
 """
 motion-track  written by Claude Pageau pageauc@gmail.com
@@ -35,11 +35,22 @@ cd ~/motion-track-demo
 ./motion-track.py
 
 """
-print("%s %s motion tracking   written by Claude Pageau" % (progname, ver))
-print("Loading Please Wait ....")
-
+print("Loading ....")
+# import the necessary packages
+import logging
+import time
+import cv2
+from threading import Thread
 import os
 import subprocess
+import sys
+
+logging.basicConfig(level=logging.DEBUG,
+                    format='%(asctime)s %(levelname)-8s %(funcName)-10s %(message)s',
+                    datefmt='%Y-%m-%d %H:%M:%S')
+
+logging.info("%s %s motion tracking   written by Claude Pageau", progname, ver)
+
 mypath=os.path.abspath(__file__)       # Find the full path of this python script
 baseDir=mypath[0:mypath.rfind("/")+1]  # get the path location only (excluding script name)
 baseFileName=mypath[mypath.rfind("/")+1:mypath.rfind(".")]
@@ -50,44 +61,36 @@ camResult = subprocess.check_output("vcgencmd get_camera", shell=True)
 camResult = camResult.decode("utf-8")
 camResult = camResult.replace("\n", "")
 if (camResult.find("0")) >= 0:   # Was a 0 found in vcgencmd output
-    print("ERROR : Pi Camera Module Not Found %s" % camResult)
-    print("         if supported=0 Enable Camera using command sudo raspi-config")
-    print("         if detected=0 Check Pi Camera Module is Installed Correctly")
-    print("INFO  : Exiting %s Due to Error" % progName)
-    quit()
+    logging.error("Pi Camera Module Not Found %s" % camResult)
+    logging.error("if supported=0 Enable Camera using command sudo raspi-config")
+    logging.error("if detected=0 Check Pi Camera Module is Installed Correctly")
+    logging.error("Exiting %s Due to Error", ProgName)
+    sys.exit(1)
 else:
-    print("INFO  : Pi Camera Module is Enabled and Connected %s" % camResult )
+    logging.info("Pi Camera Module is Enabled and Connected %s", camResult)
 
 # Check for variable file to import and error out if not found.
 configFilePath = baseDir + "config.py"
 if not os.path.exists(configFilePath):
-    print("ERROR : Missing config.py file - Could not find Configuration file %s" % (configFilePath))
+    logging.error("Missing config.py File %s",configFilePath)
     import urllib2
     config_url = "https://raw.github.com/pageauc/motion-track/master/config.py"
-    print("Attempting to Download new config.py file")
-    print("from %s" % ( config_url ))
+    logging.info("Attempting to Download new config.py file")
+    logging.info("from %s", config_url)
     try:
         wgetfile = urllib2.urlopen(config_url)
     except:
-        print("ERROR : Download of config.py Failed")
-        print("   Try Rerunning the motion-track-install.sh Again.")
-        print("   or")
-        print("   Perform GitHub curl install per Readme.md")
-        print("   and Try Again")
-        print("Exiting %s" % ( progName ))
-        quit(1)
+        logging.error("Download of config.py Failed")
+        logging.error("Try Rerunning the motion-track-install.sh Again.")
+        logging.error("or Perform GitHub curl install per Readme.md")
+        logging.error("Exiting %s", progName)
+        sys.exit(1)
     f = open('config.py','wb')
     f.write(wgetfile.read())
     f.close()
 
 # Read Configuration variables from config.py file
 from config import *
-
-# import the necessary packages
-import logging
-import time
-import cv2
-from threading import Thread
 
 try:  # Bypass loading picamera library if not available eg. UNIX or WINDOWS
     from picamera.array import PiRGBArray
@@ -102,11 +105,6 @@ if WEBCAM:
 else:
     imageW = CAMERA_WIDTH
     imageH = CAMERA_HEIGHT
-    
-if debug:
-    logging.basicConfig(level=logging.DEBUG,
-                    format='%(asctime)s %(levelname)-8s %(funcName)-10s %(message)s',
-                    datefmt='%Y-%m-%d %H:%M:%S')
 
 # Color data for OpenCV lines and text
 cvWhite = (255,255,255)
@@ -118,10 +116,10 @@ cvRed = (0,0,255)
 mo_color = cvRed  # color of motion circle or rectangle
 
 #-----------------------------------------------------------------------------------------------
-def myMotionStuff(x,y):
+def myStuff(x,y):
     # This is where You would put code for handling motion event(s)
     # Below is just some sample code to indicate area of movement
-    quadrant = "myMotionStuff : Motion In "
+    quadrant = "Motion In "
     if y < imageH/2:
        quadrant = quadrant + "Top"
     else:
@@ -132,7 +130,7 @@ def myMotionStuff(x,y):
     else:
        quadrant = quadrant + " Right"
 
-    print("%s quadrant" % quadrant)
+    logging.info("%s quadrant", quadrant)
 
 #-----------------------------------------------------------------------------------------------
 class PiVideoStream:
@@ -141,9 +139,9 @@ class PiVideoStream:
         try:
            self.camera = PiCamera()
         except:
-           print("ERROR : PiCamera Already in Use by Another Process")
-           print("INFO  : Exiting %s Due to Error" % progName)
-           quit()
+           logging.error("PiCamera Already in Use by Another Process")
+           logging.error("Exiting %s Due to Error" % progName)
+           sys.exit(1)
         self.camera.resolution = resolution
         self.camera.rotation = rotation
         self.camera.framerate = framerate
@@ -151,7 +149,7 @@ class PiVideoStream:
         self.camera.vflip = vflip
         self.rawCapture = PiRGBArray(self.camera, size=resolution)
         self.stream = self.camera.capture_continuous(self.rawCapture,
-            format="bgr", use_video_port=True)
+                                                     format="bgr", use_video_port=True)
 
         # initialize the frame and the variable used to indicate
         # if the thread should be stopped
@@ -249,19 +247,19 @@ def track():
         grayimage1 = cv2.cvtColor(image1, cv2.COLOR_BGR2GRAY)
     except:
         vs.stop()
-        print("Problem Connecting To Camera Stream.")
-        print("Restarting Camera.  One Moment Please .....")
+        logging.error("Problem Connecting To Camera Stream.")
+        logging.error("Restarting Camera.  One Moment Please .....")
         time.sleep(4)
         return
 
     if window_on:
-        print("Press q in window Quits")
+        logging.info("Press q in window Quits")
     else:
-        print("Press ctrl-c to Quit")
-    print("Start Motion Tracking ....")
+        logging.info("Press ctrl-c to Quit")
+    logging.info("Start Motion Tracking ....")
 
     if not debug:
-        print("Note: Console Messages Suppressed per debug=%s" % debug)
+        logging.info("Note: Console Messages Suppressed per debug=%s", debug)
 
     big_w = int(imageW * WINDOW_BIGGER)
     big_h = int(imageH * WINDOW_BIGGER)
@@ -276,12 +274,12 @@ def track():
         biggest_area = MIN_AREA
         image2 = vs.read()  # initialize image2
         if WEBCAM:
-            if ( WEBCAM_HFLIP and WEBCAM_VFLIP ):
-                image2 = cv2.flip( image2, -1 )
+            if ( WEBCAM_HFLIP and WEBCAM_VFLIP):
+                image2 = cv2.flip( image2, -1)
             elif WEBCAM_HFLIP:
-                image2 = cv2.flip( image2, 1 )
+                image2 = cv2.flip( image2, 1)
             elif WEBCAM_VFLIP:
-                image2 = cv2.flip( image2, 0 )
+                image2 = cv2.flip( image2, 0)
         grayimage2 = cv2.cvtColor(image2, cv2.COLOR_BGR2GRAY)
         if show_fps:
             start_time, frame_count = show_FPS(start_time, frame_count)
@@ -290,11 +288,15 @@ def track():
         grayimage1 = grayimage2  # save grayimage2 to grayimage1 ready for next image2
         differenceimage = cv2.blur(differenceimage,(BLUR_SIZE,BLUR_SIZE))
         # Get threshold of difference image based on THRESHOLD_SENSITIVITY variable
-        retval, thresholdimage = cv2.threshold( differenceimage, THRESHOLD_SENSITIVITY, 255, cv2.THRESH_BINARY )
+        retval, thresholdimage = cv2.threshold(differenceimage, THRESHOLD_SENSITIVITY,
+                                                255, cv2.THRESH_BINARY)
         try:
-            thresholdimage, contours, hierarchy = cv2.findContours( thresholdimage, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE )
+            thresholdimage, contours, hierarchy = cv2.findContours(thresholdimage, 
+                                                                   cv2.RETR_EXTERNAL, 
+                                                                   cv2.CHAIN_APPROX_SIMPLE)
         except:
-            contours, hierarchy = cv2.findContours( thresholdimage, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE )
+            contours, hierarchy = cv2.findContours(thresholdimage, cv2.RETR_EXTERNAL,
+                                                   cv2.CHAIN_APPROX_SIMPLE)
 
         if contours:
             total_contours = len(contours)  # Get total number of contours
@@ -311,32 +313,32 @@ def track():
                     cw, ch = w, h
 
             if motion_found:
-                myMotionStuff(cx,cy) # Do Something here with motion data
+                myStuff(cx,cy) # Do Something here with motion data
                 if window_on:
                     # show small circle at motion location
                     if SHOW_CIRCLE:
-                        cv2.circle(image2,(cx,cy),CIRCLE_SIZE,(mo_color), LINE_THICKNESS)
+                        cv2.circle(image2,(cx,cy), CIRCLE_SIZE, (mo_color), LINE_THICKNESS)
                     else:
-                        cv2.rectangle(image2,(cx,cy),(x+cw,y+ch),(mo_color), LINE_THICKNESS)
+                        cv2.rectangle(image2,(cx,cy), (x+cw,y+ch),(mo_color), LINE_THICKNESS)
                 if debug:
                     logging.info("cx,cy(%3i,%3i) C:%2i  LxW:%ix%i=%i SqPx" %
                                     (cx ,cy, total_contours, cw, ch, biggest_area))
 
         if window_on:
             if diff_window_on:
-                cv2.imshow('Difference Image',differenceimage)
+                cv2.imshow('Difference Image', differenceimage)
             if thresh_window_on:
                 cv2.imshow('OpenCV Threshold', thresholdimage)
             if WINDOW_BIGGER > 1:  # Note setting a bigger window will slow the FPS
-                image2 = cv2.resize( image2,( big_w, big_h ))
+                image2 = cv2.resize(image2, (big_w, big_h))
             cv2.imshow('Press q in Window Quits)', image2)
 
             # Close Window if q pressed while mouse over opencv gui window
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 cv2.destroyAllWindows()
                 vs.stop()
-                print("End Motion Tracking")
-                quit(0)
+                logging.info("End Motion Tracking")
+                sys.exit(0)
 
 #-----------------------------------------------------------------------------------------------
 if __name__ == '__main__':
@@ -345,14 +347,14 @@ if __name__ == '__main__':
             # Save images to an in-program stream
             # Setup video stream on a processor Thread for faster speed
             if WEBCAM:   #  Start Web Cam stream (Note USB webcam must be plugged in)
-                print("Initializing USB Web Camera ....")
+                logging.info("Initializing USB Web Camera ....")
                 vs = WebcamVideoStream().start()
                 vs.CAM_SRC = WEBCAM_SRC
                 vs.CAM_WIDTH = WEBCAM_WIDTH
                 vs.CAM_HEIGHT = WEBCAM_HEIGHT
                 time.sleep(4.0)  # Allow WebCam to initialize
             else:
-                print("Initializing Pi Camera ....")
+                logging.info("Initializing Pi Camera ....")
                 vs = PiVideoStream().start()
                 vs.camera.rotation = CAMERA_ROTATION
                 vs.camera.hflip = CAMERA_HFLIP
@@ -362,12 +364,9 @@ if __name__ == '__main__':
         except KeyboardInterrupt:
             vs.stop()
             print("")
-            print("+++++++++++++++++++++++++++++++++++")
-            print("User Pressed Keyboard ctrl-c")
-            print("%s %s - Exiting" % (progname, ver))
-            print("+++++++++++++++++++++++++++++++++++")
-            print("")
-            quit(0)
+            logging.info("User Pressed Keyboard ctrl-c")
+            logging.info("%s %s - Exiting", progname, ver)
+            sys.exit(0)
 
 
 
