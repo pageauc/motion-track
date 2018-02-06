@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 progname = "motion_track.py"
-ver = "version 1.6"
+ver = "version 1.7"
 
 """
 motion-track  written by Claude Pageau pageauc@gmail.com
@@ -56,19 +56,6 @@ baseDir=mypath[0:mypath.rfind("/")+1]  # get the path location only (excluding s
 baseFileName=mypath[mypath.rfind("/")+1:mypath.rfind(".")]
 progName = os.path.basename(__file__)
 
-# Check that pi camera module is installed and enabled
-camResult = subprocess.check_output("vcgencmd get_camera", shell=True)
-camResult = camResult.decode("utf-8")
-camResult = camResult.replace("\n", "")
-if (camResult.find("0")) >= 0:   # Was a 0 found in vcgencmd output
-    logging.error("Pi Camera Module Not Found %s" % camResult)
-    logging.error("if supported=0 Enable Camera using command sudo raspi-config")
-    logging.error("if detected=0 Check Pi Camera Module is Installed Correctly")
-    logging.error("Exiting %s Due to Error", progName)
-    sys.exit(1)
-else:
-    logging.info("Pi Camera Module is Enabled and Connected %s", camResult)
-
 # Check for variable file to import and error out if not found.
 configFilePath = baseDir + "config.py"
 if not os.path.exists(configFilePath):
@@ -91,6 +78,20 @@ if not os.path.exists(configFilePath):
 
 # Read Configuration variables from config.py file
 from config import *
+
+if not WEBCAM:
+    # Check that pi camera module is installed and enabled
+    camResult = subprocess.check_output("vcgencmd get_camera", shell=True)
+    camResult = camResult.decode("utf-8")
+    camResult = camResult.replace("\n", "")
+    if (camResult.find("0")) >= 0:   # Was a 0 found in vcgencmd output
+        logging.error("Pi Camera Module Not Found %s" % camResult)
+        logging.error("if supported=0 Enable Camera using command sudo raspi-config")
+        logging.error("if detected=0 Check Pi Camera Module is Installed Correctly")
+        logging.error("Exiting %s Due to Error", progName)
+        sys.exit(1)
+    else:
+        logging.info("Pi Camera Module is Enabled and Connected %s", camResult)
 
 try:  # Bypass loading picamera library if not available eg. UNIX or WINDOWS
     from picamera.array import PiRGBArray
@@ -123,7 +124,7 @@ def myStuff(x,y):
     if y < imageH/2:
        quadrant = quadrant + "Top"
     else:
-       quadrant = quadrant + "Bottom"    
+       quadrant = quadrant + "Bottom"
 
     if x < imageW/2:
        quadrant = quadrant + " Left"
@@ -291,8 +292,8 @@ def track():
         retval, thresholdimage = cv2.threshold(differenceimage, THRESHOLD_SENSITIVITY,
                                                 255, cv2.THRESH_BINARY)
         try:
-            thresholdimage, contours, hierarchy = cv2.findContours(thresholdimage, 
-                                                                   cv2.RETR_EXTERNAL, 
+            thresholdimage, contours, hierarchy = cv2.findContours(thresholdimage,
+                                                                   cv2.RETR_EXTERNAL,
                                                                    cv2.CHAIN_APPROX_SIMPLE)
         except:
             contours, hierarchy = cv2.findContours(thresholdimage, cv2.RETR_EXTERNAL,
