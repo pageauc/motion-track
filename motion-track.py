@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 progname = "motion_track.py"
-ver = "version 1.8"
+ver = "version 1.81"
 
 """
 motion-track  written by Claude Pageau pageauc@gmail.com
@@ -309,8 +309,6 @@ def track():
                     (x, y, w, h) = cv2.boundingRect(c)
                     cxy = (int(x+w/2), int(y+h/2))   # center of contour
                     rxy=(x,y) # Top left corner of rectangle
-                    rw=w  # contour rectangle width
-                    rh=h  # contour rectangle height
 
             if motion_found:
                 myStuff(cxy[0],cxy[1]) # Do Something here with motion data
@@ -319,11 +317,11 @@ def track():
                     if SHOW_CIRCLE:
                         cv2.circle(image2, cxy, CIRCLE_SIZE, (mo_color), LINE_THICKNESS)
                     else:
-                        cv2.rectangle(image2, rxy, (rxy[0]+rw, rxy[1]+rh),
+                        cv2.rectangle(image2, rxy, (x+w, y+h),
                                                    (mo_color), LINE_THICKNESS)
                 if debug:
                     logging.info("cxy(%3i,%3i) C:%2i WxH:%ix%i=%i SqPx",
-                                 cxy[0] ,cxy[1], total_contours, rw, rh, biggest_area)
+                                 cxy[0] ,cxy[1], total_contours, w, h, biggest_area)
 
         if window_on:
             if diff_window_on:
