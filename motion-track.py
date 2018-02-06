@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 progname = "motion_track.py"
-ver = "version 1.7"
+ver = "version 1.8"
 
 """
 motion-track  written by Claude Pageau pageauc@gmail.com
@@ -264,10 +264,8 @@ def track():
 
     big_w = int(imageW * WINDOW_BIGGER)
     big_h = int(imageH * WINDOW_BIGGER)
-    cx, cy, cw, ch = 0, 0, 0, 0   # initialize contour center variables
     frame_count = 0  #initialize for show_fps
     start_time = time.time() #initialize for show_fps
-
     still_scanning = True
     while still_scanning:
         # initialize variables
@@ -302,7 +300,6 @@ def track():
 
         if contours:
             total_contours = len(contours)  # Get total number of contours
-            cx, cy, cw, ch = 0, 0, 0, 0
             for c in contours:              # find contour with biggest area
                 found_area = cv2.contourArea(c)  # get area of next contour
                 # find the middle of largest bounding rectangle
@@ -310,21 +307,23 @@ def track():
                     motion_found = True
                     biggest_area = found_area
                     (x, y, w, h) = cv2.boundingRect(c)
-                    cx = int(x + w/2)   # put circle in middle of width
-                    cy = int(y + h/2)   # put circle closer to top
-                    cw, ch = w, h
+                    cxy = (int(x+w/2), int(y+h/2))   # center of contour
+                    rxy=(x,y) # Top left corner of rectangle
+                    rw=w  # contour rectangle width
+                    rh=h  # contour rectangle height
 
             if motion_found:
-                myStuff(cx,cy) # Do Something here with motion data
+                myStuff(cxy[0],cxy[1]) # Do Something here with motion data
                 if window_on:
                     # show small circle at motion location
                     if SHOW_CIRCLE:
-                        cv2.circle(image2,(cx,cy), CIRCLE_SIZE, (mo_color), LINE_THICKNESS)
+                        cv2.circle(image2, cxy, CIRCLE_SIZE, (mo_color), LINE_THICKNESS)
                     else:
-                        cv2.rectangle(image2,(cx,cy), (x+cw,y+ch),(mo_color), LINE_THICKNESS)
+                        cv2.rectangle(image2, rxy, (rxy[0]+rw, rxy[1]+rh),
+                                                   (mo_color), LINE_THICKNESS)
                 if debug:
-                    logging.info("cx,cy(%3i,%3i) C:%2i  LxW:%ix%i=%i SqPx",
-                                 cx ,cy, total_contours, cw, ch, biggest_area)
+                    logging.info("cxy(%3i,%3i) C:%2i WxH:%ix%i=%i SqPx",
+                                 cxy[0] ,cxy[1], total_contours, rw, rh, biggest_area)
 
         if window_on:
             if diff_window_on:
