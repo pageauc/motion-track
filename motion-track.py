@@ -290,13 +290,14 @@ def track():
         differenceimage = cv2.blur(differenceimage,(BLUR_SIZE,BLUR_SIZE))
         # Get threshold of difference image based on THRESHOLD_SENSITIVITY variable
         retval, thresholdimage = cv2.threshold(differenceimage, THRESHOLD_SENSITIVITY,
-                                                255, cv2.THRESH_BINARY)
+                                               255, cv2.THRESH_BINARY)
         try:
             thresholdimage, contours, hierarchy = cv2.findContours(thresholdimage,
                                                                    cv2.RETR_EXTERNAL,
                                                                    cv2.CHAIN_APPROX_SIMPLE)
         except:
-            contours, hierarchy = cv2.findContours(thresholdimage, cv2.RETR_EXTERNAL,
+            contours, hierarchy = cv2.findContours(thresholdimage,
+                                                   cv2.RETR_EXTERNAL,
                                                    cv2.CHAIN_APPROX_SIMPLE)
 
         if contours:
@@ -322,8 +323,8 @@ def track():
                     else:
                         cv2.rectangle(image2,(cx,cy), (x+cw,y+ch),(mo_color), LINE_THICKNESS)
                 if debug:
-                    logging.info("cx,cy(%3i,%3i) C:%2i  LxW:%ix%i=%i SqPx" %
-                                    (cx ,cy, total_contours, cw, ch, biggest_area))
+                    logging.info("cx,cy(%3i,%3i) C:%2i  LxW:%ix%i=%i SqPx",
+                                 cx ,cy, total_contours, cw, ch, biggest_area)
 
         if window_on:
             if diff_window_on:
