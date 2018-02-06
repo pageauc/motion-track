@@ -64,7 +64,7 @@ if (camResult.find("0")) >= 0:   # Was a 0 found in vcgencmd output
     logging.error("Pi Camera Module Not Found %s" % camResult)
     logging.error("if supported=0 Enable Camera using command sudo raspi-config")
     logging.error("if detected=0 Check Pi Camera Module is Installed Correctly")
-    logging.error("Exiting %s Due to Error", ProgName)
+    logging.error("Exiting %s Due to Error", progName)
     sys.exit(1)
 else:
     logging.info("Pi Camera Module is Enabled and Connected %s", camResult)
