@@ -37,16 +37,20 @@ cd ~/motion-track-demo
 print("Loading ....")
 # import the necessary packages
 import logging
+logging.basicConfig(level=logging.DEBUG,
+                    format='%(asctime)s %(levelname)-8s %(funcName)-10s %(message)s',
+                    datefmt='%Y-%m-%d %H:%M:%S')
 import time
 import os
 import subprocess
 import sys
 from threading import Thread
-import cv2
-
-logging.basicConfig(level=logging.DEBUG,
-                    format='%(asctime)s %(levelname)-8s %(funcName)-10s %(message)s',
-                    datefmt='%Y-%m-%d %H:%M:%S')
+try:
+    import cv2
+except ImportError:
+    logging.error("Could Not import cv2 library "
+                  "Install opencv version for python version")
+    sys.exit(1)
 mypath = os.path.abspath(__file__)       # Find the full path of this python script
 baseDir = mypath[0:mypath.rfind("/")+1]  # get the path location only (excluding script name)
 baseFileName = mypath[mypath.rfind("/")+1:mypath.rfind(".")]
@@ -106,8 +110,8 @@ mo_color = cvRed  # color of motion circle or rectangle
 
 #-----------------------------------------------------------------------------------------------
 def myStuff(x, y):
-    """This is where You would put code for handling motion event(s)
-    Below is just some sample code to indicate area of movement"""
+    """ This is where You would put code for handling motion event(s)
+    Below is just some sample code to indicate area of movement """
     quadrant = ""
     if y < imageH/2:
         quadrant = quadrant + "Top"
@@ -121,7 +125,7 @@ def myStuff(x, y):
 
 #-----------------------------------------------------------------------------------------------
 class PiVideoStream:
-    """ Pi Camera initialize then stream and read the first video frame from stream"""
+    """ Pi Camera initialize then stream and read the first video frame from stream """
     def __init__(self, resolution=(CAMERA_WIDTH, CAMERA_HEIGHT),
                  framerate=CAMERA_FRAMERATE, rotation=0, hflip=False, vflip=False):
         try:
@@ -213,7 +217,7 @@ class WebcamVideoStream:
 
 #-----------------------------------------------------------------------------------------------
 def show_FPS(start_time, frame_count):
-    """ Optional display of Video Stream frames per minute """
+    """ Optional display of Video Stream frames per second """
     if debug:
         if frame_count >= FRAME_COUNTER:
             duration = float(time.time() - start_time)
@@ -324,7 +328,7 @@ if __name__ == '__main__':
             # Save images to an in-program stream
             # Setup video stream on a processor Thread for faster speed
             if WEBCAM:   #  Start Web Cam stream (Note USB webcam must be plugged in)
-                logging.info("Initializing USB Web Camera ....")
+                logging.info("Initializing USB Web Camera ...")
                 vs = WebcamVideoStream().start()
                 vs.CAM_SRC = WEBCAM_SRC
                 vs.CAM_WIDTH = WEBCAM_WIDTH
