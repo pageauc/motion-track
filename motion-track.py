@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-ver = "version 1.82"
+PROG_VER = "version 1.83"
 
 """
 motion-track  written by Claude Pageau pageauc@gmail.com
@@ -49,79 +49,79 @@ try:
     import cv2
 except ImportError:
     logging.error("Could Not import cv2 library "
-                  "Install opencv version for python version")
+                  "Install opencv version for python")
     sys.exit(1)
-mypath = os.path.abspath(__file__)       # Find the full path of this python script
-baseDir = mypath[0:mypath.rfind("/")+1]  # get the path location only (excluding script name)
-baseFileName = mypath[mypath.rfind("/")+1:mypath.rfind(".")]
-progName = os.path.basename(__file__)
-logging.info("%s %s motion tracking   written by Claude Pageau", progName, ver)
+SCRIPT_NAME = os.path.abspath(__file__)       # Find the full path of this python script
+BASE_DIR = SCRIPT_NAME[0:SCRIPT_NAME.rfind("/")+1]  # get the path location only (excluding script name)
+BASE_FILE_NAME = SCRIPT_NAME[SCRIPT_NAME.rfind("/")+1:SCRIPT_NAME.rfind(".")]
+PROG_NAME = os.path.basename(__file__)
+logging.info("%s %s motion tracking   written by Claude Pageau", PROG_NAME, PROG_VER)
 # Check for variable file to import and error out if not found.
-configFilePath = baseDir + "config.py"
-if not os.path.exists(configFilePath):
-    logging.error("Missing config.py File %s", configFilePath)
+CONFIG_FILE_PATH = BASE_DIR + "config.py"
+if not os.path.exists(CONFIG_FILE_PATH):
+    logging.error("Missing config.py File %s", CONFIG_FILE_PATH)
     import urllib2
-    config_url = "https://raw.github.com/pageauc/motion-track/master/config.py"
-    logging.info("Download %s", config_url)
+    CONFIG_URL = "https://raw.github.com/pageauc/motion-track/master/config.py"
+    logging.info("Download %s", CONFIG_URL)
     try:
-        wgetfile = urllib2.urlopen(config_url)
+        wget_file = urllib2.urlopen(CONFIG_URL)
     except Exception as e:
         logging.error("Download Failed")
         logging.error("Check Internet connection")
         logging.error("or Run GitHub curl install per Readme.md")
-        logging.error("Exiting %s %s", progName, ver)
+        logging.error("Exiting %s %s", PROG_NAME, PROG_VER)
         sys.exit(1)
     f = open('config.py', 'wb')
-    f.write(wgetfile.read())
+    f.write(wget_file.read())
     f.close()
 from config import *  # Read variables from config.py file
 
 if not WEBCAM:
     # Check that pi camera module is installed and enabled
-    camResult = subprocess.check_output("vcgencmd get_camera", shell=True)
-    camResult = camResult.decode("utf-8")
-    camResult = camResult.replace("\n", "")
-    if (camResult.find("0")) >= 0:   # Was a 0 found in vcgencmd output
-        logging.error("Pi Camera Module Not Found %s", camResult)
+    CAM_RESULT = subprocess.check_output("vcgencmd get_camera", shell=True)
+    CAM_RESULT = CAM_RESULT.decode("utf-8")
+    CAM_RESULT = CAM_RESULT.replace("\n", "")
+    if (CAM_RESULT.find("0")) >= 0:   # Was a 0 found in vcgencmd output
+        logging.error("Pi Camera Module Not Found %s", CAM_RESULT)
         logging.error("if supported=0 Enable Camera using command sudo raspi-config")
         logging.error("if detected=0 Check Pi Camera Module is Installed Correctly")
-        logging.error("Exiting %s %s", progName, ver)
+        logging.error("Exiting %s %s", PROG_NAME, PROG_VER)
         sys.exit(1)
     else:
-        logging.info("Pi Camera Module is Enabled and Connected %s", camResult)
+        logging.info("Pi Camera Module is Enabled and Connected %s", CAM_RESULT)
 try:  # Bypass loading picamera library if not available eg. UNIX or WINDOWS
     from picamera.array import PiRGBArray
     from picamera import PiCamera
 except ImportError:
     WEBCAM = True
 if WEBCAM:
-    imageW = WEBCAM_WIDTH
-    imageH = WEBCAM_HEIGHT
+    IMAGE_W = WEBCAM_WIDTH
+    IMAGE_H = WEBCAM_HEIGHT
 else:
-    imageW = CAMERA_WIDTH
-    imageH = CAMERA_HEIGHT
+    IMAGE_W = CAMERA_WIDTH
+    IMAGE_H = CAMERA_HEIGHT
 # Color data for OpenCV lines and text
-cvWhite = (255, 255, 255)
-cvBlack = (0, 0, 0)
-cvBlue = (255, 0, 0)
-cvGreen = (0, 255, 0)
-cvRed = (0, 0, 255)
-mo_color = cvRed  # color of motion circle or rectangle
+CV_WHITE = (255, 255, 255)
+CV_BLACK = (0, 0, 0)
+CV_BLUE = (255, 0, 0)
+CV_GREEN = (0, 255, 0)
+CV_RED = (0, 0, 255)
+MO_COLOR = CV_GREEN  # color of motion circle or rectangle
 
 #-----------------------------------------------------------------------------------------------
-def myStuff(x, y):
+def my_stuff(x, y):
     """ This is where You would put code for handling motion event(s)
     Below is just some sample code to indicate area of movement """
     quadrant = ""
-    if y < imageH/2:
+    if y < IMAGE_H/2:
         quadrant = quadrant + "Top"
     else:
         quadrant = quadrant + "Bottom"
-    if x < imageW/2:
+    if x < IMAGE_W/2:
         quadrant = quadrant + " Left"
     else:
         quadrant = quadrant + " Right"
-    logging.info("cxy(%i,%i) %s Quadrant image=%ix%i", x, y, quadrant, imageW, imageH)
+    logging.info("cxy(%i,%i) %s Quadrant image=%ix%i", x, y, quadrant, IMAGE_W, IMAGE_H)
 
 #-----------------------------------------------------------------------------------------------
 class PiVideoStream:
@@ -132,7 +132,7 @@ class PiVideoStream:
             self.camera = PiCamera()
         except:
             logging.error("PiCamera Already in Use by Another Process")
-            logging.error("Exiting %s Due to Error", progName)
+            logging.error("Exiting %s Due to Error", PROG_NAME)
             sys.exit(1)
         self.camera.resolution = resolution
         self.camera.rotation = rotation
@@ -142,7 +142,6 @@ class PiVideoStream:
         self.rawCapture = PiRGBArray(self.camera, size=resolution)
         self.stream = self.camera.capture_continuous(self.rawCapture,
                                                      format="bgr", use_video_port=True)
-
         # initialize the frame and the variable used to indicate
         # if the thread should be stopped
         self.frame = None
@@ -216,7 +215,7 @@ class WebcamVideoStream:
         self.stopped = True
 
 #-----------------------------------------------------------------------------------------------
-def show_FPS(start_time, frame_count):
+def get_fps(start_time, frame_count):
     """ Optional display of Video Stream frames per second """
     if debug:
         if frame_count >= FRAME_COUNTER:
@@ -248,10 +247,10 @@ def track():
     logging.info("Start Motion Tracking ...")
     if not debug:
         logging.info("Note: Console Messages Suppressed per debug=%s", debug)
-    big_w = int(imageW * WINDOW_BIGGER)
-    big_h = int(imageH * WINDOW_BIGGER)
-    frame_count = 0  #initialize for show_fps
-    start_time = time.time() #initialize for show_fps
+    big_w = int(IMAGE_W * WINDOW_BIGGER)
+    big_h = int(IMAGE_H * WINDOW_BIGGER)
+    frame_count = 0  #initialize for get_fps
+    start_time = time.time() #initialize for get_fps
     still_scanning = True
     while still_scanning:
         # initialize variables
@@ -267,22 +266,23 @@ def track():
                 image2 = cv2.flip(image2, 0)
         grayimage2 = cv2.cvtColor(image2, cv2.COLOR_BGR2GRAY)
         if show_fps:
-            start_time, frame_count = show_FPS(start_time, frame_count)
+            start_time, frame_count = get_fps(start_time, frame_count)
         # Get differences between the two greyed images
-        differenceimage = cv2.absdiff(grayimage1, grayimage2)
+        difference_image = cv2.absdiff(grayimage1, grayimage2)
         grayimage1 = grayimage2  # save grayimage2 to grayimage1 ready for next image2
-        differenceimage = cv2.blur(differenceimage, (BLUR_SIZE, BLUR_SIZE))
+        difference_image = cv2.blur(difference_image, (BLUR_SIZE, BLUR_SIZE))
         # Get threshold of difference image based on THRESHOLD_SENSITIVITY variable
-        retval, thresholdimage = cv2.threshold(differenceimage, THRESHOLD_SENSITIVITY,
-                                               255, cv2.THRESH_BINARY)
+        retval, threshold_image = cv2.threshold(difference_image,
+                                                THRESHOLD_SENSITIVITY, 255,
+                                                cv2.THRESH_BINARY)
         try:
-            thresholdimage, contours, hierarchy = cv2.findContours(thresholdimage,
-                                                                   cv2.RETR_EXTERNAL,
-                                                                   cv2.CHAIN_APPROX_SIMPLE)
-        except ValueError:
-            contours, hierarchy = cv2.findContours(thresholdimage,
+            contours, hierarchy = cv2.findContours(threshold_image,
                                                    cv2.RETR_EXTERNAL,
                                                    cv2.CHAIN_APPROX_SIMPLE)
+        except ValueError:
+            threshold_image, contours, hierarchy = cv2.findContours(threshold_image,
+                                                                    cv2.RETR_EXTERNAL,
+                                                                    cv2.CHAIN_APPROX_SIMPLE)
         if contours:
             total_contours = len(contours)  # Get total number of contours
             for c in contours:              # find contour with biggest area
@@ -298,19 +298,19 @@ def track():
                 if window_on:
                     # show small circle at motion location
                     if SHOW_CIRCLE:
-                        cv2.circle(image2, cxy, CIRCLE_SIZE, (mo_color), LINE_THICKNESS)
+                        cv2.circle(image2, cxy, CIRCLE_SIZE, (MO_COLOR), LINE_THICKNESS)
                     else:
                         cv2.rectangle(image2, rxy, (x+w, y+h),
-                                      (mo_color), LINE_THICKNESS)
+                                      (MO_COLOR), LINE_THICKNESS)
                 if debug:
                     logging.info("cxy(%i,%i) Contours:%i  Largest %ix%i=%i SqPx",
                                  cxy[0], cxy[1], total_contours, w, h, biggest_area)
-                myStuff(cxy[0], cxy[1]) # Do Something here with motion data
+                my_stuff(cxy[0], cxy[1]) # Do Something here with motion data
         if window_on:
             if diff_window_on:
-                cv2.imshow('Difference Image', differenceimage)
+                cv2.imshow('Difference Image', difference_image)
             if thresh_window_on:
-                cv2.imshow('OpenCV Threshold', thresholdimage)
+                cv2.imshow('OpenCV Threshold', threshold_image)
             if WINDOW_BIGGER > 1:  # Note setting a bigger window will slow the FPS
                 image2 = cv2.resize(image2, (big_w, big_h))
             cv2.imshow('Press q in Window Quits)', image2)
@@ -346,5 +346,5 @@ if __name__ == '__main__':
             vs.stop()
             print("")
             logging.info("User Pressed Keyboard ctrl-c")
-            logging.info("Exiting %s %s", progName, ver)
+            logging.info("Exiting %s %s", PROG_NAME, PROG_VER)
             sys.exit(0)
