@@ -33,7 +33,7 @@ cd ~/motion-track-demo
 
 """
 
-PROG_VER = "version 1.83"
+PROG_VER = "version 1.84"
 print("Loading ....")
 # import the necessary packages
 import logging
@@ -112,11 +112,12 @@ CV_RED = (0, 0, 255)
 MO_COLOR = CV_GREEN  # color of motion circle or rectangle
 
 #------------------------------------------------------------------------------
-def my_stuff(x_pos, y_pos):
+def my_stuff(xy_pos):
     """
     This is where You would put code for handling motion event(s)
     Below is just some sample code to indicate area of movement
     """
+    x_pos, y_pos = xy_pos
     quadrant = ""
     if y_pos < IMAGE_H/2:
         quadrant = quadrant + "Top"
@@ -126,7 +127,7 @@ def my_stuff(x_pos, y_pos):
         quadrant = quadrant + " Left"
     else:
         quadrant = quadrant + " Right"
-    logging.info("c_xy(%i,%i) %s Quadrant image=%ix%i",
+    logging.info("cxy(%i,%i) %s Quadrant image=%ix%i",
                  x_pos, y_pos, quadrant, IMAGE_W, IMAGE_H)
 
 #------------------------------------------------------------------------------
@@ -321,7 +322,7 @@ def track():
                     logging.info("cxy(%i,%i) Contours:%i  Largest %ix%i=%i SqPx",
                                  c_xy[0], c_xy[1], total_contours,
                                  w, h, biggest_area)
-                my_stuff(c_xy[0], c_xy[1]) # Do Something here with motion data
+                my_stuff(c_xy) # Do Something here with motion data
         if window_on:
             if diff_window_on:
                 cv2.imshow('Difference Image', difference_image)
