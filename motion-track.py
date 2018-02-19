@@ -317,9 +317,9 @@ def track():
                                    MO_COLOR, LINE_THICKNESS)
                     else:
                         cv2.rectangle(image2, r_xy, (x+w, y+h),
-                                      (MO_COLOR), LINE_THICKNESS)
+                                      MO_COLOR, LINE_THICKNESS)
                 if debug:
-                    logging.info("cxy(%i,%i) Contours:%i  Largest %ix%i=%i SqPx",
+                    logging.info("cxy(%i,%i) Contours:%i Largest:%ix%i=%i sqpx",
                                  c_xy[0], c_xy[1], total_contours,
                                  w, h, biggest_area)
                 my_stuff(c_xy) # Do Something here with motion data
