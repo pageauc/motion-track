@@ -1,6 +1,4 @@
 #!/usr/bin/env python
-PROG_VER = "version 1.83"
-
 """
 motion-track  written by Claude Pageau pageauc@gmail.com
 Windows, Unix, Raspberry (Pi) - python opencv2 motion tracking
@@ -34,6 +32,8 @@ cd ~/motion-track-demo
 ./motion-track.py
 
 """
+
+PROG_VER = "version 1.83"
 print("Loading ....")
 # import the necessary packages
 import logging
@@ -51,11 +51,14 @@ except ImportError:
     logging.error("Could Not import cv2 library "
                   "Install opencv version for python")
     sys.exit(1)
-SCRIPT_NAME = os.path.abspath(__file__)       # Find the full path of this python script
-BASE_DIR = SCRIPT_NAME[0:SCRIPT_NAME.rfind("/")+1]  # get the path location only (excluding script name)
+SCRIPT_NAME = os.path.abspath(__file__)
+# Find the full path of this python script
+BASE_DIR = SCRIPT_NAME[0:SCRIPT_NAME.rfind("/")+1]
+# get the path location only (excluding script name)
 BASE_FILE_NAME = SCRIPT_NAME[SCRIPT_NAME.rfind("/")+1:SCRIPT_NAME.rfind(".")]
 PROG_NAME = os.path.basename(__file__)
-logging.info("%s %s motion tracking   written by Claude Pageau", PROG_NAME, PROG_VER)
+logging.info("%s %s motion tracking   written by Claude Pageau",
+             PROG_NAME, PROG_VER)
 # Check for variable file to import and error out if not found.
 CONFIG_FILE_PATH = BASE_DIR + "config.py"
 if not os.path.exists(CONFIG_FILE_PATH):
@@ -64,16 +67,16 @@ if not os.path.exists(CONFIG_FILE_PATH):
     CONFIG_URL = "https://raw.github.com/pageauc/motion-track/master/config.py"
     logging.info("Download %s", CONFIG_URL)
     try:
-        wget_file = urllib2.urlopen(CONFIG_URL)
-    except Exception as e:
+        WGET_FILE = urllib2.urlopen(CONFIG_URL)
+    except Exception as url_err:
         logging.error("Download Failed")
         logging.error("Check Internet connection")
         logging.error("or Run GitHub curl install per Readme.md")
         logging.error("Exiting %s %s", PROG_NAME, PROG_VER)
         sys.exit(1)
-    f = open('config.py', 'wb')
-    f.write(wget_file.read())
-    f.close()
+    CONFIG_FILE = open('config.py', 'wb')
+    CONFIG_FILE.write(WGET_FILE.read())
+    CONFIG_FILE.close()
 from config import *  # Read variables from config.py file
 
 if not WEBCAM:
@@ -108,24 +111,29 @@ CV_GREEN = (0, 255, 0)
 CV_RED = (0, 0, 255)
 MO_COLOR = CV_GREEN  # color of motion circle or rectangle
 
-#-----------------------------------------------------------------------------------------------
-def my_stuff(x, y):
-    """ This is where You would put code for handling motion event(s)
-    Below is just some sample code to indicate area of movement """
+#------------------------------------------------------------------------------
+def my_stuff(x_pos, y_pos):
+    """
+    This is where You would put code for handling motion event(s)
+    Below is just some sample code to indicate area of movement
+    """
     quadrant = ""
-    if y < IMAGE_H/2:
+    if y_pos < IMAGE_H/2:
         quadrant = quadrant + "Top"
     else:
         quadrant = quadrant + "Bottom"
-    if x < IMAGE_W/2:
+    if x_pos < IMAGE_W/2:
         quadrant = quadrant + " Left"
     else:
         quadrant = quadrant + " Right"
-    logging.info("cxy(%i,%i) %s Quadrant image=%ix%i", x, y, quadrant, IMAGE_W, IMAGE_H)
+    logging.info("c_xy(%i,%i) %s Quadrant image=%ix%i",
+                 x_pos, y_pos, quadrant, IMAGE_W, IMAGE_H)
 
-#-----------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 class PiVideoStream:
-    """ Pi Camera initialize then stream and read the first video frame from stream """
+    """
+    Pi Camera initialize then stream and read the first video frame from stream
+    """
     def __init__(self, resolution=(CAMERA_WIDTH, CAMERA_HEIGHT),
                  framerate=CAMERA_FRAMERATE, rotation=0, hflip=False, vflip=False):
         try:
@@ -135,27 +143,28 @@ class PiVideoStream:
             logging.error("Exiting %s Due to Error", PROG_NAME)
             sys.exit(1)
         self.camera.resolution = resolution
-        self.camera.rotation = rotation
         self.camera.framerate = framerate
+        self.camera.rotation = rotation
         self.camera.hflip = hflip
         self.camera.vflip = vflip
         self.rawCapture = PiRGBArray(self.camera, size=resolution)
         self.stream = self.camera.capture_continuous(self.rawCapture,
-                                                     format="bgr", use_video_port=True)
+                                                     format="bgr",
+                                                     use_video_port=True)
         # initialize the frame and the variable used to indicate
         # if the thread should be stopped
         self.frame = None
         self.stopped = False
 
     def start(self):
-        # start the thread to read frames from the video stream
+        """ start the thread to read frames from the video stream """
         t = Thread(target=self.update, args=())
         t.daemon = True
         t.start()
         return self
 
     def update(self):
-        # keep looping infinitely until the thread is stopped
+        """ keep looping infinitely until the thread is stopped """
         for f in self.stream:
             # grab the frame from the stream and clear the stream in
             # preparation for the next frame
@@ -170,65 +179,68 @@ class PiVideoStream:
                 return
 
     def read(self):
-        # return the frame most recently read
+        """ return the frame most recently read """
         return self.frame
 
     def stop(self):
-        # indicate that the thread should be stopped
+        """ indicate that the thread should be stopped """
         self.stopped = True
 
-#-----------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 class WebcamVideoStream:
-    """ WebCam initialize then stream and read the first video frame from stream"""
-    def __init__(self, CAM_SRC=WEBCAM_SRC, CAM_WIDTH=WEBCAM_WIDTH, CAM_HEIGHT=WEBCAM_HEIGHT):
-        self.stream = CAM_SRC
-        self.stream = cv2.VideoCapture(CAM_SRC)
-        self.stream.set(3, CAM_WIDTH)
-        self.stream.set(4, CAM_HEIGHT)
-        (self.grabbed, self.frame) = self.stream.read()
+    """
+    WebCam initialize then stream and read the first video frame from stream
+    """
+    def __init__(self, cam_src=WEBCAM_SRC, cam_width=WEBCAM_WIDTH,
+                 cam_height=WEBCAM_HEIGHT):
+        self.webcam = cv2.VideoCapture(cam_src)
+        self.webcam.set(3, cam_width)
+        self.webcam.set(4, cam_height)
+        (self.grabbed, self.frame) = self.webcam.read()
         # initialize the variable used to indicate if the thread should
         # be stopped
         self.stopped = False
 
     def start(self):
-        # start the thread to read frames from the video stream
+        """ start the thread to read frames from the video stream """
         t = Thread(target=self.update, args=())
         t.daemon = True
         t.start()
         return self
 
     def update(self):
-        # keep looping infinitely until the thread is stopped
+        """ keep looping infinitely until the thread is stopped """
         while True:
             # if the thread indicator variable is set, stop the thread
             if self.stopped:
                 return
-            # otherwise, read the next frame from the stream
-            (self.grabbed, self.frame) = self.stream.read()
+            # otherwise, read the next frame from the webcam stream
+            (self.grabbed, self.frame) = self.webcam.read()
 
     def read(self):
-        # return the frame most recently read
+        """ return the frame most recently read """
         return self.frame
 
     def stop(self):
-        # indicate that the thread should be stopped
+        """ indicate that the thread should be stopped """
         self.stopped = True
 
-#-----------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 def get_fps(start_time, frame_count):
     """ Optional display of Video Stream frames per second """
     if debug:
         if frame_count >= FRAME_COUNTER:
             duration = float(time.time() - start_time)
             FPS = float(frame_count / duration)
-            logging.info("Processing at %.2f fps last %i frames", FPS, frame_count)
+            logging.info("Processing at %.2f fps last %i frames",
+                         FPS, frame_count)
             frame_count = 0
             start_time = time.time()
         else:
             frame_count += 1
     return start_time, frame_count
 
-#-----------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 def track():
     """ Process video stream images and report motion location """
     image1 = vs.read()   # initialize image1 (done once)
@@ -269,9 +281,11 @@ def track():
             start_time, frame_count = get_fps(start_time, frame_count)
         # Get differences between the two greyed images
         difference_image = cv2.absdiff(grayimage1, grayimage2)
-        grayimage1 = grayimage2  # save grayimage2 to grayimage1 ready for next image2
+        grayimage1 = grayimage2
+        # save grayimage2 to grayimage1 ready for next image2
         difference_image = cv2.blur(difference_image, (BLUR_SIZE, BLUR_SIZE))
-        # Get threshold of difference image based on THRESHOLD_SENSITIVITY variable
+        # Get threshold of difference image based on
+        # THRESHOLD_SENSITIVITY variable
         retval, threshold_image = cv2.threshold(difference_image,
                                                 THRESHOLD_SENSITIVITY, 255,
                                                 cv2.THRESH_BINARY)
@@ -292,26 +306,29 @@ def track():
                     motion_found = True
                     biggest_area = found_area
                     (x, y, w, h) = cv2.boundingRect(c)
-                    cxy = (int(x+w/2), int(y+h/2))   # centre of contour
-                    rxy = (x, y) # Top left corner of rectangle
+                    c_xy = (int(x+w/2), int(y+h/2))   # centre of contour
+                    r_xy = (x, y) # Top left corner of rectangle
             if motion_found:
                 if window_on:
                     # show small circle at motion location
                     if SHOW_CIRCLE:
-                        cv2.circle(image2, cxy, CIRCLE_SIZE, (MO_COLOR), LINE_THICKNESS)
+                        cv2.circle(image2, c_xy, CIRCLE_SIZE,
+                                   MO_COLOR, LINE_THICKNESS)
                     else:
-                        cv2.rectangle(image2, rxy, (x+w, y+h),
+                        cv2.rectangle(image2, r_xy, (x+w, y+h),
                                       (MO_COLOR), LINE_THICKNESS)
                 if debug:
                     logging.info("cxy(%i,%i) Contours:%i  Largest %ix%i=%i SqPx",
-                                 cxy[0], cxy[1], total_contours, w, h, biggest_area)
-                my_stuff(cxy[0], cxy[1]) # Do Something here with motion data
+                                 c_xy[0], c_xy[1], total_contours,
+                                 w, h, biggest_area)
+                my_stuff(c_xy[0], c_xy[1]) # Do Something here with motion data
         if window_on:
             if diff_window_on:
                 cv2.imshow('Difference Image', difference_image)
             if thresh_window_on:
                 cv2.imshow('OpenCV Threshold', threshold_image)
-            if WINDOW_BIGGER > 1:  # Note setting a bigger window will slow the FPS
+            if WINDOW_BIGGER > 1:
+            # Note setting a bigger window will slow the FPS
                 image2 = cv2.resize(image2, (big_w, big_h))
             cv2.imshow('Press q in Window Quits)', image2)
             # Close Window if q pressed while mouse over opencv gui window
@@ -321,18 +338,16 @@ def track():
                 logging.info("End Motion Tracking")
                 sys.exit(0)
 
-#-----------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 if __name__ == '__main__':
     while True:
         try:
             # Save images to an in-program stream
             # Setup video stream on a processor Thread for faster speed
-            if WEBCAM:   #  Start Web Cam stream (Note USB webcam must be plugged in)
+            if WEBCAM:
+            #  Start Web Cam stream (Note USB webcam must be plugged in)
                 logging.info("Initializing USB Web Camera ...")
                 vs = WebcamVideoStream().start()
-                vs.CAM_SRC = WEBCAM_SRC
-                vs.CAM_WIDTH = WEBCAM_WIDTH
-                vs.CAM_HEIGHT = WEBCAM_HEIGHT
                 time.sleep(4.0)  # Allow WebCam to initialize
             else:
                 logging.info("Initializing Pi Camera ....")
