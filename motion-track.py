@@ -33,7 +33,6 @@ cd ~/motion-track-demo
 
 """
 
-PROG_VER = "version 1.84"
 print("Loading ....")
 # import the necessary packages
 import logging
@@ -49,17 +48,26 @@ try:
     import cv2
 except ImportError:
     logging.error("Could Not import cv2 library "
-                  "Install opencv version for python")
+                  "Install or compile opencv")
+    logging.error("If using python3 then"
+                  "See https://github.com/pageauc/opencv3-setup")
     sys.exit(1)
+PROG_VER = "version 1.84"
 # Find the full path of this python script
-SCRIPT_NAME = os.path.abspath(__file__)
-# get the path location only (excluding script name)
-BASE_DIR = SCRIPT_NAME[0:SCRIPT_NAME.rfind("/")+1]
-BASE_FILE_NAME = SCRIPT_NAME[SCRIPT_NAME.rfind("/")+1:SCRIPT_NAME.rfind(".")]
+SCRIPT_PATH = os.path.abspath(__file__)
+# get script directory path only excluding script name
+SCRIPT_DIR = SCRIPT_PATH[0:SCRIPT_PATH.rfind("/")+1]
+
+# BASE_SCRIPT_NAME is the script name without file extension.
+# Not used in this script but left in since this can be used for
+# creating files with script name and different file extension.
+# BASE_SCRIPT_NAME = SCRIPT_PATH[SCRIPT_PATH.rfind("/")+1:SCRIPT_PATH.rfind(".")]
+
+# get full script name including extension
 PROG_NAME = os.path.basename(__file__)
 logging.info("%s %s motion tracking   written by Claude Pageau",
              PROG_NAME, PROG_VER)
-CONFIG_FILE_PATH = BASE_DIR + "config.py"
+CONFIG_FILE_PATH = SCRIPT_DIR + "config.py"
 # Check for variable file to import and error out if not found.
 if not os.path.exists(CONFIG_FILE_PATH):
     logging.error("Missing config.py File %s", CONFIG_FILE_PATH)
@@ -244,7 +252,7 @@ def get_fps(start_time, frame_count):
 #------------------------------------------------------------------------------
 def track():
     """ Process video stream images and report motion location """
-    image1 = vs.read()   # initialize image1 (done once)
+    image1 = vs.read()   # initialize image1 note only done once
     try:
         grayimage1 = cv2.cvtColor(image1, cv2.COLOR_BGR2GRAY)
     except:
@@ -342,25 +350,22 @@ def track():
 #------------------------------------------------------------------------------
 if __name__ == '__main__':
     while True:
-    """
-    Save images to an in-program stream
-    Setup video stream on a processor Thread for faster speed
-    """
+        """
+        Save images to an in-program stream
+        Setup video stream on a processor Thread for faster speed
+        """
         try:
-            # Start Web Cam stream (Note USB webcam must be plugged in)
             if WEBCAM:
                 logging.info("Initializing USB Web Camera ...")
                 vs = WebcamVideoStream().start()
-                # Allow time for WebCam to initialize
-                time.sleep(4.0)
-            # Otherwise start a picamera stream
+                time.sleep(4.0) # Allow WebCam time to initialize
             else:
                 logging.info("Initializing Pi Camera ....")
                 vs = PiVideoStream().start()
                 vs.camera.rotation = CAMERA_ROTATION
                 vs.camera.hflip = CAMERA_HFLIP
                 vs.camera.vflip = CAMERA_VFLIP
-                time.sleep(2.0)  # Allow PiCamera to initialize
+                time.sleep(2.0)  # Allow PiCamera time to initialize
             track()
         except KeyboardInterrupt:
             vs.stop()
