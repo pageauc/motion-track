@@ -51,16 +51,16 @@ except ImportError:
     logging.error("Could Not import cv2 library "
                   "Install opencv version for python")
     sys.exit(1)
-SCRIPT_NAME = os.path.abspath(__file__)
 # Find the full path of this python script
-BASE_DIR = SCRIPT_NAME[0:SCRIPT_NAME.rfind("/")+1]
+SCRIPT_NAME = os.path.abspath(__file__)
 # get the path location only (excluding script name)
+BASE_DIR = SCRIPT_NAME[0:SCRIPT_NAME.rfind("/")+1]
 BASE_FILE_NAME = SCRIPT_NAME[SCRIPT_NAME.rfind("/")+1:SCRIPT_NAME.rfind(".")]
 PROG_NAME = os.path.basename(__file__)
 logging.info("%s %s motion tracking   written by Claude Pageau",
              PROG_NAME, PROG_VER)
-# Check for variable file to import and error out if not found.
 CONFIG_FILE_PATH = BASE_DIR + "config.py"
+# Check for variable file to import and error out if not found.
 if not os.path.exists(CONFIG_FILE_PATH):
     logging.error("Missing config.py File %s", CONFIG_FILE_PATH)
     import urllib2
@@ -79,8 +79,8 @@ if not os.path.exists(CONFIG_FILE_PATH):
     CONFIG_FILE.close()
 from config import *  # Read variables from config.py file
 
+# Check that pi camera module is installed and enabled
 if not WEBCAM:
-    # Check that pi camera module is installed and enabled
     CAM_RESULT = subprocess.check_output("vcgencmd get_camera", shell=True)
     CAM_RESULT = CAM_RESULT.decode("utf-8")
     CAM_RESULT = CAM_RESULT.replace("\n", "")
@@ -262,8 +262,8 @@ def track():
         logging.info("Note: Console Messages Suppressed per debug=%s", debug)
     big_w = int(IMAGE_W * WINDOW_BIGGER)
     big_h = int(IMAGE_H * WINDOW_BIGGER)
-    frame_count = 0  #initialize for get_fps
-    start_time = time.time() #initialize for get_fps
+    frame_count = 0  # initialize for get_fps
+    start_time = time.time() # initialize for get_fps
     still_scanning = True
     while still_scanning:
         # initialize variables
@@ -282,8 +282,8 @@ def track():
             start_time, frame_count = get_fps(start_time, frame_count)
         # Get differences between the two greyed images
         difference_image = cv2.absdiff(grayimage1, grayimage2)
-        grayimage1 = grayimage2
         # save grayimage2 to grayimage1 ready for next image2
+        grayimage1 = grayimage2
         difference_image = cv2.blur(difference_image, (BLUR_SIZE, BLUR_SIZE))
         # Get threshold of difference image based on
         # THRESHOLD_SENSITIVITY variable
@@ -328,8 +328,8 @@ def track():
                 cv2.imshow('Difference Image', difference_image)
             if thresh_window_on:
                 cv2.imshow('OpenCV Threshold', threshold_image)
-            if WINDOW_BIGGER > 1:
             # Note setting a bigger window will slow the FPS
+            if WINDOW_BIGGER > 1:
                 image2 = cv2.resize(image2, (big_w, big_h))
             cv2.imshow('Press q in Window Quits)', image2)
             # Close Window if q pressed while mouse over opencv gui window
@@ -342,14 +342,18 @@ def track():
 #------------------------------------------------------------------------------
 if __name__ == '__main__':
     while True:
+    """
+    Save images to an in-program stream
+    Setup video stream on a processor Thread for faster speed
+    """
         try:
-            # Save images to an in-program stream
-            # Setup video stream on a processor Thread for faster speed
+            # Start Web Cam stream (Note USB webcam must be plugged in)
             if WEBCAM:
-            #  Start Web Cam stream (Note USB webcam must be plugged in)
                 logging.info("Initializing USB Web Camera ...")
                 vs = WebcamVideoStream().start()
-                time.sleep(4.0)  # Allow WebCam to initialize
+                # Allow time for WebCam to initialize
+                time.sleep(4.0)
+            # Otherwise start a picamera stream
             else:
                 logging.info("Initializing Pi Camera ....")
                 vs = PiVideoStream().start()
