@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+
 """
 motion-track  written by Claude Pageau pageauc@gmail.com
 Windows, Unix, Raspberry (Pi) - python opencv2 motion tracking
@@ -28,8 +29,14 @@ curl -L https://raw.github.com/pageauc/motion-track/master/motion-track-install.
 
 To Run Demo
 
-cd ~/motion-track-demo
-./motion-track.py
+    cd ~/motion-track-demo
+    ./motion-track.py
+
+To Edit settings
+
+   nano config.py
+
+ctrl-x y to save changes and exit.
 
 """
 
@@ -52,7 +59,7 @@ except ImportError:
     logging.error("If using python3 then"
                   "See https://github.com/pageauc/opencv3-setup")
     sys.exit(1)
-PROG_VER = "version 1.84"
+PROG_VER = "version 1.85"
 # Find the full path of this python script
 SCRIPT_PATH = os.path.abspath(__file__)
 # get script directory path only excluding script name
@@ -120,10 +127,16 @@ CV_RED = (0, 0, 255)
 MO_COLOR = CV_GREEN  # color of motion circle or rectangle
 
 #------------------------------------------------------------------------------
-def my_stuff(xy_pos):
+def my_stuff(image_frame, xy_pos):
     """
     This is where You would put code for handling motion event(s)
     Below is just some sample code to indicate area of movement
+    I have added image_frame in case you want to save and image
+    based on some trigger event. You will need to create
+    your own trigger event.  See https://github.com/pageauc/speed-camera
+    for tracking moving objects and recording speed images.  There is also
+    a security plugin that does not use speed data but just tracks motion
+    and records image when trigger length is reached.
     """
     x_pos, y_pos = xy_pos
     quadrant = ""
@@ -144,7 +157,8 @@ class PiVideoStream:
     Pi Camera initialize then stream and read the first video frame from stream
     """
     def __init__(self, resolution=(CAMERA_WIDTH, CAMERA_HEIGHT),
-                 framerate=CAMERA_FRAMERATE, rotation=0, hflip=False, vflip=False):
+                 framerate=CAMERA_FRAMERATE, rotation=0,
+                 hflip=False, vflip=False):
         try:
             self.camera = PiCamera()
         except:
@@ -252,9 +266,9 @@ def get_fps(start_time, frame_count):
 #------------------------------------------------------------------------------
 def track():
     """ Process video stream images and report motion location """
-    image1 = vs.read()   # initialize image1 note only done once
+    image2 = vs.read()   # initialize image2 to create first grayimage
     try:
-        grayimage1 = cv2.cvtColor(image1, cv2.COLOR_BGR2GRAY)
+        grayimage1 = cv2.cvtColor(image2, cv2.COLOR_BGR2GRAY)
     except:
         vs.stop()
         logging.error("Problem Connecting To Camera Stream.")
@@ -277,7 +291,7 @@ def track():
         # initialize variables
         motion_found = False
         biggest_area = MIN_AREA
-        image2 = vs.read()  # initialize image2
+        image2 = vs.read()  # grab image
         if WEBCAM:
             if WEBCAM_HFLIP and WEBCAM_VFLIP:
                 image2 = cv2.flip(image2, -1)
@@ -318,19 +332,19 @@ def track():
                     c_xy = (int(x+w/2), int(y+h/2))   # centre of contour
                     r_xy = (x, y) # Top left corner of rectangle
             if motion_found:
+                my_stuff(image2, c_xy) # Do Something here with motion data
+                if debug:
+                    logging.info("cxy(%i,%i) Contours:%i Largest:%ix%i=%i sqpx",
+                                 c_xy[0], c_xy[1], total_contours,
+                                 w, h, biggest_area)
                 if window_on:
-                    # show small circle at motion location
+                # show small circle at motion location
                     if SHOW_CIRCLE:
                         cv2.circle(image2, c_xy, CIRCLE_SIZE,
                                    MO_COLOR, LINE_THICKNESS)
                     else:
                         cv2.rectangle(image2, r_xy, (x+w, y+h),
                                       MO_COLOR, LINE_THICKNESS)
-                if debug:
-                    logging.info("cxy(%i,%i) Contours:%i Largest:%ix%i=%i sqpx",
-                                 c_xy[0], c_xy[1], total_contours,
-                                 w, h, biggest_area)
-                my_stuff(c_xy) # Do Something here with motion data
         if window_on:
             if diff_window_on:
                 cv2.imshow('Difference Image', difference_image)
